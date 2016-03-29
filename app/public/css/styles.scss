@@ -1,0 +1,95 @@
+$white: white;
+$green: rgb(0, 150, 136);
+$dark_green: rgb(2, 132, 120);
+$pink: rgb(119, 101, 148);
+$dark_pink: rgb(105, 101, 148);
+$button_width: 400px;
+
+@mixin fontFace($family, $src, $style: normal, $weight: normal) {
+  @font-face {
+    font-family: $family;
+    src: url("#{$src}.otf") format("truetype");
+    font-style: $style;
+    font-weight: $weight;
+  }
+}
+
+@include fontFace('QuicksandLight', '../fonts/Quicksand_Light', normal, notmal);
+
+@include fontFace('QuicksandBold', '../fonts/Quicksand_Bold', normal, normal);
+
+@include fontFace('QuicksandRegular', '../fonts/Quicksand_Regular', normal, normal);
+
+body {
+  background: url("../images/background.png") no-repeat center center fixed;
+  background-size: cover;
+
+}
+
+section {
+  font-family: QuicksandRegular;
+  &.welcome-section {
+    margin-top: 35%;
+    text-align: center;
+
+    header {
+      margin-bottom: 20px;
+      h1 {
+        display: inline-block;
+        font-size: 40px;
+        text-transform: uppercase;
+        color: $white;
+
+        &.title-half {
+          color: $green;
+        }
+      }
+    }
+
+    button {
+      &.welcome-button {
+        color: $white;
+        display: block;
+        text-transform: uppercase;
+        border: none;
+        outline: none;
+        margin: auto;
+        height: 50px;
+        font-size: 20px;
+        margin-bottom: 25px;
+        width: $button_width;
+      }
+
+      &.signin-button {
+        background-color: $green;
+        &:hover {
+          background-color: $dark_green;
+        }
+      }
+
+      &.signup-button {
+        background-color: $pink;
+        &:hover {
+          background-color: $dark_pink;
+        }
+      }
+    }
+
+  }
+
+  &.signup-section {
+    input {
+      &.welcome-input {
+        display: block;
+        margin: auto;
+        font-size: 20px;
+        height: 50px;
+        padding-left: 10px;
+        width: $button_width;
+        margin-bottom: 5px;
+      }
+    }
+  }
+
+
+}

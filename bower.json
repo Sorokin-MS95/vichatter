@@ -1,0 +1,16 @@
+{
+  "name": "vichatter",
+  "description": "vichatter application",
+  "main": "server.js",
+  "authors": [
+    "Max Sorokin <maxim.sorokin@exposit-ds.com>"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "devDependencies": {
+    "angular": "^1.5.3",
+    "bootstrap": "^3.3.6",
+    "angular-ui-router": "^0.2.18"
+  }
+}
