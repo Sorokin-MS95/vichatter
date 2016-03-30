@@ -2,7 +2,7 @@
   font-family: "QuicksandLight";
   src: url("../fonts/Quicksand_Light.otf") format("truetype");
   font-style: normal;
-  font-weight: notmal; }
+  font-weight: normal; }
 @font-face {
   font-family: "QuicksandBold";
   src: url("../fonts/Quicksand_Bold.otf") format("truetype");
@@ -17,13 +17,51 @@ body {
   background: url("../images/background.png") no-repeat center center fixed;
   background-size: cover; }
 
+input.welcome-input {
+  display: block;
+  margin: auto;
+  font-size: 20px;
+  border-radius: 5px;
+  height: 50px;
+  padding-left: 40px;
+  width: 400px;
+  margin-bottom: 12px; }
+
+span.form-element-icon {
+  display: inline-block;
+  position: absolute;
+  margin-left: 30px;
+  height: 50px;
+  width: 32px; }
+span.email-icon {
+  background: url("../images/email.png") no-repeat center; }
+span.email-icon-invalid {
+  background: url("../images/email-invalid.png") no-repeat center; }
+span.email-icon-valid {
+  background: url("../images/email-valid.png") no-repeat center; }
+span.nickname-icon {
+  background: url("../images/nickname.png") no-repeat center; }
+span.nickname-icon-invalid {
+  background: url("../images/nickname-invalid.png") no-repeat center; }
+span.nickname-icon-valid {
+  background: url("../images/nickname-valid.png") no-repeat center; }
+span.password-icon {
+  background: url("../images/password.png") no-repeat center; }
+span.password-icon-invalid {
+  background: url("../images/password-invalid.png") no-repeat center; }
+span.password-icon-valid {
+  background: url("../images/password-valid.png") no-repeat center; }
+
 section {
   font-family: QuicksandRegular; }
   section.welcome-section {
-    margin-top: 35%;
-    text-align: center; }
+    margin-top: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 450px; }
     section.welcome-section header {
-      margin-bottom: 20px; }
+      margin-bottom: 10px;
+      text-align: center; }
       section.welcome-section header h1 {
         display: inline-block;
         font-size: 40px;
@@ -50,13 +88,5 @@ section {
       background-color: #776594; }
       section.welcome-section button.signup-button:hover {
         background-color: #696594; }
-  section.signup-section input.welcome-input {
-    display: block;
-    margin: auto;
-    font-size: 20px;
-    height: 50px;
-    padding-left: 10px;
-    width: 400px;
-    margin-bottom: 5px; }
 
 /*# sourceMappingURL=styles.css.map */

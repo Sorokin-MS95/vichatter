@@ -1,11 +1,25 @@
-<div class="row">
-    <div class="col-md-6 col-md-offset-3">
-        <h1>Hello from signin bitch!</h1>
-        <strong>Email:</strong>
-        <input type="text" ng-model="user.email" class="form-control">
-        <strong>Password:</strong>
-        <input type="password" ng-model="user.password" class="form-control">
-        <button class="btn btn-default" ng-click="signIn()">Sign In</button>
-    </div>
-
-</div>
+<section class="signin-section">
+    <form name="signin" novalidate>
+        <div class="form-element">
+            <span ng-show="signin.email.$pristine" class="form-element-icon email-icon"></span>
+            <span ng-show="signin.email.$dirty && signin.email.$invalid"
+                  class="form-element-icon email-icon-invalid"></span>
+            <span ng-show="signin.email.$dirty && signin.email.$valid"
+                  class="form-element-icon email-icon-valid"></span>
+            <input type="text" class="welcome-input" name="email" ng-model="newUser.email"
+                   ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-required="true" placeholder="Enter email">
+        </div>
+        <div class="form-element">
+            <span ng-show="signin.password.$pristine" class="form-element-icon password-icon"></span>
+            <span ng-show="signin.password.$dirty && signin.password.$invalid"
+                  class="form-element-icon password-icon-invalid"></span>
+            <span ng-show="signin.password.$dirty && signin.password.$valid"
+                  class="form-element-icon password-icon-valid"></span>
+            <input type="password" name="password" class="welcome-input" ng-model="newUser.password" ng-required="true"
+                   ng-pattern="/^[A-Za-z0-9_.]{3,10}$/" placeholder="Enter password">
+            <button ng-disabled="signin.$invalid" ng-click="signIn()" class="welcome-button signin-button">Sign
+                Up
+            </button>
+        </div>
+    </form>
+</section>

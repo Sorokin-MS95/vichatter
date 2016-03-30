@@ -26,14 +26,68 @@ body {
 
 }
 
+input {
+  &.welcome-input {
+    display: block;
+    margin: auto;
+    font-size: 20px;
+    border-radius: 5px;
+    height: 50px;
+    padding-left: 40px;
+    width: $button_width;
+    margin-bottom: 12px;
+  }
+}
+
+span {
+  &.form-element-icon {
+    display: inline-block;
+    position: absolute;
+    margin-left: 30px;
+    height: 50px;
+    width: 32px;
+  }
+  &.email-icon {
+    background: url("../images/email.png") no-repeat center;
+
+  }
+  &.email-icon-invalid {
+    background: url("../images/email-invalid.png") no-repeat center;
+  }
+  &.email-icon-valid {
+    background: url("../images/email-valid.png") no-repeat center;
+  }
+  &.nickname-icon {
+    background: url("../images/nickname.png") no-repeat center;
+  }
+  &.nickname-icon-invalid {
+    background: url("../images/nickname-invalid.png") no-repeat center;
+  }
+  &.nickname-icon-valid {
+    background: url("../images/nickname-valid.png") no-repeat center;
+  }
+  &.password-icon {
+    background: url("../images/password.png") no-repeat center;
+  }
+  &.password-icon-invalid {
+    background: url("../images/password-invalid.png") no-repeat center;
+  }
+  &.password-icon-valid {
+    background: url("../images/password-valid.png") no-repeat center;
+  }
+}
+
 section {
   font-family: QuicksandRegular;
   &.welcome-section {
-    margin-top: 35%;
-    text-align: center;
+    margin-top: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 450px;
 
     header {
-      margin-bottom: 20px;
+      margin-bottom: 10px;
+      text-align: center;
       h1 {
         display: inline-block;
         font-size: 40px;
@@ -78,18 +132,7 @@ section {
   }
 
   &.signup-section {
-    input {
-      &.welcome-input {
-        display: block;
-        margin: auto;
-        font-size: 20px;
-        height: 50px;
-        padding-left: 10px;
-        width: $button_width;
-        margin-bottom: 5px;
-      }
-    }
-  }
 
+  }
 
 }
