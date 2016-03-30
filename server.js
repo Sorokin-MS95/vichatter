@@ -19,6 +19,7 @@ app.use('/public', express.static(__dirname + "/app/public"));
 
 //Authentication
 app.post('/api/user/signup', AuthenticationController.signup);
+app.post('/api/user/signin', AuthenticationController.signin);
 
 
 app.get('/', function (req, res) {
