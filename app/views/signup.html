@@ -2,6 +2,8 @@
     <form name="signup" novalidate>
 
         <div class="form-element">
+            <span class="form-message" ng-class="{'form-error' : result == 'failure', 'form-success' : result == 'success' }"
+                  ng-bind="signUpResult"></span>
             <span ng-show="signup.email.$pristine" class="form-element-icon email-icon"></span>
             <span ng-show="signup.email.$dirty && signup.email.$invalid"
                   class="form-element-icon email-icon-invalid"></span>
@@ -28,7 +30,8 @@
                   class="form-element-icon password-icon-valid"></span>
             <input type="password" name="password" class="welcome-input" ng-model="newUser.password" ng-required="true"
                    ng-pattern="/^[A-Za-z0-9_.]{3,10}$/" placeholder="Enter password">
-            <button ng-disabled="signup.$invalid" ng-click="signUp()" class="welcome-button signin-button">Sign Up</button>
+            <button ng-disabled="signup.$invalid" ng-click="signUp()" class="welcome-button signin-button">Sign Up
+            </button>
         </div>
     </form>
 

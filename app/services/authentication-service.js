@@ -9,22 +9,11 @@ AuthenticationService.$inject = ['$http'];
 
 function AuthenticationService($http) {
     this.signIn = function (user) {
-        $http.post('/api/user/signin', user).then(function (result) {
-            console.log(JSON.stringify(result.data));
-        }).catch(function (err) {
-            console.log(err);
-        });
+        return $http.post('/api/user/signin', user);
     }
     
     this.signUp = function (user) {
-        $http.post('/api/user/signup', user).then(function(result){
-            console.log(result);
-        }).catch(function(err){
-            console.log(err);
-        });
+        return $http.post('/api/user/signup', user);
     }
-
-    this.signinFacebook = function () {
-
-    }
+    
 }

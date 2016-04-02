@@ -3,6 +3,8 @@ $green: rgb(0, 150, 136);
 $dark_green: rgb(2, 132, 120);
 $pink: rgb(119, 101, 148);
 $dark_pink: rgb(105, 101, 148);
+$red : #A10032;
+$light_green : #739B4E;
 $button_width: 400px;
 
 @mixin fontFace($family, $src, $style: normal, $weight: normal) {
@@ -14,7 +16,7 @@ $button_width: 400px;
   }
 }
 
-@include fontFace('QuicksandLight', '../fonts/Quicksand_Light', normal, notmal);
+@include fontFace('QuicksandLight', '../fonts/Quicksand_Light', normal, normal);
 
 @include fontFace('QuicksandBold', '../fonts/Quicksand_Bold', normal, normal);
 
@@ -89,6 +91,23 @@ span {
 
 section {
   font-family: QuicksandRegular;
+
+  span {
+    &.form-message {
+      font-family: QuicksandBold;
+      display: block;
+      text-align: center;
+      font-size: 20px;
+      color: $white;
+    }
+    &.form-error {
+      color: $red;
+    }
+    &.form-success {
+      color: $light_green;
+    }
+  }
+
   &.welcome-section {
     margin-top: 30%;
     margin-left: auto;
@@ -96,7 +115,6 @@ section {
     width: 450px;
 
     header {
-      margin-bottom: 10px;
       text-align: center;
       h1 {
         display: inline-block;

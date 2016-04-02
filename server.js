@@ -2,7 +2,6 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var passport = require('passport');
-var flash = require('connect-flash');
 
 var config = require('./server/config/app-config');
 var authRoutes = require('./server/routes/auth');
@@ -10,7 +9,6 @@ var authRoutes = require('./server/routes/auth');
 var app = express();
 app.use(bodyParser.json());
 app.use(passport.initialize());
-app.use(flash());
 app.use('/app', express.static(__dirname + "/app"));
 app.use('/bower_components', express.static(__dirname + "/bower_components"));
 app.use('/public', express.static(__dirname + "/app/public"));

@@ -7,18 +7,13 @@ var User = new Schema({
     local: {
         email: {
             type: String,
-            lowercase: true,
-            unique: true
+            lowercase: true
         },
         password: {
             type: String,
             required: true
         },
         nickname: {
-            type: String,
-            unique: true
-        },
-        token: {
             type: String
         }
     },
@@ -26,6 +21,9 @@ var User = new Schema({
         id: String,
         token: String,
         email: String
+    },
+    token: {
+        type: String
     }
 });
 
