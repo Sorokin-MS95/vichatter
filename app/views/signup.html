@@ -28,7 +28,7 @@
                   class="form-element-icon password-icon-valid"></span>
             <input type="password" name="password" class="welcome-input" ng-model="newUser.password" ng-required="true"
                    ng-pattern="/^[A-Za-z0-9_.]{3,10}$/" placeholder="Enter password">
-            <button ng-disabled="signup.$invalid" ng-click="createAccount()" class="welcome-button signin-button">Sign Up</button>
+            <button ng-disabled="signup.$invalid" ng-click="signUp()" class="welcome-button signin-button">Sign Up</button>
         </div>
     </form>
 

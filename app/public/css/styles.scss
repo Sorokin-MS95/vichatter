@@ -77,6 +77,16 @@ span {
   }
 }
 
+span {
+  &.welcome-separator {
+    font-family: QuicksandBold;
+    color: white;
+    text-align: center;
+    display: block;
+    margin: auto;
+  }
+}
+
 section {
   font-family: QuicksandRegular;
   &.welcome-section {
@@ -110,11 +120,37 @@ section {
         margin: auto;
         height: 50px;
         font-size: 20px;
-        margin-bottom: 25px;
         width: $button_width;
       }
 
+      &.facebook-button {
+        &:before {
+          content: 'f';
+          font-family: QuicksandBold;
+          color: #fff;
+          font-size: 18px;
+          position: relative;
+          left: -8px;
+          weight: bold;
+        }
+        background: #4060A5;
+        color: white;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        left: 25px;
+        position: relative;
+        width: 150px;
+        height: 35px;
+        &:hover {
+
+          background:#5172b8;
+        }
+      }
+
       &.signin-button {
+        margin-bottom: 15px;
         background-color: $green;
         &:hover {
           background-color: $dark_green;
@@ -122,6 +158,7 @@ section {
       }
 
       &.signup-button {
+        margin-bottom: 5px;
         background-color: $pink;
         &:hover {
           background-color: $dark_pink;

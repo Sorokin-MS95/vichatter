@@ -52,6 +52,13 @@ span.password-icon-invalid {
 span.password-icon-valid {
   background: url("../images/password-valid.png") no-repeat center; }
 
+span.welcome-separator {
+  font-family: QuicksandBold;
+  color: white;
+  text-align: center;
+  display: block;
+  margin: auto; }
+
 section {
   font-family: QuicksandRegular; }
   section.welcome-section {
@@ -78,13 +85,35 @@ section {
       margin: auto;
       height: 50px;
       font-size: 20px;
-      margin-bottom: 25px;
       width: 400px; }
+    section.welcome-section button.facebook-button {
+      background: #4060A5;
+      color: white;
+      outline: none;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      left: 25px;
+      position: relative;
+      width: 150px;
+      height: 35px; }
+      section.welcome-section button.facebook-button:before {
+        content: 'f';
+        font-family: QuicksandBold;
+        color: #fff;
+        font-size: 18px;
+        position: relative;
+        left: -8px;
+        weight: bold; }
+      section.welcome-section button.facebook-button:hover {
+        background: #5172b8; }
     section.welcome-section button.signin-button {
+      margin-bottom: 15px;
       background-color: #009688; }
       section.welcome-section button.signin-button:hover {
         background-color: #028478; }
     section.welcome-section button.signup-button {
+      margin-bottom: 5px;
       background-color: #776594; }
       section.welcome-section button.signup-button:hover {
         background-color: #696594; }
