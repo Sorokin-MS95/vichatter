@@ -11,6 +11,8 @@ function AuthenticationController($scope, $state, $timeout, AuthenticationServic
 
         AuthenticationService.signIn($scope.user).then(function (result) {
             var data = result.data;
+            //todo
+            $state.go('dashboard');
         });
 
 

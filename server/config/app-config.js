@@ -1,7 +1,8 @@
 var config = {};
 
 config.app = {
-    port : 3000
+    port : 3000,
+    socketPort : 4000
 }
 
 config.database = {

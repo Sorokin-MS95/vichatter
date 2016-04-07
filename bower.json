@@ -13,5 +13,8 @@
     "bootstrap": "^3.3.6",
     "angular-ui-router": "^0.2.18",
     "angular-route": "^1.5.3"
+  },
+  "dependencies": {
+    "socket.io-client": "^1.4.5"
   }
 }
