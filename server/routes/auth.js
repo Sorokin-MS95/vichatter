@@ -1,8 +1,15 @@
 var router = require('express').Router();
-var passportConfig = require('../config/passport-config');
+var authController = require('../controllers/authentication-controller');
+var jwt = require('express-jwt');
 
-router.post('/user/signin', passportConfig.localLoginStrategy);
-router.post('/user/signup', passportConfig.localRegistrationStrategy);
+
+var auth = jwt({
+    secret: process.env.JWT_SECRET,
+    userProperty: 'payload'
+});
+
+router.post('/user/signin', authController.login);
+router.post('/user/signup', authController.signup);
 
 module.exports = router;
 

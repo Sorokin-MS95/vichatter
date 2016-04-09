@@ -1,46 +1,63 @@
+require('dotenv').config();
 var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
-var passport = require('passport');
-var config = require('./server/config/app-config');
-var authRoutes = require('./server/routes/auth');
+
+// passport
+
 
 var app = express();
 
-var server = require('http').createServer(app);
-var io = require('socket.io').listen(server);
 
-
-app.set('socketio', io);
-
-io.on('connection', function(socket){
-    console.log('connected!');
-})
-
-
+var passport = require('passport');
+require('./server/config/passport-config');
+var authRoutes = require('./server/routes/auth');
 app.use(bodyParser.json());
 app.use(passport.initialize());
+
+//use
 app.use('/app', express.static(__dirname + "/app"));
 app.use('/bower_components', express.static(__dirname + "/bower_components"));
 app.use('/public', express.static(__dirname + "/app/public"));
-
-
 app.use('/api', authRoutes);
 
-mongoose.connect(config.database.dburl.concat(config.database.dbname), function (err) {
-    if (err) {
-        throw err;
-    } else {
-        console.log('Connected to database ' + config.database.dbname);
+
+app.use(function (err,req, res, next) {
+    console.error(err);
+    if (err.name === 'UnauthorizedError') {
+        res.status(401);
+        res.json({
+            "message": err.name + ": " + err.message
+        });
     }
 });
 
+//connecting db
+mongoose.connect(process.env.DATABASE_URL.concat(process.env.DATABASE_NAME), function (err) {
+    if (err) {
+        throw err;
+    } else {
+        console.log('Connected to database ' + process.env.DATABASE_NAME);
+    }
+});
 
+//serve static page
 app.get('/', function (req, res) {
     res.sendfile("index.html");
 })
 
-
-app.listen(config.app.port, function () {
-    console.log('Server up and running on port ' + config.app.port);
+//starting server
+app.listen(process.env.APP_PORT, function () {
+    console.log('Server up and running on port ' + process.env.APP_PORT);
 })
+
+
+/*var server = require('http').createServer(app);
+ var io = require('socket.io').listen(server);
+
+
+ app.set('socketio', io);
+
+ io.on('connection', function (socket) {
+ console.log('connected!');
+ });*/

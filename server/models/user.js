@@ -1,38 +1,46 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
+var jwt = require('jsonwebtoken');
+var crypto = require('crypto');
 var Schema = mongoose.Schema;
 
 var User = new Schema({
-
     local: {
         email: {
             type: String,
             lowercase: true
         },
-        password: {
-            type: String,
-            required: true
-        },
         nickname: {
             type: String
+        },
+        hash: {
+            type: String
+        },
+        salt: {
+            type: String
         }
-    },
-    facebook: {
-        id: String,
-        token: String,
-        email: String
-    },
-    token: {
-        type: String
     }
 });
 
 User.methods.hashPassword = function (password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync());
+    this.local.salt = crypto.randomBytes(16).toString('hex');
+    this.local.hash = crypto.pbkdf2Sync(password, this.local.salt, 1000, 64).toString('hex');
 }
 
 User.methods.validatePassword = function (password) {
-    return bcrypt.compareSync(password, this.local.password);
+    var hash = crypto.pbkdf2Sync(password, this.local.salt, 1000, 64).toString('hex');
+    return this.local.hash === hash;
+}
+
+User.methods.generateJwt = function () {
+    var expiry = new Date();
+    expiry.setDate(expiry.getDate() + 7);
+    return jwt.sign({
+        id: this._id,
+        email: this.local.email,
+        name: this.local.name,
+        exp: parseInt(expiry.getTime() / 1000)
+    }, process.env.JWT_SECRET);
 }
 
 module.exports = mongoose.model('User', User);
