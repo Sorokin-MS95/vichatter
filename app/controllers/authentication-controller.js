@@ -13,6 +13,9 @@ function AuthenticationController($scope, $state, $timeout, AuthenticationServic
             var data = result.data;
             //todo
             $state.go('dashboard');
+        }).catch(function(result){
+            //todo
+            console.log(result.data);
         });
 
 
