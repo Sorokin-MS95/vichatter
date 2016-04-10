@@ -10,13 +10,15 @@ var sendJsonResponse = function (res, status, content) {
 module.exports.signup = function (req, res) {
     User.findOne({"local.email": req.body.email}, function (err, user) {
         if (user) {
-            sendJsonResponse(res, 200, {
+            sendJsonResponse(res, 400, {
+                fieldName: 'email',
                 error: "Such email registered"
             });
         } else {
             User.findOne({"local.nickname": req.body.nickname}, function (err, user) {
                 if (user) {
-                    sendJsonResponse(res, 200, {
+                    sendJsonResponse(res, 400, {
+                        fieldName: 'nickname',
                         error: "Such nickname registered"
                     });
                 } else {
@@ -30,7 +32,8 @@ module.exports.signup = function (req, res) {
                             sendJsonResponse(res, 404, err);
                         } else {
                             sendJsonResponse(res, 200, {
-                                "token" : user.generateJwt()
+                                "success": "You have been successfully registered",
+                                "token": user.generateJwt()
                             });
                         }
                     })

@@ -4,7 +4,8 @@ app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
 
     $stateProvider.state('index', {
         url: '/',
-        templateUrl: 'app/views/auth/index.html'
+        templateUrl: 'app/views/auth/index.html',
+        resolve: {authenticated: authenticate}
     }).state('sign-in', {
         url: '/signin',
         templateUrl: 'app/views/auth/signin.html',
@@ -14,10 +15,22 @@ app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
         templateUrl: 'app/views/auth/signup.html',
         controller: 'AuthenticationController'
     }).state('dashboard', {
-        url : '/dashboard',
+        url: '/dashboard',
         templateUrl: 'app/views/user/dashboard.html',
-        controller: 'DashboardController'
+        controller: 'DashboardController',
+        resolve: {authenticated: authenticate}
     });
+
+
+    function authenticate($q, AuthenticationService, $state) {
+        if (AuthenticationService.isLoggedIn()) {
+            $q.when();
+        } else {
+            AuthenticationService.logout();
+            $state.go('sign-in');
+        }
+    }
+
 
     $urlRouterProvider.otherwise('/');
 

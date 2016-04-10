@@ -10,11 +10,9 @@ function AuthenticationController($scope, $state, $timeout, AuthenticationServic
     $scope.signIn = function () {
 
         AuthenticationService.signIn($scope.user).then(function (result) {
-            var data = result.data;
-            //todo
+            AuthenticationService.saveToken(result.token);
             $state.go('dashboard');
-        }).catch(function(result){
-            //todo
+        }).catch(function (result) {
             console.log(result.data);
         });
 
@@ -24,24 +22,25 @@ function AuthenticationController($scope, $state, $timeout, AuthenticationServic
     $scope.signUp = function () {
         AuthenticationService.signUp($scope.newUser).then(function (result) {
             var data = result.data;
+            AuthenticationService.saveToken(data.token);
             if (data.hasOwnProperty("success")) {
                 $scope.signUpResult = data.success;
                 $scope.result = "success";
-                $timeout(function(){
+                $timeout(function () {
 
                     $state.go('sign-in');
                 }, 3000)
-            } else {
-                $scope.signUpResult = data.error;
-                $scope.result = "failure";
-                $timeout(function(){
-
-                })
             }
+        }).catch(function (result) {
+            var data = result.data;
+            $scope.signUpResult = data.error;
+            $scope.result = "failure";
+            $scope.newUser[data.fieldName] = "";
+            $scope.newUser.password = "";
+            $timeout(function () {
+                $scope.signUpResult = "";
+                $scope.result = "";
+            }, 3000);
         });
-    }
-
-    $scope.signinFacebook = function () {
-        console.log('facebook');
     }
 }
