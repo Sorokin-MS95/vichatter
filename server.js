@@ -7,22 +7,28 @@ var bodyParser = require('body-parser');
 
 
 var app = express();
+var http = require('http');
+var server = http.createServer(app);
+var io = require('socket.io').listen(server);
+server.listen(4000);
 
+var SocketService = require('./server/services/socket-service');
+new SocketService({io : io}).init();
 
 var passport = require('passport');
 require('./server/config/passport-config');
 var authRoutes = require('./server/routes/auth');
+
+
 app.use(bodyParser.json());
 app.use(passport.initialize());
-
-//use
 app.use('/app', express.static(__dirname + "/app"));
 app.use('/bower_components', express.static(__dirname + "/bower_components"));
 app.use('/public', express.static(__dirname + "/app/public"));
 app.use('/api', authRoutes);
 
 
-app.use(function (err,req, res, next) {
+app.use(function (err, req, res, next) {
     console.error(err);
     if (err.name === 'UnauthorizedError') {
         res.status(401);

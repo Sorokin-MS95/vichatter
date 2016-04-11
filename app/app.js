@@ -1,4 +1,4 @@
-var app = angular.module('viChatter', ['ui.router']);
+var app = angular.module('viChatter', ['ui.router', 'LocalStorageModule']);
 
 app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
 

@@ -19,6 +19,12 @@ var User = new Schema({
         salt: {
             type: String
         }
+    },
+    online: {
+        type: Boolean
+    },
+    lastLogin: {
+        type: Date
     }
 });
 

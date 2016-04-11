@@ -3,11 +3,14 @@ var app = angular.module('viChatter');
 
 app.controller('DashboardController', DashboardController);
 
-DashboardController.$inject=['$scope', 'socket'];
+DashboardController.$inject=['$scope', 'socket', 'localStorageService'];
 
 
-function DashboardController($scope, socket){
-    socket.on('user_connected', function(data){
-        console.log(data);
-    })
+function DashboardController($scope, socket, localStorageService){
+
+    console.log('init!');
+   socket.emit('user_logged_in', {
+       userId : localStorageService.get('userId')
+   });
+
 }

@@ -4,20 +4,10 @@ var app = angular.module('viChatter');
 app.service('AuthenticationService', AuthenticationService);
 
 
-AuthenticationService.$inject = ['$http', '$window'];
+AuthenticationService.$inject = ['$http', '$window', 'localStorageService'];
 
 
-function AuthenticationService($http, $window) {
-
-
-    this.saveToken = function (token) {
-        $window.localStorage['auth-token'] = token;
-    }
-
-    this.getToken = function () {
-        return $window.localStorage['auth-token'];
-    }
-
+function AuthenticationService($http, $window, localStorageService) {
 
     this.signIn = function (user) {
         return $http.post('/api/user/signin', user);
@@ -28,11 +18,11 @@ function AuthenticationService($http, $window) {
     }
 
     this.logout = function () {
-        $window.localStorage.removeItem('auth-token');
+        localStorageService.removeItem('auth-token');
     }
 
     this.isLoggedIn = function () {
-        var token = this.getToken();
+        var token = localStorageService.get('auth-token');
         if (token) {
             var payload = JSON.parse($window.atob(token.split('.')[1]));
             return payload.exp > Date.now() / 1000;

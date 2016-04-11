@@ -33,7 +33,8 @@ module.exports.signup = function (req, res) {
                         } else {
                             sendJsonResponse(res, 200, {
                                 "success": "You have been successfully registered",
-                                "token": user.generateJwt()
+                                "token" : user.generateJwt(),
+                                "userId" : user._id
                             });
                         }
                     })
@@ -52,7 +53,9 @@ module.exports.login = function (req, res) {
         }
         if (user) {
             sendJsonResponse(res, 200, {
-                token: user.generateJwt()
+                "token" : user.generateJwt(),
+                "userId" : user._id
+
             });
         } else {
             sendJsonResponse(res, 401, info);
