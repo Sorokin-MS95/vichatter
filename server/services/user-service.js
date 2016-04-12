@@ -1,4 +1,5 @@
 var User = require('../models/user');
+var _ = require('underscore');
 
 
 var login = function (userId) {
@@ -13,7 +14,6 @@ var login = function (userId) {
 }
 
 var logout = function (userId) {
-    console.log(userId);
     User.findById(userId, function (err, user) {
         if (err) {
             throw new Error;
@@ -25,8 +25,23 @@ var logout = function (userId) {
     })
 }
 
+var getUserFriendsIds = function (userId) {
+    var result = [];
+    User.findById(userId, function (err, user) {
+        if (err) {
+            throw new Error;
+        } else {
+            _.each(user.friends, function (friend) {
+                result.push(friend.userId);
+            });
+            return result;
+        }
+    })
+};
+
 
 module.exports = {
-    login : login,
-    logout : logout
+    login: login,
+    logout: logout,
+    getUserFriendsIds: getUserFriendsIds
 }

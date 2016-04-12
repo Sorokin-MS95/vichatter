@@ -25,7 +25,18 @@ var User = new Schema({
     },
     lastLogin: {
         type: Date
-    }
+    },
+    friends: [
+        {
+            userId: mongoose.Schema.Types.ObjectId,
+            unreadMessages: {
+                type: Number
+            }
+        }
+    ],
+    addRequests : [{
+        userId: mongoose.Schema.Types.ObjectId
+    }]
 });
 
 User.methods.hashPassword = function (password) {
