@@ -1,37 +1,61 @@
-var app = angular.module('viChatter', ['ui.router', 'LocalStorageModule']);
+'use strict';
 
-app.config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
+/* Main module of the application */
 
-    $stateProvider.state('index', {
-        url: '/',
-        templateUrl: 'app/views/auth/index.html',
-        resolve: {authenticated: authenticate}
-    }).state('sign-in', {
-        url: '/signin',
-        templateUrl: 'app/views/auth/signin.html',
-        controller: 'AuthenticationController'
-    }).state('sign-up', {
-        url: '/signup',
-        templateUrl: 'app/views/auth/signup.html',
-        controller: 'AuthenticationController'
-    }).state('dashboard', {
-        url: '/dashboard',
-        templateUrl: 'app/views/user/dashboard.html',
-        controller: 'DashboardController',
-        resolve: {authenticated: authenticate}
-    });
+var viChatter = angular.module('viChatter', [
+    'ui.router',
+    'ngDialog',
+    'LocalStorageModule',
+    'rzModule'
+]);
+
+viChatter.config(
+    [
+        '$compileProvider',
+        '$logProvider',
+        '$httpProvider',
+        '$stateProvider',
+        '$urlRouterProvider',
+        'localStorageServiceProvider',
+        function ($compileProvider, $logProvider, $httpProvider, $stateProvider, $urlRouterProvider, localStorageServiceProvider) {
+
+            $compileProvider.debugInfoEnabled(true);
+            $logProvider.debugEnabled(true);
+            $urlRouterProvider.otherwise('/');
+
+            $stateProvider
+                .state('login', {
+                    url: '/login',
+                    controller: 'LoginPageController',
+                    templateUrl: 'app/templates/auth/login.html'
+                })
+                .state('register', {
+                    url: '/register',
+                    controller: 'RegisterPageController',
+                    templateUrl: 'app/templates/auth/registration.html'
+                })
+                .state('home', {
+                    url: '/',
+                    controller: 'LandingPageController',
+                    templateUrl: 'app/templates/home/home.html'
+                })
+                .state('dashboard', {
+                    url: '/dashboard',
+                    controller: 'DashboardController',
+                    templateUrl: 'app/template/dashboard/dashboard.html',
+                    resolve: {authenticated: authenticate}
+                });
+
+            function authenticate($q, AuthenticationService, $state) {
+                if (AuthenticationService.isAuthenticated()) {
+                    $q.when();
+                } else {
+                    AuthenticationService.logout();
+                    $state.go('login');
+                }
+            }
 
 
-    function authenticate($q, AuthenticationService, $state) {
-        if (AuthenticationService.isLoggedIn()) {
-            $q.when();
-        } else {
-            AuthenticationService.logout();
-            $state.go('sign-in');
-        }
-    }
-
-
-    $urlRouterProvider.otherwise('/');
-
-})
+            $urlRouterProvider.otherwise('/');
+        }])
+;

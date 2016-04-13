@@ -1,41 +1,52 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <title>ViChatter</title>
     <meta charset="UTF-8">
-    <title>viChatter</title>
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
-    <link rel="stylesheet" href="app/public/css/styles.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="app/public/styles/dashboard/dashboard.css">
+    <link rel="stylesheet" href="app/public/styles/login/login.css">
+
+
+    <link rel="stylesheet" href="bower_components/ng-dialog/css/ngDialog.css"/>
+    <link rel="stylesheet" href="bower_components/ng-dialog/css/ngDialog-theme-default.css"/>
+    <link rel="stylesheet" href="bower_components/angularjs-slider/dist/rzslider.css"/>
+    <link rel="stylesheet" href="bower_components/pikaday/css/pikaday.css"/>
+
+
 </head>
+<body class="vc-body-wrapper">
 
+<div ng-app="viChatter" data-ui-view></div>
 
-<body ng-app="viChatter" ui-view>
-<div class="container">
-    <div class="col-md-6 col-md-offset-3">
-        <section class="welcome-section">
-            <header><h1 class="title-half">vi</h1><h1>chatter</h1></header>
-            <section ui-view class="welcome-controls">
-                <button ui-sref="sign-in" class="welcome-button signin-button">Sign In</button>
-                <button ui-sref="sign-up" class="welcome-button signup-button">Sign Up</button>
-                <span class="welcome-separator">or</span>
-                <section class="social-section">
-                    <div class="facebook-section">
-                        <button ng-click="signinFacebook()" class="facebook-button">Facebook</button>
-                    </div>
-                </section>
-            </section>
-        </section>
-    </div>
-</div>
-</body>
-<script src="bower_components/socket.io-client/socket.io.js"></script>
-<script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/ng-dialog/js/ngDialog.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-<script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+<script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+<script src="bower_components/underscore/underscore.js"></script>
+<script src="bower_components/angularjs-slider/dist/rzslider.js"></script>
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/pikaday/pikaday.js"></script>
+
 <script src="app/app.js"></script>
-<script src="app/controllers/authentication-controller.js"></script>
-<script src="app/controllers/dashboard-controller.js"></script>
-<script src="app/services/socket-service.js"></script>
-<script src="app/services/authentication-service.js"></script>
 
+<script src="app/scripts/controllers/app-controller.js"></script>
+<script src="app/scripts/controllers/login-page-controller.js"></script>
+<script src="app/scripts/controllers/landing-page-controller.js"></script>
+<script src="app/scripts/controllers/register-page-controller.js"></script>
+<script src="app/scripts/controllers/dashboard-controller.js"></script>
 
+<!--<script src="scripts/directives/map-directive.js"></script>-->
+
+<script src="app/scripts/utils/constants.js"></script>
+
+<script src="app/scripts/services/network-provider.js"></script>
+<script src="app/scripts/services/socket-service.js"></script>
+<script src="app/scripts/services/authentication-service.js"></script>
+<script src="app/scripts/services/build-objects-service.js"></script>
+<script src="app/scripts/services/response-builder.js"></script>
+</body>
 </html>

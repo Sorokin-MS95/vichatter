@@ -1,0 +1,130 @@
+@font-face {
+  font-family: "QuicksandLight";
+  src: url("../../fonts/Quicksand_Light.otf") format("truetype");
+  font-style: normal;
+  font-weight: normal; }
+@font-face {
+  font-family: "QuicksandBold";
+  src: url("../../fonts/Quicksand_Bold.otf") format("truetype");
+  font-style: normal;
+  font-weight: normal; }
+@font-face {
+  font-family: "QuicksandRegular";
+  src: url("../../fonts/Quicksand_Regular.otf") format("truetype");
+  font-style: normal;
+  font-weight: normal; }
+body {
+  background: url("../../images/background.png") no-repeat center center fixed;
+  background-size: cover; }
+
+input.welcome-input {
+  display: block;
+  margin: auto;
+  font-size: 20px;
+  border-radius: 5px;
+  height: 50px;
+  padding-left: 40px;
+  width: 400px;
+  margin-bottom: 12px; }
+
+span.form-element-icon {
+  display: inline-block;
+  position: absolute;
+  margin-left: 30px;
+  height: 50px;
+  width: 32px; }
+span.email-icon {
+  background: url("../../images/email.png") no-repeat center; }
+span.email-icon-invalid {
+  background: url("../../images/email-invalid.png") no-repeat center; }
+span.email-icon-valid {
+  background: url("../../images/email-valid.png") no-repeat center; }
+span.nickname-icon {
+  background: url("../../images/nickname.png") no-repeat center; }
+span.nickname-icon-invalid {
+  background: url("../../images/nickname-invalid.png") no-repeat center; }
+span.nickname-icon-valid {
+  background: url("../../images/nickname-valid.png") no-repeat center; }
+span.password-icon {
+  background: url("../../images/password.png") no-repeat center; }
+span.password-icon-invalid {
+  background: url("../../images/password-invalid.png") no-repeat center; }
+span.password-icon-valid {
+  background: url("../../images/password-valid.png") no-repeat center; }
+
+span.welcome-separator {
+  font-family: QuicksandBold;
+  color: white;
+  text-align: center;
+  display: block;
+  margin: auto; }
+
+section {
+  font-family: QuicksandRegular; }
+  section span.form-message {
+    font-family: QuicksandBold;
+    display: block;
+    text-align: center;
+    font-size: 20px;
+    color: white; }
+  section span.form-error {
+    color: #A10032; }
+  section span.form-success {
+    color: #739B4E; }
+  section.welcome-section {
+    margin-top: 30%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 450px; }
+    section.welcome-section header {
+      text-align: center; }
+      section.welcome-section header h1 {
+        display: inline-block;
+        font-size: 40px;
+        text-transform: uppercase;
+        color: white; }
+        section.welcome-section header h1.title-half {
+          color: #009688; }
+    section.welcome-section button.welcome-button {
+      color: white;
+      display: block;
+      text-transform: uppercase;
+      border: none;
+      outline: none;
+      margin: auto;
+      height: 50px;
+      font-size: 20px;
+      width: 400px; }
+    section.welcome-section button.facebook-button {
+      background: #4060A5;
+      color: white;
+      outline: none;
+      border: none;
+      border-radius: 5px;
+      text-align: center;
+      left: 25px;
+      position: relative;
+      width: 150px;
+      height: 35px; }
+      section.welcome-section button.facebook-button:before {
+        content: 'f';
+        font-family: QuicksandBold;
+        color: #fff;
+        font-size: 18px;
+        position: relative;
+        left: -8px;
+        weight: bold; }
+      section.welcome-section button.facebook-button:hover {
+        background: #5172b8; }
+    section.welcome-section button.signin-button {
+      margin-bottom: 15px;
+      background-color: #009688; }
+      section.welcome-section button.signin-button:hover {
+        background-color: #028478; }
+    section.welcome-section button.signup-button {
+      margin-bottom: 5px;
+      background-color: #776594; }
+      section.welcome-section button.signup-button:hover {
+        background-color: #696594; }
+
+/*# sourceMappingURL=styles.css.map */

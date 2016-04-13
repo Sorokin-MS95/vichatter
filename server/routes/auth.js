@@ -8,8 +8,8 @@ var auth = jwt({
     userProperty: 'payload'
 });
 
-router.post('/user/signin', authController.login);
-router.post('/user/signup', authController.signup);
+router.post('/user/login', authController.login);
+router.post('/user/register', authController.register);
 
 module.exports = router;
 

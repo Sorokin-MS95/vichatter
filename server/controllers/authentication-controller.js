@@ -7,7 +7,7 @@ var sendJsonResponse = function (res, status, content) {
 }
 
 
-module.exports.signup = function (req, res) {
+module.exports.register = function (req, res) {
     User.findOne({"local.email": req.body.email}, function (err, user) {
         if (user) {
             sendJsonResponse(res, 400, {
