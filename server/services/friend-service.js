@@ -7,10 +7,13 @@ var offerFriendship = function (currentUserId, userId) {
         if (err) {
             throw new Error;
         } else {
-            user.addRequests.push({
-                userId: currentUserId
-            });
-            user.save();
+            if (user) {
+                user.addRequests.push({
+                    userId: currentUserId
+                });
+                user.save();
+            }
+
         }
     })
 };
@@ -20,22 +23,54 @@ var addToFriends = function (currentUserId, userId) {
         if (err) {
             throw new Error;
         } else {
-            //todo test!
-            user.addRequests = _.reject(user.addRequests, function (request) {
-                return request.userId === userId;
-            });
+            if (user) {
+                user.addRequests = _.reject(user.addRequests, function (request) {
+                    return request.userId == userId;
+                });
 
-            user.friends.push({
-                userId: userId,
-                unreadMessages: 0
-            });
-            user.save();
+                user.friends.push({
+                    userId: userId,
+                    unreadMessages: 0
+                });
+                user.save();
+
+                User.findById(userId, function (err, user) {
+                    if (err) {
+                        throw new Error;
+                    } else {
+                        user.friends.push({
+                            userId: currentUserId,
+                            unreadMessages: 0
+                        })
+
+                        user.save();
+                    }
+                })
+            }
+
+
         }
     })
 }
 
+var declineRequest = function (currentUserId, userId) {
+    User.findById(currentUserId, function (err, user) {
+        if (err) {
+            throw new Error;
+        } else {
+            if (user) {
+                user.addRequests = _.reject(user.addRequests, function (request) {
+                    return request.userId == userId;
+                });
+
+                user.save();
+            }
+        }
+    })
+}
 
 module.exports = {
     offerFriendship: offerFriendship,
-    addToFriends: addToFriends
+    addToFriends: addToFriends,
+    declineRequest : declineRequest
 }
