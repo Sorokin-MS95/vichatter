@@ -13,8 +13,6 @@ function LoginPageController($scope, localStorageService, NetworkProvider, $time
 
     $scope.userData = {};
 
-   /* $scope.loginDataModel = BuildObjectsService.buildLoginDataModel();*/
-
     $scope.login = function () {
 
         NetworkProvider.login($scope.userData).then(function (result) {

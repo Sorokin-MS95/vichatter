@@ -80,7 +80,7 @@ function NetworkProvider($http, $q, ResponseBuilder) {
         if (attrs.hasOwnProperty("numberOfElements") && attrs.numberOfElements !== null) {
             data.count = attrs.numberOfElements;
         }
-        return _get(Configuration.BASE_URL + '/api/user/all', data);
+        return _get('/api/user/all', data);
     }
 
     function _createUser(userModel) {
@@ -102,7 +102,7 @@ function NetworkProvider($http, $q, ResponseBuilder) {
             'roles': rolesData
         };
 
-        return _post(Configuration.BASE_URL + '/api/user/create', params);
+        return _post('/api/user/create', params);
     }
 
     function _updateUser(userId, userModel) {
@@ -123,15 +123,15 @@ function NetworkProvider($http, $q, ResponseBuilder) {
             'roles': rolesData
         };
 
-        return _post(Configuration.BASE_URL + '/api/user/' + userId + '/update', params);
+        return _post('/api/user/' + userId + '/update', params);
     }
 
     function _deleteUser(userId) {
-        return _post(Configuration.BASE_URL + '/api/user/' + userId + '/delete');
+        return _post('/api/user/' + userId + '/delete');
     }
 
     function _getUser(userId) {
-        return _get(Configuration.BASE_URL + '/api/user/' + userId);
+        return _get('/api/user/' + userId);
     }
 
 

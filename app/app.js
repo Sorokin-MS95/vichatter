@@ -42,8 +42,8 @@ viChatter.config(
                 .state('dashboard', {
                     url: '/dashboard',
                     controller: 'DashboardController',
-                    templateUrl: 'app/template/dashboard/dashboard.html',
-                    resolve: {authenticated: authenticate}
+                    templateUrl: 'app/templates/dashboard/dashboard.html'/*,
+                    resolve: {authenticated: authenticate}*/
                 });
 
             function authenticate($q, AuthenticationService, $state) {
