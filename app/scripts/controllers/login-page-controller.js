@@ -17,8 +17,8 @@ function LoginPageController($scope, localStorageService, NetworkProvider, $time
 
         NetworkProvider.login($scope.userData).then(function (result) {
             var data = result.data;
-            localStorageService.add('auth-token', data.token);
-            localStorageService.add('userId', data.userId);
+            localStorageService.add('auth_token', data.token);
+            localStorageService.add('user_id', data.userId);
             $state.go('dashboard');
         }).catch(function (result) {
             console.log(result.data);

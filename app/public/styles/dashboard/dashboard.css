@@ -100,12 +100,12 @@
 }
 
 .vc-menu-panel > .menu-header > .menu-header-title {
-    font-size: 22px;
-    font-family: 'Roboto Light', sans-serif;
-    color: white;
+    font-size: 30px;
+    font-family: 'Lavanderia Sturdy', sans-serif;
     text-align: left;
     float: left;
     display: inline-block;
+    color: /*rgb(102, 108, 113)*/ white;
 }
 
 .vc-menu-panel > .menu-body > .menu-section {
@@ -747,8 +747,9 @@
 }
 
 .menu-header-title > .bold {
-    font-family: 'Roboto Light', sans-serif;
-    color: rgb(102, 108, 113);
+    font-family: 'Lavanderia Sturdy', sans-serif;
+    color: white;
+
 
 }
 

@@ -1,130 +1,288 @@
+
+
+
 @font-face {
-  font-family: "QuicksandLight";
-  src: url("../../fonts/Quicksand_Light.otf") format("truetype");
-  font-style: normal;
-  font-weight: normal; }
+    font-family: 'Pacifico';
+    src: url(../../fonts/Pacifico.ttf);
+}
+
 @font-face {
-  font-family: "QuicksandBold";
-  src: url("../../fonts/Quicksand_Bold.otf") format("truetype");
-  font-style: normal;
-  font-weight: normal; }
+    font-family: 'Lavanderia Delicate';
+    src: url(../../fonts/Lavanderia_Delicate.otf);
+}
+
 @font-face {
-  font-family: "QuicksandRegular";
-  src: url("../../fonts/Quicksand_Regular.otf") format("truetype");
-  font-style: normal;
-  font-weight: normal; }
+    font-family: 'Lavanderia Sturdy';
+    src: url(../../fonts/Lavanderia_Sturdy.otf);
+}
+
+@font-face {
+    font-family: 'Lavanderia Regular';
+    src: url(../../fonts/Lavanderia_Regular.otf);
+}
+
+@font-face {
+    font-family: 'Mission Script';
+    src: url(../../fonts/Mission-Script.otf);
+}
+
+
+
 body {
-  background: url("../../images/background.png") no-repeat center center fixed;
-  background-size: cover; }
+    background: url("../../images/back_black.jpg") no-repeat center center fixed;
+    background-size: cover;
+}
 
 input.welcome-input {
-  display: block;
-  margin: auto;
-  font-size: 20px;
-  border-radius: 5px;
-  height: 50px;
-  padding-left: 40px;
-  width: 400px;
-  margin-bottom: 12px; }
+   /* display: block;
+    margin: auto;
+    font-size: 20px;
+    border-radius: 5px;
+    height: 50px;
+
+    padding-left: 40px;
+    */
+    width: calc(100% - 54px);
+    width: -webkit-calc(100% - 50px);
+    width: -moz-calc(100% - 50px);
+    margin-bottom: 2px;
+
+    border: none;
+
+    border-radius: 1px;
+
+    padding-left: 40px;
+    height: 37px;
+    font-family: 'Roboto Light', sans-serif;
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    line-height: 20px;
+
+    background: rgba(255,255,255, 0.15) ;
+
+}
+
+
+form>.form-element:last-child {
+    margin-bottom: 30px;
+    border-bottom: 1px solid white;
+}
+
+
+form{
+    width: 100%;
+}
+input.welcome-input::-webkit-input-placeholder {
+    font-family: 'Roboto Light', sans-serif;
+    color: rgba(255,255,255,0.3);
+    font-size: 13px;
+}
+
+input.welcome-input:hover {
+    outline: none;
+
+
+}
+
+input.welcome-input:focus {
+    outline: none;
+}
+
+
+input.welcome-input:focus {
+   outline: none;
+}
+
 
 span.form-element-icon {
-  display: inline-block;
-  position: absolute;
-  margin-left: 30px;
-  height: 50px;
-  width: 32px; }
+    display: inline-block;
+    position: absolute;
+    margin-left: 10px;
+    height: 37px;
+    width: 32px;
+}
+
+.form-element{
+
+    margin-left: 30px;
+    margin-right: 30px;
+    width: calc(100% - 60px);
+    width: -webkit-calc(100% - 60px);
+    width: -moz-calc(100% - 60px);
+}
+
 span.email-icon {
-  background: url("../../images/email.png") no-repeat center; }
+    background: url("../../images/email.png") no-repeat left center;
+}
+
 span.email-icon-invalid {
-  background: url("../../images/email-invalid.png") no-repeat center; }
+    background: url("../../images/email-invalid.png") no-repeat left center;
+}
+
 span.email-icon-valid {
-  background: url("../../images/email-valid.png") no-repeat center; }
+    background: url("../../images/email-valid.png") no-repeat left center ;
+}
+
 span.nickname-icon {
-  background: url("../../images/nickname.png") no-repeat center; }
+    background: url("../../images/nickname.png") no-repeat center;
+}
+
 span.nickname-icon-invalid {
-  background: url("../../images/nickname-invalid.png") no-repeat center; }
+    background: url("../../images/nickname-invalid.png") no-repeat center;
+}
+
 span.nickname-icon-valid {
-  background: url("../../images/nickname-valid.png") no-repeat center; }
+    background: url("../../images/nickname-valid.png") no-repeat center;
+}
+
 span.password-icon {
-  background: url("../../images/password.png") no-repeat center; }
+    background: url("../../images/password.png") no-repeat center;
+}
+
 span.password-icon-invalid {
-  background: url("../../images/password-invalid.png") no-repeat center; }
+    background: url("../../images/password-invalid.png") no-repeat center;
+}
+
 span.password-icon-valid {
-  background: url("../../images/password-valid.png") no-repeat center; }
+    background: url("../../images/password-valid.png") no-repeat center;
+}
 
 span.welcome-separator {
-  font-family: QuicksandBold;
-  color: white;
-  text-align: center;
-  display: block;
-  margin: auto; }
+    font-family:'Roboto Bold';
+    color: white;
+    text-align: center;
+    display: block;
+    margin: auto;
+}
 
 section {
-  font-family: QuicksandRegular; }
-  section span.form-message {
-    font-family: QuicksandBold;
+    font-family: QuicksandRegular;
+    width: 100%;
+}
+
+.welcome-controls{
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background: rgba(0, 0, 0,0.3)
+
+}
+
+section span.form-message {
+    font-family:'Roboto Bold';
     display: block;
     text-align: center;
     font-size: 20px;
-    color: white; }
-  section span.form-error {
-    color: #A10032; }
-  section span.form-success {
-    color: #739B4E; }
-  section.welcome-section {
-    margin-top: 30%;
-    margin-left: auto;
-    margin-right: auto;
-    width: 450px; }
-    section.welcome-section header {
-      text-align: center; }
-      section.welcome-section header h1 {
-        display: inline-block;
-        font-size: 40px;
-        text-transform: uppercase;
-        color: white; }
-        section.welcome-section header h1.title-half {
-          color: #009688; }
-    section.welcome-section button.welcome-button {
-      color: white;
-      display: block;
-      text-transform: uppercase;
-      border: none;
-      outline: none;
-      margin: auto;
-      height: 50px;
-      font-size: 20px;
-      width: 400px; }
-    section.welcome-section button.facebook-button {
-      background: #4060A5;
-      color: white;
-      outline: none;
-      border: none;
-      border-radius: 5px;
-      text-align: center;
-      left: 25px;
-      position: relative;
-      width: 150px;
-      height: 35px; }
-      section.welcome-section button.facebook-button:before {
-        content: 'f';
-        font-family: QuicksandBold;
-        color: #fff;
-        font-size: 18px;
-        position: relative;
-        left: -8px;
-        weight: bold; }
-      section.welcome-section button.facebook-button:hover {
-        background: #5172b8; }
-    section.welcome-section button.signin-button {
-      margin-bottom: 15px;
-      background-color: #009688; }
-      section.welcome-section button.signin-button:hover {
-        background-color: #028478; }
-    section.welcome-section button.signup-button {
-      margin-bottom: 5px;
-      background-color: #776594; }
-      section.welcome-section button.signup-button:hover {
-        background-color: #696594; }
+    color: white;
+}
+
+section span.form-error {
+    color: #A10032;
+}
+
+section span.form-success {
+    color: #739B4E;
+}
+
+section.welcome-section {
+    margin-top: 70px;
+    margin-left: calc((100% - 350px) / 2);
+    margin-right: calc((100% - 350px) / 2);
+    width: 350px;
+}
+
+section.welcome-section header {
+    text-align: center;
+    font-family: 'Lavanderia Regular', sans-serif;
+
+}
+
+section.welcome-section header h1 {
+    display: inline-block;
+    font-size: 60px;
+    color: white;
+    line-height: 55px;
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
+
+section.welcome-section header h1.title-half {
+   /* color: #009688;*/
+    color: white;
+    line-height: 55px;
+}
+
+section.welcome-section button.welcome-button {
+    color: white;
+    display: block;
+    text-transform: uppercase;
+    border: none;
+    outline: none;
+    margin: auto;
+    height: 29px;
+    font-size: 20px;
+    width: 100%;
+
+
+}
+
+section.welcome-section button.welcome-button:hover {
+    cursor: pointer;
+}
+
+section.welcome-section button.facebook-button {
+    background: #4060A5;
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    left: 25px;
+    position: relative;
+    width: 150px;
+    height: 35px;
+}
+
+section.welcome-section button.facebook-button:before {
+    content: 'f';
+    font-family:'Roboto Bold';
+    color: #fff;
+    font-size: 18px;
+    position: relative;
+    left: -8px;
+    weight: bold;
+}
+
+section.welcome-section button.facebook-button:hover {
+    background: #5172b8;
+}
+
+section.welcome-section button.signin-button {
+    margin-bottom: 15px;
+    outline: none;
+    border: none;
+    border-radius: 1px;
+    text-transform: none;
+    height: 41px;
+    font-family: 'Roboto Regular', sans-serif;
+    color: white;
+    font-size: 15px;
+    line-height: 20px;
+    background-color: #0084ff;
+    margin-top: 30px;
+    width: calc(100% - 50px);
+    width: -webkit-calc(100% - 50px);
+    width: -moz-calc(100% - 50px);
+}
+
+section.welcome-section button.signin-button:hover {
+    background-color: #0084ff;
+}
+
+section.welcome-section button.signup-button {
+    margin-bottom: 5px;
+    background-color: rgba(192,53,53,0.2);
+}
+
+
 
 /*# sourceMappingURL=styles.css.map */
