@@ -40,8 +40,14 @@ var getUserFriendsIds = function (userId) {
 };
 
 
+var getUserById = function (userId) {
+    return User.findById(userId);
+}
+
+
 module.exports = {
     login: login,
     logout: logout,
-    getUserFriendsIds: getUserFriendsIds
+    getUserFriendsIds: getUserFriendsIds,
+    getUserById: getUserById
 }

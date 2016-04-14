@@ -2,31 +2,39 @@ var router = require('express').Router();
 var authController = require('../controllers/authentication-controller');
 var profileController = require('../controllers/profile-controller');
 var friendController = require('../controllers/friend-controller');
+var messageController = require('../controllers/message-controller');
+var userController = require('../controllers/user-controller');
 var jwt = require('express-jwt');
 
 
 var auth = jwt({
     secret: process.env.JWT_SECRET,
     userProperty: 'payload',
-    getToken : function (req) {
+    getToken: function (req) {
         if (req.headers.access_token) {
             return req.headers.access_token;
         } else return null;
     }
 });
 
-router.post('/user/signin', authController.login);
-router.post('/user/signup', authController.signup);
+//AuthController
+router.post('/auth/login', authController.login);
+router.post('/auth/register', authController.signup);
 
+//ProfileController
+router.get('/profile', auth, profileController.getProfile);
 
-router.get('/profile/data', auth, profileController.getProfileData);
+//FriendController
+router.get('/friends', auth, friendController.getFriends);
+router.post('/friend/request/', auth, friendController.requestFriend);
+router.post('/friend/add', auth, friendController.addToFriends);
+router.post('/friend/decline', auth, friendController.declineRequest);
 
+//MessageController
+router.get('/users/:userId/messages', auth, messageController.getMessages);
 
-//todo no auth!
-
-router.post('/friend/request/', friendController.requestFriend);
-router.post('/friend/add', friendController.addToFriends);
-router.post('/friend/decline', friendController.declineRequest);
+//UserController
+router.get('/users/search', auth, userController.searchUsers);
 
 module.exports = router;
 

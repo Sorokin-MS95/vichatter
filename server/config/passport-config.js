@@ -12,11 +12,27 @@ passport.use(new LocalStrategy({
                 return done(err);
             } else if (!user) {
                 return done(null, false, {
-                    error: 'Such user not registered'
+                    status: 0,
+                    validation_status: {
+                        success: false,
+                        message: "Such user not registered",
+                        form_error: {
+                            fieldName: "email"
+                        }
+                    },
+                    payload: {}
                 });
             } else if (!user.validatePassword(password)) {
                 return done(null, false, {
-                    error: 'Incorrect credentials'
+                    status: 0,
+                    validation_status: {
+                        success: false,
+                        message: "Incorrect credentials",
+                        form_error: {
+                            fieldName: "email"
+                        }
+                    },
+                    payload: {}
                 });
             } else {
                 return done(null, user);

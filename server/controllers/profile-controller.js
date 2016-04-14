@@ -1,4 +1,4 @@
-ProfileService = require("../services/profile-service");
+var UserService = require("../services/user-service");
 var _ = require("underscore");
 
 var sendJsonResponse = function (res, status, content) {
@@ -7,14 +7,31 @@ var sendJsonResponse = function (res, status, content) {
 }
 
 
-var getProfileData = function (req, res) {
+var getProfile = function (req, res) {
     var userId = req.payload.id;
-    var profile = ProfileService.getProfileData(userId);
-    sendJsonResponse(res, 200, profile);
+    UserService.getUserById(userId).then(function (user) {
+        sendJsonResponse(res, 200, {
+            status: 0,
+            payload: {
+                profile_info: {
+                    nickname: user.local.nickname,
+                    email: user.local.email
+                }
+            }
+        });
+    })
+}
 
+
+var updateProfile = function(req, res){
+    var userId = req.payload.id;
+    UserService.getUserById(userId).then(function(user){
+
+    })
 }
 
 
 module.exports = {
-    getProfileData: getProfileData
+    getProfile: getProfile,
+    updateProfile : updateProfile
 }

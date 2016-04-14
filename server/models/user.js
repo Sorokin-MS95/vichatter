@@ -29,12 +29,14 @@ var User = new Schema({
     friends: [
         {
             userId: mongoose.Schema.Types.ObjectId,
+            lastMessage: mongoose.Schema.Types.ObjectId,
+            messages: [mongoose.Schema.Types.ObjectId],
             unreadMessages: {
                 type: Number
             }
         }
     ],
-    addRequests : [{
+    addRequests: [{
         userId: mongoose.Schema.Types.ObjectId
     }]
 });
