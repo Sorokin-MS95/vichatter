@@ -1,41 +1,14 @@
-<div class="vc-menu-panel">
-    <div class="menu-header">
-        <span class="menu-header-title">vi<span class="bold">chatter</span></span>
-        <div class="add-friend-button-wrapper">
-            <span class="indicator active"></span>
-            <button class="vc-button add-friend-button"></button>
-        </div>
-    </div>
-    <div class="menu-body">
-        <div class="menu-section">
-            <ul class="menu-list">
-                <li class="menu-item selected">
-                    <span class="menu-item-title">Friends</span>
-                    <span class="menu-item-counter">53</span>
-                </li>
-                <li class="menu-item">
-                    <span class="menu-item-title">My profile</span>
-                    <span class="menu-item-counter"></span>
-                </li>
-            </ul>
-        </div>
-        <div class="menu-section">
-            <ul class="menu-list">
-                <li class="menu-item">
-                    <span class="menu-item-title">Exit</span>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
 
-<!--<div class="vc-friends-panel">
-    <div class="search-field-wrapper">
-        <input type="text" placeholder="Search" autocomplete="off"/>
-    </div>
-    <div class="friends-panel-header">
-        <span>Friend list requests</span>
-    </div>-->
+<div class="vc-friends-panel">
+    <vc-friend-list ng-if="isFriendsListActive" list-of-friends="{{friendsList}}"></vc-friend-list>
+    <vc-friend-requests-list ng-if="isFriendRequestListActive" list-of-requests="{{friendRequestsList}}"
+                             add-friend-callback="addFriend"></vc-friend-requests-list>
+    <!-- <div class="search-field-wrapper">
+         <input type="text" placeholder="Search" autocomplete="off"/>
+     </div>
+     <div class="friends-panel-header">
+         <span>Friend list requests</span>
+     </div>-->
     <!--<div class="friends-list-wrapper">
         <ul class="friends-list">
             <li class="friend-item no-message">
@@ -90,48 +63,48 @@
                 </div>
             </li>
         </ul>
-    </div>
-</div>-->
+    </div>-->
+</div>
 <div class="vc-profile-panel">
-     <div class="profile-image-wrapper">
-         <img class="profile-image" src="../../public/images/profile_photo.jpg"/>
-         <span class="name-text">Kirsten McKellar</span>
-         <span class="city-text">New York, USA</span>
-     </div>
-     <div class="profile-info-wrapper">
-         <ul class="info-fields-list">
-             <li class="info-field-wrapper">
-                 <label for="first_name" class="info-field-label">First name:</label>
-                 <input id="first_name" type="text" placeholder="Input first name..." class="info-field"/>
-             </li>
-             <li class="info-field-wrapper">
-                 <label for="last_name" class="info-field-label">Last name:</label>
-                 <input id="last_name" type="text" placeholder="Input last name..." class="info-field"/>
-             </li>
+    <div class="profile-image-wrapper">
+        <img class="profile-image" src="../../public/images/profile_photo.jpg"/>
+        <span class="name-text">Kirsten McKellar</span>
+        <span class="city-text">New York, USA</span>
+    </div>
+    <div class="profile-info-wrapper">
+        <ul class="info-fields-list">
+            <li class="info-field-wrapper">
+                <label for="first_name" class="info-field-label">First name:</label>
+                <input id="first_name" type="text" placeholder="Input first name..." class="info-field"/>
+            </li>
+            <li class="info-field-wrapper">
+                <label for="last_name" class="info-field-label">Last name:</label>
+                <input id="last_name" type="text" placeholder="Input last name..." class="info-field"/>
+            </li>
 
-             <li class="info-field-wrapper">
-                 <label for="city" class="info-field-label">City:</label>
-                 <input id="city" type="text" placeholder="Input city..." class="info-field"/>
-             </li>
-             <li class="info-field-wrapper">
-                 <label for="nickname" class="info-field-label">Nickname:</label>
-                 <input id="nickname" type="text" placeholder="Input nickname..." class="info-field"/>
-             </li>
-             <li class="info-field-wrapper">
-                 <label for="telephone" class="info-field-label">Tel:</label>
-                 <input id="telephone" type="text" placeholder="Input tel..." class="info-field"/>
-             </li>
-             <li class="info-field-wrapper">
-                 <label for="date_of_birth" class="info-field-label">Date Of Birth:</label>
-                 <input id="date_of_birth" type="text" placeholder="Input date..." class="info-field"/>
-             </li>
-             <li class="info-field-wrapper">
-                 <label for="gender" class="info-field-label">Gender:</label>
-                 <input id="gender" type="text" placeholder="Input gender..." class="info-field"/>
-             </li>
-         </ul>
-     </div>
- </div>
+            <li class="info-field-wrapper">
+                <label for="city" class="info-field-label">City:</label>
+                <input id="city" type="text" placeholder="Input city..." class="info-field"/>
+            </li>
+            <li class="info-field-wrapper">
+                <label for="nickname" class="info-field-label">Nickname:</label>
+                <input id="nickname" type="text" placeholder="Input nickname..." class="info-field"/>
+            </li>
+            <li class="info-field-wrapper">
+                <label for="telephone" class="info-field-label">Tel:</label>
+                <input id="telephone" type="text" placeholder="Input tel..." class="info-field"/>
+            </li>
+            <li class="info-field-wrapper">
+                <label for="date_of_birth" class="info-field-label">Date Of Birth:</label>
+                <input id="date_of_birth" type="text" placeholder="Input date..." class="info-field"/>
+            </li>
+            <li class="info-field-wrapper">
+                <label for="gender" class="info-field-label">Gender:</label>
+                <input id="gender" type="text" placeholder="Input gender..." class="info-field"/>
+            </li>
+        </ul>
+    </div>
+</div>
 <div class="vc-chat-panel">
     <div class="video-window">
     </div>

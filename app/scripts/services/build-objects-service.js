@@ -4,51 +4,74 @@
 angular.module('viChatter')
     .service('BuildObjectsService', BuildObjectsService);
 
-BuildObjectsService.$inject = [/*'ProjectBuilder', 'ProjectStatusBuilder', 'SimpleClientBuilder', 'StateBuilder', 'SiteBuilder', 'AntennaBuilder', 'ChangeAntennaModelBuilder', 'ClientBuilder', 'ChangeClientModelBuilder', 'ChangeProjectModelBuilder', 'ChangeSiteModelBuilder', 'UserBuilder', 'ChangeUserModelBuilder', 'SimpleReportBuilder', 'ReportStatusBuilder', 'SimpleProjectBuilder'*/];
+BuildObjectsService.$inject = ['FriendListItemBuilder', 'FriendRequestItemBuilder', 'LoginDataBuilder', 'MessageBuilder', 'ProfileInfoBuilder', 'RegistrationDataBuilder'];
 
-function BuildObjectsService(/*ProjectBuilder, ProjectStatusBuilder, SimpleClientBuilder, StateBuilder, SiteBuilder, AntennaBuilder, ChangeAntennaModelBuilder, ClientBuilder, ChangeClientModelBuilder, ChangeProjectModelBuilder, ChangeSiteModelBuilder, UserBuilder, ChangeUserModelBuilder, SimpleReportBuilder, ReportStatusBuilder, SimpleProjectBuilder*/) {
+function BuildObjectsService(FriendListItemBuilder, FriendRequestItemBuilder, LoginDataBuilder, MessageBuilder, ProfileInfoBuilder, RegistrationDataBuilder) {
 
-
-   /* function _buildAntenna(antennaData) {
-        return AntennaBuilder.create(antennaData);
+    function _buildFriendListItem(friendListItemData) {
+        return FriendListItemBuilder.create(friendListItemData);
     }
 
-    function _buildAntennaChangeModel(antenna) {
-        return ChangeAntennaModelBuilder.create(antenna);
-    }
-
-    function _buildClient(clientData) {
-        return ClientBuilder.create(clientData);
-    }
-
-    function _buildClientChangeModel(client) {
-        return ChangeClientModelBuilder.create(client);
-    }
-
-    function _buildProject(project) {
-        return ProjectBuilder.create(project);
-    }
-
-    function _buildProjects(projects) {
+    function _buildFriendListItems(friendList) {
         var results = [];
-        if (angular.isArray(projects)) {
-            angular.forEach(projects, function (projectData) {
-                results.push(ProjectBuilder.create(projectData));
+        if (angular.isArray(friendList)) {
+            angular.forEach(friendList, function (friendListItem) {
+                results.push(FriendListItemBuilder.create(friendListItem));
             });
         }
         return results;
     }
 
+    function _buildFriendRequestItem(friendRequestItemData) {
+        return FriendRequestItemBuilder.create(friendRequestItemData);
+    }
 
+    function _buildFriendRequestItems(friendRequests) {
+        var results = [];
+        if (angular.isArray(friendRequests)) {
+            angular.forEach(friendRequests, function (friendRequestItem) {
+                results.push(FriendRequestItemBuilder.create(friendRequestItem));
+            });
+        }
+        return results;
+    }
+
+    function _buildLoginData(loginData) {
+        return LoginDataBuilder.create(loginData);
+    }
+
+    function _buildMessage(message) {
+        return MessageBuilder.create(message);
+    }
+
+    function _buildMessages(messages) {
+        var results = [];
+        if (angular.isArray(messages)) {
+            angular.forEach(messages, function (message) {
+                results.push(MessageBuilder.create(message));
+            });
+        }
+        return results;
+    }
+
+    function _buildProfileInfo(profileInfo) {
+        return ProfileInfoBuilder.create(profileInfo);
+    }
+
+    function _buildRegistrationData(registrationData) {
+        return RegistrationDataBuilder.create(registrationData);
+    }
 
     return {
-        buildAntenna: _buildAntenna,
-        buildAntennaChangeModel: _buildAntennaChangeModel,
+        buildRegistrationData: _buildRegistrationData,
+        buildProfileInfo: _buildProfileInfo,
+        buildMessages: _buildMessages,
+        buildMessage: _buildMessage,
+        buildLoginData: _buildLoginData,
+        buildFriendRequestItems: _buildFriendRequestItems,
+        buildFriendRequestItem: _buildFriendRequestItem,
+        buildFriendListItems: _buildFriendListItems,
+        buildFriendListItem: _buildFriendListItem
+    }
 
-        buildClient: _buildClient,
-        buildClientChangeModel: _buildClientChangeModel,
-
-        buildProject: _buildProject,
-        buildProjects: _buildProjects
-    };*/
 }

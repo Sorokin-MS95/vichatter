@@ -6,14 +6,20 @@
 angular.module('viChatter')
     .service('NetworkProvider', NetworkProvider);
 
-NetworkProvider.$inject = ['$http', '$q', 'ResponseBuilder'];
+NetworkProvider.$inject = ['$http', '$q', 'ResponseBuilder', 'localStorageService', 'AppConstants'];
 
-function NetworkProvider($http, $q, ResponseBuilder) {
+function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppConstants) {
+
+    var config = {
+        headers: {
+            'auth_token': localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.AUTH_TOKEN)
+        }
+    };
 
     function _post(url, data) {
         var deferred = $q.defer();
 
-        $http.post(url, data).then(function (data) {
+        $http.post(url, data, config).then(function (data) {
             var response = ResponseBuilder.create(data);
             deferred.resolve(response);
         }, function (data) {
@@ -29,7 +35,7 @@ function NetworkProvider($http, $q, ResponseBuilder) {
 
         $http.get(url, {
             params: params
-        }).then(function (data) {
+        }, config).then(function (data) {
             var response = ResponseBuilder.create(data);
             deferred.resolve(response);
         }, function (data) {
@@ -66,72 +72,77 @@ function NetworkProvider($http, $q, ResponseBuilder) {
         return _post('/api/user/logout');
     }
 
-    /*************
-     *   Users   *
-     *************/
+    function _getFirstLoadData(userId) {
+        var data = {};
 
-    function _getAllUsers(attrs) {
+        if (userId !== null) {
+            data.user_id = userId;
+        }
+
+        return _get('/api/profile', data);
+    }
+
+    function _getFriendProfile(friendId) {
 
         var data = {};
+
+        if (friendId !== null) {
+            data.friend_id = friendId;
+        }
+
+        return _get('/api/profile', data);
+
+    }
+
+    function _getMessages(attrs) {
+        var data = {};
+
+        if (attrs.hasOwnProperty("userId") && attrs.userId !== null) {
+            data.page = attrs.page;
+        }
+
+        if (attrs.hasOwnProperty("friendId") && attrs.friendId !== null) {
+            data.friend_id = attrs.friend_id;
+        }
+
         if (attrs.hasOwnProperty("page") && attrs.page !== null) {
             data.page = attrs.page;
         }
 
-        if (attrs.hasOwnProperty("numberOfElements") && attrs.numberOfElements !== null) {
-            data.count = attrs.numberOfElements;
+        if (attrs.hasOwnProperty("count") && attrs.count !== null) {
+            data.count = attrs.count;
         }
-        return _get('/api/user/all', data);
+
+        return _get('/api/messages', data);
     }
 
-    function _createUser(userModel) {
+    function _getSearchListOfFriends(attrs) {
+        var data = {};
 
-        var rolesData = [];
+        if (attrs.hasOwnProperty("userId") && attrs.userId !== null) {
+            data.page = attrs.page;
+        }
 
-        angular.forEach(userModel.roles, function (role) {
-            rolesData.push(role.id);
-        });
+        if (attrs.hasOwnProperty("searchString") && attrs.searchString !== null) {
+            data.search_string = attrs.search_string;
+        }
 
+        return _get('/api/messages', data);
+
+    }
+
+    function _updateProfile(profileInfoModel) {
         var params = {
-            'email': userModel.email,
-            'firstname': userModel.firstName,
-            'lastname': userModel.lastName,
-            'phone': userModel.phone,
-            'citizenship_status': userModel.citizenship,
-            'job_title': userModel.job,
-            'password': userModel.password,
-            'roles': rolesData
+            profile_info: {
+                id: profileInfoModel.id,
+                first_name: profileInfoModel.firstName,
+                last_name: profileInfoModel.lastName,
+                email: profileInfoModel.email,
+                nickname: profileInfoModel.nickname
+            }
         };
 
-        return _post('/api/user/create', params);
-    }
-
-    function _updateUser(userId, userModel) {
-        var rolesData = [];
-
-        angular.forEach(userModel.roles, function (role) {
-            rolesData.push(role.id);
-        });
-
-        var params = {
-            'email': userModel.email,
-            'firstname': userModel.firstName,
-            'lastname': userModel.lastName,
-            'phone': userModel.phone,
-            'citizenship_status': userModel.citizenship,
-            'job_title': userModel.job,
-            'password': userModel.password,
-            'roles': rolesData
-        };
-
-        return _post('/api/user/' + userId + '/update', params);
-    }
-
-    function _deleteUser(userId) {
-        return _post('/api/user/' + userId + '/delete');
-    }
-
-    function _getUser(userId) {
-        return _get('/api/user/' + userId);
+        return _post('/api/profile/', params);
     }
 
 
@@ -139,11 +150,10 @@ function NetworkProvider($http, $q, ResponseBuilder) {
         login: _login,
         register: _register,
         logout: _logout,
-
-        getAllUsers: _getAllUsers,
-        createUser: _createUser,
-        updateUser: _updateUser,
-        deleteUser: _deleteUser,
-        getUser: _getUser
+        getFirstLoadData: _getFirstLoadData,
+        getFriendProfile: _getFriendProfile,
+        getMessages: _getMessages,
+        getSearchListOfFriends: _getSearchListOfFriends,
+        updateProfile: _updateProfile
     };
 }

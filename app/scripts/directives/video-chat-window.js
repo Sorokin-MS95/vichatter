@@ -3,11 +3,11 @@
  */
 'use strict';
 
-var app = angular.module('antennaApp');
+var app = angular.module('viChatter');
 
-app.directive('vcChatWindow', vcChatWindow);
+app.directive('vcVideoChatWindow', vcVideoChatWindow);
 
-function vcChatWindow() {
+function vcVideoChatWindow() {
 
     function link(scope) {
 
