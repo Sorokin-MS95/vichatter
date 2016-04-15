@@ -1,0 +1,28 @@
+<div class="friends-list-wrapper">
+    <ul class="friends-list" data-ng-repeat="friend in items">
+        <li class="friend-friend"
+            data-ng-click="selectFriend(friend)"
+            data-ng-class="{true: 'selected', false: ''}[isFriendItemSelected(friend.getId())]">
+            <div class="online-status"
+                 data-ng-class="{true: 'active', false: ''}[friend.getOnline()]"></div>
+            <div class="friend-icon-wrapper">
+                <img class="friend-name" src="../../public/images/girl1.png" alt="friend.getNickname()"/>
+            </div>
+            <div class="friend-text-wrapper">
+                    <span class="friend-name">
+                        <span data-ng-bind="friend.getFirstName()"></span>
+                        <span data-ng-bind="friend.getLastName()"></span>
+                    </span>
+                    <span class="message-preview">
+                        <span data-ng-bind="friend.getMessage()"></span>
+                    </span>
+            </div>
+            <div class="friend-additional-info">
+                <span class="passed-time"
+                      data-ng-bind="friend.getLastMessageTime() |  date:'MM/dd/yyyy 'at' h:mma'"></span>
+                <span class="counter" data-ng-bind="friend.getUnreadMessageCount()"></span>
+            </div>
+        </li>
+
+    </ul>
+</div>

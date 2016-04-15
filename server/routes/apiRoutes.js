@@ -19,7 +19,7 @@ var auth = jwt({
 
 //AuthController
 router.post('/auth/login', authController.login);
-router.post('/auth/register', authController.signup);
+router.post('/auth/register', authController.register);
 
 //ProfileController
 router.get('/profile', auth, profileController.getProfile);

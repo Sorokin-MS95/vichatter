@@ -1,0 +1,54 @@
+<div class="container">
+    <div class="col-md-6 col-md-offset-3">
+        <section class="welcome-section">
+            <header><h1 class="title-half">vi</h1>
+                <h1>chatter</h1></header>
+            <section class="welcome-controls">
+                <section class="signin-section">
+                    <form name="signin" novalidate>
+                        <div class="form-element">
+                            <span ng-show="signin.email.$pristine" class="form-element-icon email-icon"></span>
+            <span ng-show="signin.email.$dirty && signin.email.$invalid"
+                  class="form-element-icon email-icon-invalid"></span>
+            <span ng-show="signin.email.$dirty && signin.email.$valid"
+                  class="form-element-icon email-icon-valid"></span>
+                            <input type="text" class="welcome-input" name="email" ng-model="user.email"
+                                   ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-required="true"
+                                   placeholder="Enter email">
+                        </div>
+                        <div class="form-element">
+                            <span ng-show="signin.password.$pristine" class="form-element-icon password-icon"></span>
+            <span ng-show="signin.password.$dirty && signin.password.$invalid"
+                  class="form-element-icon password-icon-invalid"></span>
+            <span ng-show="signin.password.$dirty && signin.password.$valid"
+                  class="form-element-icon password-icon-valid"></span>
+                            <input type="password" name="password" class="welcome-input" ng-model="user.password"
+                                   ng-required="true"
+                                   ng-pattern="/^[A-Za-z0-9_.]{3,10}$/" placeholder="Enter password">
+
+                        </div>
+                        <button ng-disabled="signin.$invalid" ng-click="login()"
+                                class="welcome-button signin-button">Sign
+                            in
+                        </button>
+                    </form>
+                </section>
+            </section>
+        </section>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
