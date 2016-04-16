@@ -1,7 +1,7 @@
 <vc-search-field callback-to-load-elements=""></vc-search-field>
 <div class="friends-list-wrapper">
     <ul class="friends-list" data-ng-repeat="friend in listOfFriends">
-        <li class="friend-friend"
+        <li class="friend-item"
             data-ng-click="selectFriend(friend)"
             data-ng-class="{true: 'selected', false: ''}[isFriendItemSelected(friend.getId())]">
             <div class="online-status"
@@ -20,7 +20,7 @@
             </div>
             <div class="friend-additional-info">
                 <span class="passed-time"
-                      data-ng-bind="friend.getLastMessageTime() |  date:'MM/dd/yyyy 'at' h:mma'"></span>
+                      data-ng-bind="friend.getLastMessageTime() |  date:'MM/dd/yyyy'"></span>
                 <span class="counter" data-ng-bind="friend.getUnreadMessageCount()"></span>
             </div>
         </li>

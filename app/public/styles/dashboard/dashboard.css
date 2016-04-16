@@ -168,55 +168,59 @@
 
 /*FRIENDS LIST*/
 
- .search-field-wrapper {
+.search-field-wrapper {
     padding: 25px;
     border-bottom: 1px solid rgb(45, 51, 57);
 }
- .search-field-wrapper > input {
+
+.search-field-wrapper > input {
     border: none;
     border-radius: 20px;
     padding-left: 50px;
-    width: calc(100% - 50px);
-    width: -webkit-calc(100% - 50px);
-    width: -moz-calc(100% - 50px);
+    padding-right: 20px;
+    width: calc(100% - 70px);
+    width: -webkit-calc(100% - 70px);
+    width: -moz-calc(100% - 70px);
     height: 40px;
     font-family: 'Roboto Regular', sans-serif;
     color: white;
     font-size: 14px;
     background: rgb(54, 61, 69) url(../../images/search.png) no-repeat left center;
 }
+
 .search-field-wrapper > input::-webkit-input-placeholder {
     font-family: 'Roboto Regular', sans-serif;
     color: rgb(102, 108, 113);
     font-size: 14px;
 }
 
- .search-field-wrapper > input:hover {
-    outline: none;
-    border: none;
-    background-color: rgb(54, 61, 69);
-}
- .search-field-wrapper > input:focus {
+.search-field-wrapper > input:hover {
     outline: none;
     border: none;
     background-color: rgb(54, 61, 69);
 }
 
-.vc-friends-panel > .friends-list-wrapper {
+.search-field-wrapper > input:focus {
+    outline: none;
+    border: none;
+    background-color: rgb(54, 61, 69);
+}
+
+.friends-list-wrapper {
     height: calc(100% - 92px);
     height: -webkit-calc(100% - 92px);
     height: -moz-calc(100% - 92px);
     overflow-y: auto;
 }
 
-.vc-friends-panel > .friends-list-wrapper > .friends-list {
+.friends-list-wrapper > .friends-list {
     list-style: none;
     padding: 0;
     margin: 0;
     overflow: auto;
 }
 
-.vc-friends-panel > .friends-list-wrapper > .friends-list > .friend-item {
+.friends-list-wrapper > .friends-list > .friend-item {
     padding: 0;
     margin: 0;
     display: block;
@@ -227,22 +231,22 @@
     width: -moz-calc(100% - 3px);
 }
 
-.vc-friends-panel > .friends-list-wrapper > .friends-list > .friend-item:hover {
+.friends-list-wrapper > .friends-list > .friend-item:hover {
     background-color: rgb(43, 128, 255);
     cursor: pointer;
     border-left: 3px solid rgb(43, 128, 255);
 }
 
-.vc-friends-panel > .friends-list-wrapper > .friends-list > .friend-item:hover > .friend-icon-wrapper {
+.friends-list-wrapper > .friends-list > .friend-item:hover > .friend-icon-wrapper {
 
     border-bottom: 1px solid rgb(43, 128, 255);
 }
 
-.vc-friends-panel > .friends-list-wrapper > .friends-list > .friend-item.selected {
+.friends-list-wrapper > .friends-list > .friend-item.selected {
     border-left: 3px solid rgb(43, 128, 255);
 }
 
-.vc-friends-panel > .friends-list-wrapper > .friends-list > .friend-item > .friend-icon-wrapper {
+.friends-list-wrapper > .friends-list > .friend-item > .friend-icon-wrapper {
     padding-top: 20px;
     padding-bottom: 15px;
     margin-right: 15px;
@@ -251,7 +255,7 @@
     float: left;
 }
 
-.vc-friends-panel > .friends-list-wrapper > .friends-list > .friend-item > .online-status.active {
+.friends-list-wrapper > .friends-list > .friend-item > .online-status.active {
     height: 5px;
     width: 5px;
     margin-left: 15px;
@@ -263,7 +267,7 @@
     display: inline-block;
 }
 
-.vc-friends-panel > .friends-list-wrapper > .friends-list > .friend-item > .online-status {
+.friends-list-wrapper > .friends-list > .friend-item > .online-status {
     height: 5px;
     width: 5px;
     margin-left: 15px;
@@ -275,14 +279,14 @@
     display: inline-block;
 }
 
-.vc-friends-panel > .friends-list-wrapper > .friends-list > .friend-item > .friend-icon-wrapper > img {
+.friends-list-wrapper > .friends-list > .friend-item > .friend-icon-wrapper > img {
     border-radius: 50%;
     height: 50px;
     width: 50px;
 
 }
 
-.vc-friends-panel > .friends-list-wrapper > .friends-list > .friend-item > .friend-text-wrapper {
+.friends-list-wrapper > .friends-list > .friend-item > .friend-text-wrapper {
     padding-top: 25px;
     padding-bottom: 20px;
     width: calc(100% - 60px - 50px - 15px - 15px - 5px - 3px);
@@ -294,7 +298,7 @@
     text-overflow: ellipsis;
 }
 
-.vc-friends-panel > .friends-list-wrapper >
+.friends-list-wrapper >
 .friends-list > .friend-item > .friend-text-wrapper
 > .friend-name {
     font-family: 'Roboto Regular', sans-serif;
@@ -305,7 +309,7 @@
 
 }
 
-.vc-friends-panel > .friends-list-wrapper >
+.friends-list-wrapper >
 .friends-list > .friend-item > .friend-text-wrapper
 > .message-preview {
     font-family: 'Roboto Light', sans-serif;
@@ -319,7 +323,7 @@
     white-space: nowrap;
 }
 
-.vc-friends-panel > .friends-list-wrapper >
+.friends-list-wrapper >
 .friends-list > .friend-item > .friend-additional-info {
     padding-top: 25px;
     padding-bottom: 25px;
@@ -328,7 +332,7 @@
     width: 60px;
 }
 
-.vc-friends-panel > .friends-list-wrapper >
+.friends-list-wrapper >
 .friends-list > .friend-item > .friend-additional-info > .passed-time {
     font-family: 'Roboto Regular', sans-serif;
     font-size: 11px;
@@ -337,7 +341,7 @@
     padding-right: 25px;
 }
 
-.vc-friends-panel > .friends-list-wrapper >
+.friends-list-wrapper >
 .friends-list > .friend-item > .friend-additional-info > .counter {
     font-family: 'Roboto Light', sans-serif;
     font-size: 11px;
@@ -746,7 +750,6 @@
     font-family: 'Lavanderia Sturdy', sans-serif;
     color: white;
 
-
 }
 
 .vc-button.add-friend-button {
@@ -802,7 +805,7 @@
 
 }
 
-.vc-friends-panel > .friends-list-wrapper > .friends-list > .friend-item.no-message > .friend-text-wrapper {
+.friends-list-wrapper > .friends-list > .friend-item.no-message > .friend-text-wrapper {
     padding-top: 34px;
     padding-bottom: 34px;
 }

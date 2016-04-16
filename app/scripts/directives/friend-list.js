@@ -16,7 +16,12 @@ function vcFriendList(EventsService, AppConstants) {
         scope.selectedFriendId = null;
 
         scope.isFriendItemSelected = function (id) {
-            return selectedFriendId.getId() == id;
+            if (scope.selectedFriendId != null) {
+                return scope.selectedFriendId.getId() == id;
+            }
+            else {
+                return false;
+            }
         }
 
         scope.selectFriend = function (friend) {

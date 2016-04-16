@@ -12,7 +12,7 @@
                 <li class="menu-item" data-ng-class="{true: 'selected', false: ''}[isMenuItemSelected(item)]"
                     data-ng-click="selectMenuItem(item)">
                     <span class="menu-item-title" data-ng-bind="item.getName()">My profile</span>
-                    <span ng-if="item.getCounter() != null" class="menu-item-counter"></span>
+                    <span ng-if="item.getCounter() != null" class="menu-item-counter" data-ng-bind="item.getCounter()"></span>
                 </li>
             </ul>
         </div>
