@@ -16,9 +16,7 @@ $button_width: 400px;
   }
 }
 
-@include fontFace('QuicksandLight', '../../fonts/Quicksand_Light', normal, normal);
-
-@include fontFace('QuicksandBold', '../../fonts/Quicksand_Bold', normal, normal);
+@include fontFace('Pacifico', '../../fonts/Quicksand_Bold', normal, normal);
 
 @include fontFace('QuicksandRegular', '../../fonts/Quicksand_Regular', normal, normal);
 

@@ -11,25 +11,23 @@ LoginPageController.$inject = ['$scope', 'localStorageService', 'NetworkProvider
 
 function LoginPageController($scope, localStorageService, NetworkProvider, $timeout, AppConstants) {
 
-    $controller('BaseController', {$scope: $scope});
-
-    $scope.userData = {};
-
     $scope.login = function () {
         NetworkProvider.login($scope.user).then(function (result) {
             localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.AUTH_TOKEN, result.payload.token);
             localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID, result.payload.userId);
-            //need redirect to dashboard
-
-
-            $state.go('dashboard');
+            //$state.go('dashboard');
         }).catch(function (result) {
             // need set message to scope! Where is it on template?
-            $scope.message = result.message;
+            $scope.formMessage = result.message;
+            $scope.result = false;
             $scope.user[result.payload.form_error.fieldName] = "";
             $scope.user["password"] = "";
 
-            //then after 3 sec delete message! Use timeout!
+            $timeout(function () {
+                //todo prestine
+                $scope.formMessage = "";
+                $scope.result = null;
+            }, 3000);
         });
 
 

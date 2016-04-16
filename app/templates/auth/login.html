@@ -6,6 +6,9 @@
             <section class="welcome-controls">
                 <section class="signin-section">
                     <form name="signin" novalidate>
+                        <span class="form-message"
+                              ng-class="{'form-error' : result == false, 'form-success' : result == true }"
+                              ng-bind="formMessage"></span>
                         <div class="form-element">
                             <span ng-show="signin.email.$pristine" class="form-element-icon email-icon"></span>
             <span ng-show="signin.email.$dirty && signin.email.$invalid"

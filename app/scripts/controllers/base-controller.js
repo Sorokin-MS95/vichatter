@@ -3,7 +3,7 @@
  */
 'use strict';
 
-angular.module('antennaApp')
+angular.module('viChatter')
     .controller('BaseController', BaseController);
 
 BaseController.$inject = ['$scope'];

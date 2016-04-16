@@ -6,7 +6,9 @@
             <section class="welcome-controls">
                 <section class="signup-section">
                     <form name="signup" novalidate>
-
+                        <span class="form-message"
+                              ng-class="{'form-error' : result == false, 'form-success' : result == true }"
+                              ng-bind="formMessage"></span>
                         <div class="form-element">
             <span class="form-message"
                   ng-class="{'form-error' : result == 'failure', 'form-success' : result == 'success' }"
@@ -39,10 +41,11 @@
                             <input type="password" name="password" class="welcome-input" ng-model="user.password"
                                    ng-required="true"
                                    ng-pattern="/^[A-Za-z0-9_.]{3,10}$/" placeholder="Enter password">
-                            <button ng-disabled="signup.$invalid" ng-click="register()"
-                                    class="welcome-button signin-button">Sign Up
-                            </button>
+
                         </div>
+                        <button ng-disabled="signup.$invalid" ng-click="register()"
+                                class="welcome-button signin-button">Sign Up
+                        </button>
                     </form>
 
                 </section>

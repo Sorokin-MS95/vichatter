@@ -23,5 +23,10 @@ appModule.constant('AppConstants', {
         SHOW_CHAT_WINDOW: 'show_chat_window',
         SHOW_VIDEO_CHAT_WINDOW: 'show_video_chat_window',
         SHOW_FRIEND_PROFILE: 'show_friend_profile'
+    },
+    FORM_FIELDS : {
+        PASSOWORD_FIELD : 'password',
+        EMAIL_FIELD : 'email',
+        NICKNAME_FIELD : 'nickname'
     }
 });

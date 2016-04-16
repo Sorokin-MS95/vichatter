@@ -46,7 +46,7 @@ module.exports.register = function (req, res) {
                                 message: "You have been successfully registered",
                                 payload: {
                                     token: user.generateJwt(),
-                                    userId: user_id
+                                    userId: user.user_id
                                 }
                             });
                         }

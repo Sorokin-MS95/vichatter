@@ -11,23 +11,30 @@ RegisterPageController.$inject = ['$scope', 'NetworkProvider', 'localStorageServ
 
 function RegisterPageController($scope, NetworkProvider, localStorageService, $timeout, AppConstants) {
 
-    $controller('BaseController', {$scope: $scope});
-
-    $scope.userData = {};
-
     $scope.register = function () {
         NetworkProvider.register($scope.user).then(function (result) {
             localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.AUTH_TOKEN, result.payload.token);
             localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID, result.payload.userId);
-            // where can i set messsage?
-            $scope.message = result.message;
-            // timeout delete this message and state.go('dashboard');
+            $scope.formMessage = result.message;
+            $scope.result = true;
+            $timeout(function()
+            {
+                $scope.formMessage = "";
+                //$state.go('dashboard');
+            }, 3000);
         }).catch(function (result) {
-            // need set error message to ui!!!!
-            $scope.message = result.message;
+
+            $scope.formMessage = result.message;
             $scope.user[result.payload.form_error.fieldName] = "";
+            $scope.result = false;
             $scope.user["password"] = "";
-            //then after 3 sec delete message! Use timeout!
+
+            $timeout(function () {
+                //todo prestine
+                $scope.formMessage = "";
+                $scope.result = null;
+            }, 3000);
+
         });
     }
 
