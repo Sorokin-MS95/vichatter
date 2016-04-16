@@ -11,6 +11,8 @@ RegisterPageController.$inject = ['$scope', 'NetworkProvider', 'localStorageServ
 
 function RegisterPageController($scope, NetworkProvider, localStorageService, $timeout, AppConstants) {
 
+    $controller('BaseController', {$scope: $scope});
+
     $scope.userData = {};
 
     $scope.register = function () {

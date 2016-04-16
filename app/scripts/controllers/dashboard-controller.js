@@ -3,10 +3,10 @@ var app = angular.module('viChatter');
 
 app.controller('DashboardController', DashboardController);
 
-DashboardController.$inject = ['$scope', 'socket', 'localStorageService', 'AuthenticationService', 'NetworkService', 'BuildObjectsService'];
+DashboardController.$inject = ['$scope', 'socket', 'localStorageService', 'AuthenticationService', 'NetworkService', 'BuildObjectsService', 'EventsService', 'AppConstants'];
 
 
-function DashboardController($scope, socket, localStorageService, AuthenticationService, NetworkService, BuildObjectsService) {
+function DashboardController($scope, socket, localStorageService, AuthenticationService, NetworkService, BuildObjectsService, EventsService, AppConstants) {
 
     $controller('BaseController', {$scope: $scope});
 
@@ -29,23 +29,60 @@ function DashboardController($scope, socket, localStorageService, Authentication
         $scope.activePageNumber = $scope.firstPageNumber;
         loadAntennas(
             $scope.firstPageNumber, $scope.numberOfElementsOnPage);
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.ADD_FRIEND_NOTIFICATION, function (e, friend) {
 
-        });
     })();
 
-    function subscribeOnSocketEvents(){
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.ADD_FRIEND_NOTIFICATION, function (e, friend) {
+    function subscribeOnSocketEvents() {
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.ADD_FRIEND_NOTIFICATION, function (e, data) {
 
         });
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.ADD_FRIEND_NOTIFICATION, function (e, friend) {
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.MESSAGE_NOTIFICATION, function (e, data) {
 
         });
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.ADD_FRIEND_NOTIFICATION, function (e, friend) {
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.USER_STATUS_NOTIFICATION, function (e, data) {
 
         });
+    }
+
+    function subscribeOnUiEvents() {
+
+        EventsService.subscribe(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, function (e, data) {
+
+        });
+
+        EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_CHAT_WINDOW, function (e, data) {
+
+        });
+
+        EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_FRIEND_PROFILE, function (e, data) {
+
+        });
+
+        EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_FRIENDS_LIST, function (e, data) {
+
+        });
+
+        EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_MY_PROFILE, function (e, data) {
+
+        });
+
+        EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_VIDEO_CHAT_WINDOW, function (e, data) {
+
+        });
+    }
+
+    $scope.sendMessage = function(message){
+
+    }
+
+    $scope.logout = function(message){
+
+    }
+
+    $scope.updateProfile = function(profileData){
+
     }
 
     function loadFriendsList() {

@@ -5,25 +5,26 @@
 
 var app = angular.module('viChatter');
 
+
 app.directive('vcFriendRequestsList', vcFriendRequestsList);
+
+
 
 function vcFriendRequestsList() {
 
     function link(scope) {
 
-        scope.selectedFriendId = null;
-
-        scope.isFriendItemSelected = function (id) {
-            return selectedFriendId.getId() == id;
+        scope.addFriend = function (id) {
+            scope.addFriendCallback(id);
         }
     }
 
     return {
         restrict: 'EA',
-        templateUrl: 'templates/web/common/tn-pagination.html',
+        templateUrl: 'templates/dashboard/directives/friend-request-list.html',
         scope: {
-            'listOfFriends': '=',
-            'messageWindowActive': '='
+            'listOfRequests': '=',
+            'addFriendCallback': '&'
         },
         link: link
     }

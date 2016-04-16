@@ -11,6 +11,8 @@ LoginPageController.$inject = ['$scope', 'localStorageService', 'NetworkProvider
 
 function LoginPageController($scope, localStorageService, NetworkProvider, $timeout) {
 
+    $controller('BaseController', {$scope: $scope});
+
     $scope.userData = {};
 
     $scope.login = function () {
