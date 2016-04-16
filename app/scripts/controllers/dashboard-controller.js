@@ -8,7 +8,15 @@ DashboardController.$inject = ['$scope', 'SocketService', 'localStorageService',
 
 function DashboardController($scope, SocketService, localStorageService, AuthenticationService, NetworkProvider, BuildObjectsService, EventsService, AppConstants) {
 
-    $scope.friendsList = [];
+    $scope.friendsList = [
+        {
+            id: 'asdasdasd',
+            first_name: 'asdasdasdasd',
+            last_name:'asdasd',
+            email: 'asdasd',
+            nickname: 'asdasdasd'
+        }
+    ];
     $scope.friendRequestsList = [];
     $scope.myProfileData = null;
     $scope.friendProfileData = null;
@@ -62,24 +70,34 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             loadFriendProfileData();
             $scope.isFriendProfileDataActive = true;
             $scope.isMyProfileDataActive = false;
+            $scope.isFriendsListActive = false;
+            $scope.isFriendRequestListActive = false;
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_FRIENDS_LIST, function (e, data) {
-            loadFriendsList();
+            /*loadFriendsList();*/
             $scope.isFriendsListActive = true;
             $scope.isFriendRequestListActive = false;
+            $scope.isFriendProfileDataActive = false;
+            $scope.isMyProfileDataActive = false;
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_FRIENDS_REQUESTS_LIST, function (e, data) {
             loadFriendRequestsList();
             $scope.isFriendsListActive = false;
             $scope.isFriendRequestListActive = true;
+            $scope.isFriendProfileDataActive = false;
+            $scope.isMyProfileDataActive = false;
+
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_MY_PROFILE, function (e, data) {
             loadMyProfileData();
             $scope.isMyProfileDataActive = true;
             $scope.isFriendProfileDataActive = false;
+            $scope.isFriendsListActive = false;
+            $scope.isFriendRequestListActive = false;
+
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_VIDEO_CHAT_WINDOW, function (e, data) {
@@ -104,8 +122,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     }
 
     function loadFriendsList() {
-
-
+        $scope.friendsList = BuildObjectsService.buildFriendListItems($scope.friendsList);
     }
 
     function loadFriendRequestsList() {

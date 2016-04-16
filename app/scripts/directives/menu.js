@@ -36,7 +36,7 @@ function vcMenu(EventsService, AppConstants, BuildObjectsService) {
         scope.selectedMenuItem = null;
 
         scope.isMenuItemSelected = function (menuItem) {
-            return scope.selectedMenuItem = menuItem;
+            return scope.selectedMenuItem == menuItem;
         }
 
         scope.selectMenuItem = function (menuItem) {
