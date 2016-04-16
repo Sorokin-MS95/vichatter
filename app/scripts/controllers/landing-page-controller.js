@@ -11,5 +11,7 @@ LandingPageController.$inject = ['$scope'];
 
 function LandingPageController($scope) {
 
+    $controller('BaseController', {$scope: $scope});
+
 
 }

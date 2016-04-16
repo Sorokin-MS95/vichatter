@@ -7,7 +7,9 @@ var app = angular.module('viChatter');
 
 app.directive('vcFriendList', vcFriendList);
 
-function vcFriendList() {
+vcFriendList.$inject = ['EventService', 'AppConstants'];
+
+function vcFriendList(EventsService, AppConstants) {
 
     function link(scope) {
 
@@ -21,10 +23,6 @@ function vcFriendList() {
             scope.selectedFriendId = friend.getId();
             EventsService.notify(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, friend.getId());
         }
-
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.ADD_FRIEND_NOTIFICATION, function (e, friend) {
-
-        });
 
     }
 

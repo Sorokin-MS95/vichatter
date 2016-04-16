@@ -17,6 +17,11 @@ appModule.constant('AppConstants', {
         MESSAGE_NOTIFICATION: 'message_notification'
     },
     UI_EVENTS: {
-        FRIEND_LIST_ITEM_SELECTED: 'friend_list_item_selected'
+        FRIEND_LIST_ITEM_SELECTED: 'friend_list_item_selected',
+        SHOW_FRIENDS_LIST: 'show_friends_list',
+        SHOW_MY_PROFILE: 'show_my_profile',
+        SHOW_CHAT_WINDOW: 'show_chat_window',
+        SHOW_VIDEO_CHAT_WINDOW: 'show_video_chat_window',
+        SHOW_FRIEND_PROFILE: 'show_friend_profile'
     }
 });
