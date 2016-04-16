@@ -3,10 +3,10 @@ var app = angular.module('viChatter');
 
 app.controller('DashboardController', DashboardController);
 
-DashboardController.$inject = ['$scope', 'socket', 'localStorageService', 'AuthenticationService', 'NetworkProvider', 'BuildObjectsService', 'EventsService', 'AppConstants'];
+DashboardController.$inject = ['$scope', 'SocketService', 'localStorageService', 'AuthenticationService', 'NetworkProvider', 'BuildObjectsService', 'EventsService', 'AppConstants'];
 
 
-function DashboardController($scope, socket, localStorageService, AuthenticationService, NetworkProvider, BuildObjectsService, EventsService, AppConstants) {
+function DashboardController($scope, SocketService, localStorageService, AuthenticationService, NetworkProvider, BuildObjectsService, EventsService, AppConstants) {
 
     $scope.friendsList = [];
     $scope.friendRequestsList = [];
@@ -23,11 +23,18 @@ function DashboardController($scope, socket, localStorageService, Authentication
 
 
     (function initialize() {
+        SocketService.initialize();
+        notifyOnlineStatus();
         subscribeOnSocketEvents();
         subscribeOnUiEvents();
         loadFriendsList();
         loadFriendRequestsList();
     })();
+
+
+    function notifyOnlineStatus(){
+        EventsService.notify(AppConstants.SOCKET_EVENTS.USER_STATUS_NOTIFICATION);
+    }
 
     function subscribeOnSocketEvents() {
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.ADD_FRIEND_NOTIFICATION, function (e, data) {
