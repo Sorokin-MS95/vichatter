@@ -17,7 +17,7 @@ new SocketService({io : io}).init();
 
 var passport = require('passport');
 require('./server/config/passport-config');
-var authRoutes = require('./server/routes/auth');
+var apiRoutes = require('./server/routes/apiRoutes');
 
 
 app.use(bodyParser.json());
@@ -25,7 +25,7 @@ app.use(passport.initialize());
 app.use('/app', express.static(__dirname + "/app"));
 app.use('/bower_components', express.static(__dirname + "/bower_components"));
 app.use('/public', express.static(__dirname + "/app/public"));
-app.use('/api', authRoutes);
+app.use('/api', apiRoutes);
 
 
 app.use(function (err, req, res, next) {
@@ -33,7 +33,7 @@ app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
         res.status(401);
         res.json({
-            "message": err.name + ": " + err.message
+            "message": err.name + ": " + err.newMessage
         });
     }
 });

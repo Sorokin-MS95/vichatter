@@ -11,32 +11,30 @@ RegisterPageController.$inject = ['$scope', 'NetworkProvider', 'localStorageServ
 
 function RegisterPageController($scope, NetworkProvider, localStorageService, $timeout, AppConstants) {
 
-    $controller('BaseController', {$scope: $scope});
-
-    $scope.userData = {};
-
     $scope.register = function () {
-        NetworkProvider.register($scope.userData).then(function (result) {
-            var data = result.data;
-            localStorageService.add(AppConstants.LOCAL_STORAGE_IDENTIFIERS.AUTH_TOKEN, data.token);
-            localStorageService.add(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID, data.userId);
-            if (data.hasOwnProperty("success")) {
-                $scope.signUpResult = data.success;
-                $scope.result = "success";
-                $timeout(function () {
-                    $state.go('dashboard');
-                }, 3000)
-            }
-        }).catch(function (result) {
-            var data = result.data;
-            $scope.signUpResult = data.error;
-            $scope.result = "failure";
-            $scope.userData[data.fieldName] = "";
-            $scope.userData.password = "";
-            $timeout(function () {
-                $scope.signUpResult = "";
-                $scope.result = "";
+        NetworkProvider.register($scope.user).then(function (result) {
+            localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.AUTH_TOKEN, result.payload.token);
+            localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID, result.payload.userId);
+            $scope.formMessage = result.message;
+            $scope.result = true;
+            $timeout(function()
+            {
+                $scope.formMessage = "";
+                //$state.go('dashboard');
             }, 3000);
+        }).catch(function (result) {
+
+            $scope.formMessage = result.message;
+            $scope.user[result.payload.form_error.fieldName] = "";
+            $scope.result = false;
+            $scope.user["password"] = "";
+
+            $timeout(function () {
+                //todo prestine
+                $scope.formMessage = "";
+                $scope.result = null;
+            }, 3000);
+
         });
     }
 

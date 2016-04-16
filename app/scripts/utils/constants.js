@@ -25,5 +25,11 @@ appModule.constant('AppConstants', {
         SHOW_FRIEND_PROFILE: 'show_friend_profile',
         SHOW_FRIENDS_REQUESTS_LIST: 'show_friends_requests_list',
         LOGOUT: 'logout'
+    },
+    FORM_FIELDS : {
+        PASSOWORD_FIELD : 'password',
+        EMAIL_FIELD : 'email',
+        NICKNAME_FIELD : 'nickname'
+
     }
 });
