@@ -6,10 +6,10 @@ var app = angular.module('viChatter');
 
 app.controller('RegisterPageController', RegisterPageController);
 
-RegisterPageController.$inject = ['$scope', 'NetworkProvider', 'localStorageService', '$timeout', 'AppConstants'];
+RegisterPageController.$inject = ['$scope', 'NetworkProvider', 'localStorageService', '$timeout', 'AppConstants', '$state'];
 
 
-function RegisterPageController($scope, NetworkProvider, localStorageService, $timeout, AppConstants) {
+function RegisterPageController($scope, NetworkProvider, localStorageService, $timeout, AppConstants, $state) {
 
     $scope.register = function () {
         NetworkProvider.register($scope.user).then(function (result) {
@@ -17,10 +17,9 @@ function RegisterPageController($scope, NetworkProvider, localStorageService, $t
             localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID, result.payload.userId);
             $scope.formMessage = result.message;
             $scope.result = true;
-            $timeout(function()
-            {
+            $timeout(function () {
                 $scope.formMessage = "";
-                //$state.go('dashboard');
+                $state.go('dashboard');
             }, 3000);
         }).catch(function (result) {
 
