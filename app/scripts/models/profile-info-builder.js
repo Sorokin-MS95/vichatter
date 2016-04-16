@@ -52,11 +52,11 @@ function ProfileInfoBuilder() {
 
 
     /**
-     * Message  email.
+     * ProfileInfo  email.
      * @type {string}
      * @private
      */
-    Message.prototype._email = null;
+    ProfileInfo.prototype._email = null;
 
 
     /**
@@ -84,10 +84,10 @@ function ProfileInfoBuilder() {
     };
 
     /**
-     * Returns Message  email.
+     * Returns ProfileInfo  email.
      * @returns {string}
      */
-    Message.prototype.getEmail = function () {
+    ProfileInfo.prototype.getEmail = function () {
         return this._email;
     };
 

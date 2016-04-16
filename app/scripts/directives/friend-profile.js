@@ -16,7 +16,7 @@ function vcFriendProfile() {
 
     return {
         restrict: 'EA',
-        templateUrl: 'templates/dashboard/directives/friend-profile.html',
+        templateUrl: 'app/templates/dashboard/directives/friend-profile.html',
         scope: {
             'profileInfo': '@'
         },

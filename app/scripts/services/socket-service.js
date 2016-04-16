@@ -1,12 +1,12 @@
 var app = angular.module('viChatter');
 
 
-app.factory('socket', SocketFactory);
+app.service('socket', SocketFactory);
 
 SocketFactory.inject = ['$rootScope'];
 
 function SocketFactory($rootScope) {
-    var socket = io.connect('http://localhost:4000');
+   /* var socket = io.connect('http://localhost:4000');
     return {
         on: function (eventName, callback) {
             socket.on(eventName, function () {
@@ -26,5 +26,5 @@ function SocketFactory($rootScope) {
                 });
             })
         }
-    }
+    }*/
 }

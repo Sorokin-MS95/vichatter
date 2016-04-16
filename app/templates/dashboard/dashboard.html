@@ -1,69 +1,17 @@
 <vc-menu friends-counter="friendsList.length" friend-requests-counter="friendRequestsList.length"></vc-menu>
 <div class="vc-friends-panel">
-    <vc-friend-list ng-if="isFriendsListActive" list-of-friends="{{friendsList}}"></vc-friend-list>
-    <vc-friend-requests-list ng-if="isFriendRequestListActive" list-of-requests="{{friendRequestsList}}"
+    <vc-friend-list data-ng-if="isFriendsListActive" list-of-friends="{{friendsList}}"></vc-friend-list>
+    <vc-friend-requests-list data-ng-if="isFriendRequestListActive" list-of-requests="{{friendRequestsList}}"
                              add-friend-callback="addFriend"></vc-friend-requests-list>
 </div>
 <div class="vc-profile-panel">
-
+    <vc-friend-profile data-ng-if="isFriendProfileDataActive" profile-info=""></vc-friend-profile>
+    <vc-profile data-ng-if="isMyProfileDataActive" profile-info=""></vc-profile>
 </div>
+
 <div class="vc-chat-panel">
-    <div class="video-window">
-    </div>
-    <div class="video-controls">
-        <!--<button class="vc-button video-button micro"></button>
-        <button class="vc-button video-button camera"></button>
-        <button class="vc-button video-button expand"></button>-->
-        <button class="vc-button video-button micro-crossed"></button>
-        <button class="vc-button video-button camera-crossed"></button>
-        <button class="vc-button video-button reduce"></button>
-        <button class="vc-button video-button phone red"></button>
-    </div>
-    <!-- <div class="controls-panel">
-         <div class="typing-notification-wrapper">
-             <span class="typing-notification-text"><span class="bold">Kirsten Mckellar</span> is typing...</span>
-         </div>
-         <button class="vc-button chat-controls-panel-button camera">
-         </button>
-     </div>
-     <div class="messages-wrapper">
-         <div class="message-box left">
-             <div class="icon-wrapper">
-                 <img class="icon" src="../../public/images/girl1.png"/>
-                 <span class="time">14:58</span>
-             </div>
-             <div class="message-text-wrapper">
-                 <span class="message-text">Did you ever Hang' pictures on your wall? </span>
-             </div>
-         </div>
-         <div class="message-box right">
-             <div class="icon-wrapper">
-                 <img class="icon" src="../../public/images/boy1.png"/>
-                 <span class="time">13:48</span>
-             </div>
-             <div class="message-text-wrapper">
-             <span class="message-text">Yes I did! Every Saturday! Rap Attack, Mr. Magic, Marley Marl.
-                 I even let my tape rock 'til my tape popped. Smokin' weed and bamboo, sippin' on private stock.
-                 But this was way back, when I had the red and black lumberjack with the hat to match. </span>
-             </div>
-         </div>
-         <div class="message-box left">
-             <div class="icon-wrapper">
-                 <img class="icon" src="../../public/images/girl1.png"/>
-                 <span class="time">12:48</span>
-             </div>
-             <div class="message-text-wrapper">
-                 <span class="message-text">Did you ever Hang' pictures on your wall? </span>
-             </div>
-         </div>
-     </div>
-     <div class="message-input-wrapper">
-         <input type="text" autocomplete="off" placeholder="Type your message..."/>
-         <button class="vc-button send-button"></button>
-     </div>
- </div>-->
-
-
+    <vc-chat-window data-ng-if="isMessagesListActive"></vc-chat-window>
+    <vc-video-chat-window data-ng-if="isMessagesListActive"></vc-video-chat-window>
 </div>
 
 

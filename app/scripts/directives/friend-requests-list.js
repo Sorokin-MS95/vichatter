@@ -21,7 +21,7 @@ function vcFriendRequestsList() {
 
     return {
         restrict: 'EA',
-        templateUrl: 'templates/dashboard/directives/friend-request-list.html',
+        templateUrl: 'app/templates/dashboard/directives/friend-request-list.html',
         scope: {
             'listOfRequests': '=',
             'addFriendCallback': '&'
