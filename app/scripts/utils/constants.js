@@ -9,13 +9,13 @@ var appModule =
 appModule.constant('AppConstants', {
     LOCAL_STORAGE_IDENTIFIERS: {
         USER_ID: "user_id",
-        AUTH_TOKEN: "access_token"
+        ACCESS_TOKEN: "access_token"
     },
     SOCKET_EVENTS: {
         FRONT_END_USER_LOGGED_IN_EVENT: "fe_user_logged_in",
         BACK_END_USER_LOGGED_IN_EVENT: "be_user_logged_in",
         BACK_END_USER_LOGGED_OUT_EVENT : "be_user_logged_out",
-        USER_LOGGED_OUT_EVENT: "user_logged_out",
+        FRONT_END_USER_LOGGED_OUT_EVENT : "disconnect",
         ADD_FRIEND_NOTIFICATION: 'add_friend_notification',
         USER_STATUS_NOTIFICATION: 'user_status_notification',
         MESSAGE_NOTIFICATION: 'message_notification'

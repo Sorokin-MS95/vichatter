@@ -13,7 +13,7 @@ function RegisterPageController($scope, NetworkProvider, localStorageService, $t
 
     $scope.register = function () {
         NetworkProvider.register($scope.user).then(function (result) {
-            localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.AUTH_TOKEN, result.payload.token);
+            localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.ACCESS_TOKEN, result.payload.token);
             localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID, result.payload.userId);
             $scope.formMessage = result.message;
             $scope.result = true;

@@ -12,7 +12,7 @@ function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppCon
 
     var config = {
         headers: {
-            'access_token': localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.AUTH_TOKEN)
+            'access_token': localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.ACCESS_TOKEN)
         }
     };
 
@@ -66,8 +66,10 @@ function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppCon
         return _post('/api/auth/register', params);
     }
 
-    function _logout() {
-        return _post('/api/user/logout');
+    function _logout(userId) {
+        var data = {};
+        data.userId = userId;
+        return _post('/api/auth/logout');
     }
 
     function _getFirstLoadData(userId) {

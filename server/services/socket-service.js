@@ -15,6 +15,7 @@ var SocketService = function (options) {
             socket.on('fe_user_logged_in', function (data) {
                 console.log('User with id ' + data.userId + " connected!");
                 that.connectUser(socket, data.userId);
+                console.log('Connected users: ' + connectedUsers.length);
                 UserService.login(data.userId);
                 UserService.getUserById(data.userId).then(function (user) {
                     var friends = user.friends;
@@ -35,6 +36,7 @@ var SocketService = function (options) {
                 var connection = that.getConnectionBySocket(socket);
                 if (connection) {
                     that.disconnectUser(socket);
+                    console.log('Connected users: ' + connectedUsers.length);
                     UserService.logout(connection.userId);
                     UserService.getUserById(connection.userId).then(function (user) {
                         _.each(user.friends, function (friend) {
@@ -85,14 +87,14 @@ var SocketService = function (options) {
 
     this.disconnectUser = function (socket) {
         connectedUsers = _.reject(connectedUsers, function (connection) {
-            return connection.socket.id === socket.id;
+            return connection.socket.id == socket.id;
         })
     }
 
     this.getConnectionBySocket = function (socket) {
 
         var connection = _.find(connectedUsers, function (oneConnection) {
-            return oneConnection.socket.id === socket.id;
+            return oneConnection.socket.id == socket.id;
         });
         return connection;
     }

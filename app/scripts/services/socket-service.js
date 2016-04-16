@@ -35,6 +35,11 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
         });
 
 
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END_USER_LOGGED_OUT_EVENT, function (e, data) {
+            socketConnection.disconnect();
+        })
+
+
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.USER_STATUS_NOTIFICATION, function (e, data) {
             /*send notification on server*/
         });
@@ -48,27 +53,6 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
         });
     }
 
-    /* var socket = io.connect('http://localhost:4000');
-     return {
-     on: function (eventName, callback) {
-     socket.on(eventName, function () {
-     var args = arguments;
-     $rootScope.$apply(function () {
-     callback.apply(socket, args);
-     });
-     });
-     },
-     emit: function (eventName, data, callback) {
-     socket.emit(eventName, data, function () {
-     var args = arguments;
-     $rootScope.$apply(function () {
-     if (callback) {
-     callback.apply(socket, args);
-     }
-     });
-     })
-     }
-     }*/
     return {
         initialize: _initialize
     }

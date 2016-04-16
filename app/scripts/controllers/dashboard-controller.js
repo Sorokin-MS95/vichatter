@@ -3,10 +3,10 @@ var app = angular.module('viChatter');
 
 app.controller('DashboardController', DashboardController);
 
-DashboardController.$inject = ['$scope', 'SocketService', 'localStorageService', 'AuthenticationService', 'NetworkProvider', 'BuildObjectsService', 'EventsService', 'AppConstants'];
+DashboardController.$inject = ['$scope', 'SocketService', 'localStorageService', 'AuthenticationService', 'NetworkProvider', 'BuildObjectsService', 'EventsService', 'AppConstants', '$state', '$location'];
 
 
-function DashboardController($scope, SocketService, localStorageService, AuthenticationService, NetworkProvider, BuildObjectsService, EventsService, AppConstants) {
+function DashboardController($scope, SocketService, localStorageService, AuthenticationService, NetworkProvider, BuildObjectsService, EventsService, AppConstants, $state, $location) {
 
     $scope.friendsList = [
         {
@@ -51,7 +51,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         })
 
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_OUT_EVENT, function(e, data){
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_OUT_EVENT, function (e, data) {
             console.log(data);
             //it worked
         })
@@ -116,6 +116,12 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.isMessagesListActive = false;
             $scope.isVideoChatActive = true;
         });
+
+        EventsService.subscribe(AppConstants.UI_EVENTS.LOGOUT, function (e, data) {
+            EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END_USER_LOGGED_OUT_EVENT);
+            AuthenticationService.clearUserData();
+            $state.go('home');
+        })
     }
 
     $scope.sendMessage = function (message) {
