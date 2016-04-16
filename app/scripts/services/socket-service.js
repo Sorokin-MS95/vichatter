@@ -1,7 +1,7 @@
 var app = angular.module('viChatter');
 
 
-app.factory('socket', SocketFactory);
+app.service('socket', SocketFactory);
 
 SocketFactory.inject = ['$rootScope'];
 

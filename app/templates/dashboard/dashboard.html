@@ -1,16 +1,17 @@
 <vc-menu friends-counter="friendsList.length" friend-requests-counter="friendRequestsList.length"></vc-menu>
 <div class="vc-friends-panel">
-    <vc-friend-list ng-if="isFriendsListActive" list-of-friends="{{friendsList}}"></vc-friend-list>
-    <vc-friend-requests-list ng-if="isFriendRequestListActive" list-of-requests="{{friendRequestsList}}"
+    <vc-friend-list data-ng-if="isFriendsListActive" list-of-friends="{{friendsList}}"></vc-friend-list>
+    <vc-friend-requests-list data-ng-if="isFriendRequestListActive" list-of-requests="{{friendRequestsList}}"
                              add-friend-callback="addFriend"></vc-friend-requests-list>
 </div>
 <div class="vc-profile-panel">
-    <vc-friend-profile ng-if="" profile-info=""></vc-friend-profile>
-    <vc-profile ng-if="" profile-info=""></vc-profile>
+    <vc-friend-profile data-ng-if="isFriendProfileDataActive" profile-info=""></vc-friend-profile>
+    <vc-profile data-ng-if="isMyProfileDataActive" profile-info=""></vc-profile>
 </div>
+
 <div class="vc-chat-panel">
-    <vc-chat-window></vc-chat-window>
-    <vc-video-chat-window></vc-video-chat-window>
+    <vc-chat-window data-ng-if="isMessagesListActive"></vc-chat-window>
+    <vc-video-chat-window data-ng-if="isMessagesListActive"></vc-video-chat-window>
 </div>
 
 

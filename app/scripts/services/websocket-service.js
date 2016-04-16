@@ -4,7 +4,7 @@
 var app = angular.module('viChatter');
 
 
-app.factory('websocket', WebsocketFactory);
+app.service('websocket', WebsocketFactory);
 
 WebsocketFactory.inject = ['$rootScope'];
 

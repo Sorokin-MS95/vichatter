@@ -23,7 +23,8 @@ function DashboardController($scope, socket, localStorageService, Authentication
 
 
     (function initialize() {
-        $scope.activePageNumber = $scope.firstPageNumber;
+        subscribeOnSocketEvents();
+        subscribeOnUiEvents();
         loadFriendsList();
         loadFriendRequestsList();
     })();
@@ -85,7 +86,7 @@ function DashboardController($scope, socket, localStorageService, Authentication
     }
 
     $scope.logout = function () {
-        NetworkProvider.logout().then(function() {
+        NetworkProvider.logout().then(function () {
             AuthenticationService.clearUserData();
             $location.path('/login');
         });
@@ -97,16 +98,7 @@ function DashboardController($scope, socket, localStorageService, Authentication
 
     function loadFriendsList() {
 
-        NetworkProvider.getAllAntennas(data).then(function (response) {
-            if (response.success) {
-                var antennasData = response.payload.antennas;
-                $scope.buildItems(antennasData, BuildObjectsService.AntennaBuilder);
-                $scope.countOfAllElements = response.payload.count;
 
-            } else {
-                $log.debug(response);
-            }
-        });
     }
 
     function loadFriendRequestsList() {
@@ -126,16 +118,16 @@ function DashboardController($scope, socket, localStorageService, Authentication
 
     function loadMessages() {
 
-       /* NetworkProvider.getAllAntennas(data).then(function (response) {
-            if (response.success) {
-                var antennasData = response.payload.antennas;
-                $scope.buildItems(antennasData, BuildObjectsService.AntennaBuilder);
-                $scope.countOfAllElements = response.payload.count;
+        /* NetworkProvider.getAllAntennas(data).then(function (response) {
+         if (response.success) {
+         var antennasData = response.payload.antennas;
+         $scope.buildItems(antennasData, BuildObjectsService.AntennaBuilder);
+         $scope.countOfAllElements = response.payload.count;
 
-            } else {
-                $log.debug(response);
-            }
-        });*/
+         } else {
+         $log.debug(response);
+         }
+         });*/
     }
 
     /*console.log('init!');
