@@ -8,15 +8,6 @@ DashboardController.$inject = ['$scope', 'SocketService', 'localStorageService',
 
 function DashboardController($scope, SocketService, localStorageService, AuthenticationService, NetworkProvider, BuildObjectsService, EventsService, AppConstants, $state, $location) {
 
-    $scope.friendsList = [
-        {
-            id: 'asdasdasd',
-            first_name: 'asdasdasdasd',
-            last_name: 'asdasd',
-            email: 'asdasd',
-            nickname: 'asdasdasd'
-        }
-    ];
     $scope.friendRequestsList = [];
     $scope.myProfileData = null;
     $scope.friendProfileData = null;
@@ -32,15 +23,18 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
     (function initialize() {
         SocketService.initialize();
-        notifyOnlineStatus();
+        notifyFriends();
         subscribeOnSocketEvents();
         subscribeOnUiEvents();
         loadFriendsList();
+
+
+
         loadFriendRequestsList();
     })();
 
 
-    function notifyOnlineStatus() {
+    function notifyFriends() {
         EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END_USER_LOGGED_IN_EVENT);
     }
 
@@ -128,19 +122,15 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         //WEBSOCKET
     }
 
-    $scope.logout = function () {
-        NetworkProvider.logout().then(function () {
-            AuthenticationService.clearUserData();
-            $location.path('/login');
-        });
-    }
 
     $scope.updateProfile = function (profileData) {
 
     }
 
     function loadFriendsList() {
-        $scope.friendsList = BuildObjectsService.buildFriendListItems($scope.friendsList);
+        NetworkProvider.getUserFriends().then(function (result) {
+            $scope.friendsList = BuildObjectsService.buildFriendListItems(result.payload.friend_list.list);
+        });
     }
 
     function loadFriendRequestsList() {
@@ -155,27 +145,11 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
     function loadFriendProfileData() {
 
-
     }
+
 
     function loadMessages() {
 
-        /* NetworkProvider.getAllAntennas(data).then(function (response) {
-         if (response.success) {
-         var antennasData = response.payload.antennas;
-         $scope.buildItems(antennasData, BuildObjectsService.AntennaBuilder);
-         $scope.countOfAllElements = response.payload.count;
-
-         } else {
-         $log.debug(response);
-         }
-         });*/
     }
-
-    /*console.log('init!');
-     socket.emit('user_logged_in', {
-     userId : localStorageService.get('user_id')
-     });*/
-
 
 }
