@@ -12,6 +12,8 @@ appModule.constant('AppConstants', {
         AUTH_TOKEN: "access_token"
     },
     SOCKET_EVENTS: {
+        USER_LOGGED_IN_EVENT : "user_logged_in",
+        USER_LOGGED_OUT_EVENT : "user_logged_out",
         ADD_FRIEND_NOTIFICATION: 'add_friend_notification',
         USER_STATUS_NOTIFICATION: 'user_status_notification',
         MESSAGE_NOTIFICATION: 'message_notification'

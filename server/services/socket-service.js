@@ -10,12 +10,11 @@ var SocketService = function (options) {
 
     this.init = function () {
         this.io.on('connection', function (socket) {
+            console.log('New socket ' + socket.id);
             socket.on('user_logged_in', function (data) {
-                that.connectUser(socket, data.userId);
                 console.log('User with id ' + data.userId + " connected!");
+                that.connectUser(socket, data.userId);
                 UserService.login(data.userId);
-                //notify users that i'm online
-
                 _.each(UserService.getUserFriendsIds(data.userId), function (oneFriendId) {
                     var friendConnection = that.getConnectionByUserId(oneFriendId);
                     if (friendConnection) {
@@ -24,9 +23,10 @@ var SocketService = function (options) {
                         })
                     }
                 });
-
             });
+
             socket.on('disconnect', function () {
+                console.log('Socket ' + socket.id + " disconnected");
                 var connection = that.getConnectionBySocket(socket);
                 if (connection) {
                     that.disconnectUser(socket);
@@ -43,31 +43,29 @@ var SocketService = function (options) {
 
                     })
                 }
-            })
-
-            socket.on('offer_friendship', function (data) {
-                FriendService.offerFriendship(data.currentUserId, data.userId);
-                console.log(data.currentUserId);
-                console.log(data.userId);
-                var userConnection = that.getConnectionByUserId(data.userId);
-                if (userConnection) {
-                    userConnection.socket.emit("friendship_request", {
-                        userId: data.currentUserId
-                    });
-                }
             });
 
-            socket.on('accept_friendship', function (data) {
-                FriendService.addToFriends(data.currentUserId, data.userId);
-                var userConnection = that.getConnectionByUserId(data.userId);
-                if (userConnection) {
-                    userConnection.socket.emit("friendship_request_accepted", {
-                        userId: data.currentUserId
-                    });
-                }
-            })
+            /*socket.on('offer_friendship', function (data) {
+             FriendService.offerFriendship(data.currentUserId, data.userId);
+             console.log(data.currentUserId);
+             console.log(data.userId);
+             var userConnection = that.getConnectionByUserId(data.userId);
+             if (userConnection) {
+             userConnection.socket.emit("friendship_request", {
+             userId: data.currentUserId
+             });
+             }
+             });*/
 
-            //todo decline friendship
+            /*socket.on('accept_friendship', function (data) {
+             FriendService.addToFriends(data.currentUserId, data.userId);
+             var userConnection = that.getConnectionByUserId(data.userId);
+             if (userConnection) {
+             userConnection.socket.emit("friendship_request_accepted", {
+             userId: data.currentUserId
+             });
+             }
+             })*/
 
         });
     }

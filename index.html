@@ -20,8 +20,8 @@
 </head>
 <body class="vc-body-wrapper">
 
-<div class="vc-page-wrapper" ng-app="viChatter" data-ui-view></div>
-
+<div class="vc-page-wrapper" ng-app="viChatter" ui-view></div>
+<script src="bower_components/socket.io-client/socket.io.js"></script>
 <script src="bower_components/jquery/dist/jquery.js"></script>
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/ng-dialog/js/ngDialog.js"></script>
@@ -55,8 +55,6 @@
 <script src="app/scripts/services/build-objects-service.js"></script>
 <script src="app/scripts/services/response-builder.js"></script>
 <script src="app/scripts/services/events-service.js"></script>
-<script src="app/scripts/services/socket-service.js"></script>
-<script src="app/scripts/services/websocket-service.js"></script>
 
 <script src="app/scripts/models/friend-list-item-builder.js"></script>
 <script src="app/scripts/models/friend-request-item-builder.js"></script>
