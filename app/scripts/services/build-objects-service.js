@@ -4,9 +4,73 @@
 angular.module('viChatter')
     .service('BuildObjectsService', BuildObjectsService);
 
-BuildObjectsService.$inject = ['FriendListItemBuilder', 'FriendRequestItemBuilder', 'LoginDataBuilder', 'MessageBuilder', 'ProfileInfoBuilder', 'RegistrationDataBuilder'];
+BuildObjectsService.$inject = ['FriendListItemBuilder', 'MenuItemBuilder', 'FriendRequestItemBuilder', 'LoginDataBuilder', 'MessageBuilder', 'ProfileInfoBuilder', 'RegistrationDataBuilder'];
 
-function BuildObjectsService(FriendListItemBuilder, FriendRequestItemBuilder, LoginDataBuilder, MessageBuilder, ProfileInfoBuilder, RegistrationDataBuilder) {
+function BuildObjectsService(FriendListItemBuilder, MenuItemBuilder, FriendRequestItemBuilder, LoginDataBuilder, MessageBuilder, ProfileInfoBuilder, RegistrationDataBuilder) {
+
+
+    var _buildItems = function (itemsData, builder) {
+        if (angular.isArray(itemsData)) {
+            var items = [];
+            angular.forEach(itemsData, function (itemData) {
+                var item = builder.create(itemData);
+                items.push(item);
+            });
+
+        }
+
+        return items;
+    };
+
+    var _getItem = function (itemId, itemsList) {
+        return _.find(itemsList, function (item) {
+            return item.getItem().getId() === itemId;
+        });
+    };
+
+    var _removeItem = function (itemId, itemsList) {
+        var items = itemsList;
+        var index = _.findIndex(items, function (item) {
+            return item.getItem().getId() === itemId;
+        });
+        if (index >= 0) {
+            items.splice(index, 1);
+        }
+
+        return items;
+    };
+
+    var _addItem = function (item, itemsList) {
+        itemsList.push(item);
+        return itemsList;
+    };
+
+    var _replaceItem = function (item, itemsList) {
+            var items = itemsList;
+            var index = _.findIndex(items, function (o) {
+                return o.getItem().getId() === item.getId();
+            });
+            if (index >= 0) {
+                items[index] = item;
+
+            }
+            return itemsList;
+        }
+        ;
+
+    function _buildMenuItem(menuItemData) {
+        return MenuItemBuilder.create(menuItemData);
+    }
+
+    function _buildMenuItems(menuItemDataList) {
+        var results = [];
+        if (angular.isArray(menuItemDataList)) {
+            angular.forEach(menuItemDataList, function (menuItem) {
+                results.push(MenuItemBuilder.create(menuItem));
+            });
+        }
+        return results;
+    }
 
     function _buildFriendListItem(friendListItemData) {
         return FriendListItemBuilder.create(friendListItemData);
@@ -63,6 +127,12 @@ function BuildObjectsService(FriendListItemBuilder, FriendRequestItemBuilder, Lo
     }
 
     return {
+        buildItems: _buildItems,
+        addItems: _addItem,
+        getItem: _getItem,
+        replaceItem: _replaceItem,
+        removeItem: _replaceItem,
+
         buildRegistrationData: _buildRegistrationData,
         buildProfileInfo: _buildProfileInfo,
         buildMessages: _buildMessages,
@@ -71,7 +141,9 @@ function BuildObjectsService(FriendListItemBuilder, FriendRequestItemBuilder, Lo
         buildFriendRequestItems: _buildFriendRequestItems,
         buildFriendRequestItem: _buildFriendRequestItem,
         buildFriendListItems: _buildFriendListItems,
-        buildFriendListItem: _buildFriendListItem
+        buildFriendListItem: _buildFriendListItem,
+        buildMenuItem: _buildMenuItem,
+        buildMenuItems: _buildMenuItems
     }
 
 }

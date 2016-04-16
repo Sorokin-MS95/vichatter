@@ -3,19 +3,16 @@ var app = angular.module('viChatter');
 
 app.controller('DashboardController', DashboardController);
 
-DashboardController.$inject = ['$scope', 'socket', 'localStorageService', 'AuthenticationService', 'NetworkService', 'BuildObjectsService', 'EventsService', 'AppConstants'];
+DashboardController.$inject = ['$scope', 'socket', 'localStorageService', 'AuthenticationService', 'NetworkProvider', 'BuildObjectsService', 'EventsService', 'AppConstants'];
 
 
-function DashboardController($scope, socket, localStorageService, AuthenticationService, NetworkService, BuildObjectsService, EventsService, AppConstants) {
-
-    $controller('BaseController', {$scope: $scope});
+function DashboardController($scope, socket, localStorageService, AuthenticationService, NetworkProvider, BuildObjectsService, EventsService, AppConstants) {
 
     $scope.friendsList = [];
     $scope.friendRequestsList = [];
     $scope.myProfileData = null;
     $scope.friendProfileData = null;
     $scope.messagesList = [];
-
 
     $scope.isFriendRequestListActive = null;
     $scope.isFriendsListActive = null;
@@ -115,7 +112,7 @@ function DashboardController($scope, socket, localStorageService, Authentication
 
     function loadMyProfileData() {
 
-        NetworkProvider.getAllAntennas(data).then(function (response) {
+        NetworkProvider.getMy(data).then(function (response) {
             if (response.success) {
                 var antennasData = response.payload.antennas;
                 $scope.buildItems(antennasData, BuildObjectsService.AntennaBuilder);
