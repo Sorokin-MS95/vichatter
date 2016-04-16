@@ -1,28 +1,25 @@
 <div class="vc-menu-panel">
     <div class="menu-header">
         <span class="menu-header-title">vi<span class="bold">chatter</span></span>
-        <div class="add-friend-button-wrapper">
-            <span class="indicator active"></span>
-            <button class="vc-button add-friend-button"></button>
+        <div  class="add-friend-button-wrapper">
+            <span class="indicator" data-ng-class="{true: 'active', false: ''}[friendRequestsCounter>0]"></span>
+            <button class="vc-button add-friend-button" data-ng-click="clickOnAddFriendMenu()"></button>
         </div>
     </div>
     <div class="menu-body">
         <div class="menu-section">
-            <ul class="menu-list">
-                <li class="menu-item selected">
-                    <span class="menu-item-title">Friends</span>
-                    <span class="menu-item-counter">53</span>
-                </li>
-                <li class="menu-item">
-                    <span class="menu-item-title">My profile</span>
-                    <span class="menu-item-counter"></span>
+            <ul class="menu-list" data-ng-if="item in menuItems">
+                <li class="menu-item" data-ng-class="{true: 'selected', false: ''}[isMenuItemSelected(item)]"
+                    data-ng-click="selectMenuItem(item)">
+                    <span class="menu-item-title" data-ng-bind="item.getName()">My profile</span>
+                    <span ng-if="item.getCounter() != null" class="menu-item-counter"></span>
                 </li>
             </ul>
         </div>
         <div class="menu-section">
             <ul class="menu-list">
                 <li class="menu-item">
-                    <span class="menu-item-title">Exit</span>
+                    <span class="menu-item-title" data-ng-click="clickLogout()">Exit</span>
                 </li>
             </ul>
         </div>

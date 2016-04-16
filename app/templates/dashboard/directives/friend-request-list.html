@@ -2,7 +2,7 @@
     <span>Friend list requests</span>
 </div>
 <div class="friends-list-wrapper">
-    <ul class="friends-list" data-ng-repeat="friend in items">
+    <ul class="friends-list" data-ng-repeat="friend in listOfRequests">
         <li class="friend-item no-message">
             <div class="online-status" data-ng-class="{true: 'active', false: ''}[friend.getOnline()]"></div>
             <div class="friend-icon-wrapper">

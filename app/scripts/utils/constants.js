@@ -22,6 +22,8 @@ appModule.constant('AppConstants', {
         SHOW_MY_PROFILE: 'show_my_profile',
         SHOW_CHAT_WINDOW: 'show_chat_window',
         SHOW_VIDEO_CHAT_WINDOW: 'show_video_chat_window',
-        SHOW_FRIEND_PROFILE: 'show_friend_profile'
+        SHOW_FRIEND_PROFILE: 'show_friend_profile',
+        SHOW_FRIENDS_REQUESTS_LIST: 'show_friends_requests_list',
+        LOGOUT: 'logout'
     }
 });

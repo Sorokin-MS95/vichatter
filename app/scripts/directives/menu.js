@@ -9,23 +9,59 @@ var app = angular.module('viChatter');
 
 app.directive('vcMenu', vcMenu);
 
+vcMenu.$inject = ['EventService', 'AppConstants', 'BuildObjectsService'];
 
 
-function vcMenu() {
+function vcMenu(EventsService, AppConstants, BuildObjectsService) {
 
     function link(scope) {
 
-        scope.addFriend = function (id) {
-            scope.addFriendCallback(id);
+        var menuStructure = [
+            {
+                id: 1,
+                name: "Friends",
+                counter: scope.friendsCounter,
+                event_name: AppConstants.UI_EVENTS.SHOW_FRIENDS_LIST
+
+            },
+            {
+                id: 2,
+                name: "My profile",
+                counter: null,
+                event_name: AppConstants.UI_EVENTS.SHOW_MY_PROFILE
+            }
+        ];
+        scope.menuItems = BuildObjectsService.buildMenuItems(menuStructure);
+
+        scope.selectedMenuItem = null;
+
+        scope.isMenuItemSelected = function (menuItem) {
+            return scope.selectedMenuItem = menuItem;
         }
+
+        scope.selectMenuItem = function (menuItem) {
+            scope.selectedMenuItem = menuItem;
+            EventsService.notify(menuItem.getEventName());
+        };
+
+        scope.clickOnAddFriendMenu = function () {
+            if (scope.friendRequestsCounter > 0) {
+                EventsService.notify(AppConstants.UI_EVENTS.SHOW_FRIENDS_REQUESTS_LIST);
+            }
+        }
+
+        scope.clickLogout = function () {
+            EventsService.notify(AppConstants.UI_EVENTS.LOGOUT);
+        }
+
     }
 
     return {
         restrict: 'EA',
-        templateUrl: 'templates/dashboard/directives/friend-request-list.html',
+        templateUrl: 'templates/dashboard/directives/menu.html',
         scope: {
-            'listOfRequests': '=',
-            'addFriendCallback': '&'
+            'friendsCounter': '=',
+            'friendRequestsCounter': '='
         },
         link: link
     }

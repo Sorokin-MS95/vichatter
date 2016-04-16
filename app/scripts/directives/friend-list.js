@@ -23,7 +23,6 @@ function vcFriendList(EventsService, AppConstants) {
             scope.selectedFriendId = friend.getId();
             EventsService.notify(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, friend.getId());
         }
-
     }
 
     return {
