@@ -24,9 +24,8 @@ function DashboardController($scope, socket, localStorageService, Authentication
 
     (function initialize() {
         $scope.activePageNumber = $scope.firstPageNumber;
-        loadAntennas(
-            $scope.firstPageNumber, $scope.numberOfElementsOnPage);
-
+        loadFriendsList();
+        loadFriendRequestsList();
     })();
 
     function subscribeOnSocketEvents() {
@@ -46,39 +45,53 @@ function DashboardController($scope, socket, localStorageService, Authentication
     function subscribeOnUiEvents() {
 
         EventsService.subscribe(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, function (e, data) {
-
-        });
-
-        EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_CHAT_WINDOW, function (e, data) {
-
+            loadMessages(data.id);
+            $scope.isMessagesListActive = true;
+            $scope.isVideoChatActive = false;
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_FRIEND_PROFILE, function (e, data) {
-
+            loadFriendProfileData();
+            $scope.isFriendProfileDataActive = true;
+            $scope.isMyProfileDataActive = false;
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_FRIENDS_LIST, function (e, data) {
+            loadFriendsList();
+            $scope.isFriendsListActive = true;
+            $scope.isFriendRequestListActive = false;
+        });
 
+        EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_FRIENDS_REQUESTS_LIST, function (e, data) {
+            loadFriendRequestsList();
+            $scope.isFriendsListActive = false;
+            $scope.isFriendRequestListActive = true;
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_MY_PROFILE, function (e, data) {
-
+            loadMyProfileData();
+            $scope.isMyProfileDataActive = true;
+            $scope.isFriendProfileDataActive = false;
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_VIDEO_CHAT_WINDOW, function (e, data) {
-
+            $scope.isMessagesListActive = false;
+            $scope.isVideoChatActive = true;
         });
     }
 
-    $scope.sendMessage = function(message){
-
+    $scope.sendMessage = function (message) {
+        //WEBSOCKET
     }
 
-    $scope.logout = function(message){
-
+    $scope.logout = function () {
+        NetworkProvider.logout().then(function() {
+            AuthenticationService.clearUserData();
+            $location.path('/login');
+        });
     }
 
-    $scope.updateProfile = function(profileData){
+    $scope.updateProfile = function (profileData) {
 
     }
 
@@ -98,49 +111,22 @@ function DashboardController($scope, socket, localStorageService, Authentication
 
     function loadFriendRequestsList() {
 
-        NetworkProvider.getAllAntennas(data).then(function (response) {
-            if (response.success) {
-                var antennasData = response.payload.antennas;
-                $scope.buildItems(antennasData, BuildObjectsService.AntennaBuilder);
-                $scope.countOfAllElements = response.payload.count;
 
-            } else {
-                $log.debug(response);
-            }
-        });
     }
 
     function loadMyProfileData() {
 
-        NetworkProvider.getMy(data).then(function (response) {
-            if (response.success) {
-                var antennasData = response.payload.antennas;
-                $scope.buildItems(antennasData, BuildObjectsService.AntennaBuilder);
-                $scope.countOfAllElements = response.payload.count;
 
-            } else {
-                $log.debug(response);
-            }
-        });
     }
 
     function loadFriendProfileData() {
 
-        NetworkProvider.getAllAntennas(data).then(function (response) {
-            if (response.success) {
-                var antennasData = response.payload.antennas;
-                $scope.buildItems(antennasData, BuildObjectsService.AntennaBuilder);
-                $scope.countOfAllElements = response.payload.count;
 
-            } else {
-                $log.debug(response);
-            }
-        });
     }
 
-    function loadFriendProfileData() {
+    function loadMessages() {
 
-        NetworkProvider.getAllAntennas(data).then(function (response) {
+       /* NetworkProvider.getAllAntennas(data).then(function (response) {
             if (response.success) {
                 var antennasData = response.payload.antennas;
                 $scope.buildItems(antennasData, BuildObjectsService.AntennaBuilder);
@@ -149,7 +135,7 @@ function DashboardController($scope, socket, localStorageService, Authentication
             } else {
                 $log.debug(response);
             }
-        });
+        });*/
     }
 
     /*console.log('init!');
@@ -157,9 +143,5 @@ function DashboardController($scope, socket, localStorageService, Authentication
      userId : localStorageService.get('user_id')
      });*/
 
-    /*NetworkProvider.logout().then(function() {
-     AuthenticationService.clearUserData();
-     $location.path('/login');
-     });*/
 
 }

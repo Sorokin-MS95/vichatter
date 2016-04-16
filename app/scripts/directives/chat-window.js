@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var app = angular.module('antennaApp');
+var app = angular.module('viChatter');
 
 app.directive('vcChatWindow', vcChatWindow);
 
@@ -15,9 +15,8 @@ function vcChatWindow() {
 
     return {
         restrict: 'EA',
-        templateUrl: 'templates/dashboard/directives/chat-window.html',
+        templateUrl: 'app/templates/dashboard/directives/chat-window.html',
         scope: {
-            'activePage': '='
         },
         link: link
     }

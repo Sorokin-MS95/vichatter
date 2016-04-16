@@ -9,7 +9,7 @@ var app = angular.module('viChatter');
 
 app.directive('vcMenu', vcMenu);
 
-vcMenu.$inject = ['EventService', 'AppConstants', 'BuildObjectsService'];
+vcMenu.$inject = ['EventsService', 'AppConstants', 'BuildObjectsService'];
 
 
 function vcMenu(EventsService, AppConstants, BuildObjectsService) {
@@ -58,7 +58,7 @@ function vcMenu(EventsService, AppConstants, BuildObjectsService) {
 
     return {
         restrict: 'EA',
-        templateUrl: 'templates/dashboard/directives/menu.html',
+        templateUrl: 'app/templates/dashboard/directives/menu.html',
         scope: {
             'friendsCounter': '=',
             'friendRequestsCounter': '='

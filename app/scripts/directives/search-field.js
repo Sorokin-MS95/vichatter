@@ -11,35 +11,13 @@ function vcSearchField() {
 
     function link(scope) {
 
-        scope.activePage = null;
-        scope.pageCounters = [];
-        scope.isPreviousPageControlActive = true;
-        scope.isNextPageControlActive = true;
-
-        var getAllPagesCount = function () {
-            return Math.ceil(scope.countOfAllElements / scope.numberOfElementsOnPage);
-        }
-
-        scope.isPageControlActive = function (pageCounter) {
-            return pageCounter == scope.activePage;
-        }
-
-
-
-        scope.$watch('countOfAllElements', function () {
-            updatePageCounters();
-        });
     }
 
     return {
         restrict: 'EA',
-        templateUrl: 'templates/web/common/tn-pagination.html',
+        templateUrl: 'app/templates/dashboard/directives/search-field.html',
         scope: {
-            'numberOfElementsOnPage': '@',
-            'countOfAllElements': '@',
-            'numberOfPagesOnScreen': "@",
-            'callbackToLoadElements': "&",
-            'activePage': '='
+            'callbackToLoadElements': "&"
         },
         link: link
     }
