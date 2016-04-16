@@ -27,35 +27,40 @@ viChatter.config(
                 .state('login', {
                     url: '/login',
                     controller: 'LoginPageController',
-                    templateUrl: 'app/templates/auth/login.html'
+                    templateUrl: 'app/templates/auth/login.html',
+                    authenticate: false
                 })
                 .state('register', {
                     url: '/register',
                     controller: 'RegisterPageController',
-                    templateUrl: 'app/templates/auth/registration.html'
+                    templateUrl: 'app/templates/auth/registration.html',
+                    authenticate: false
                 })
                 .state('home', {
                     url: '/',
                     controller: 'LandingPageController',
-                    templateUrl: 'app/templates/home/home.html'
+                    templateUrl: 'app/templates/home/home.html',
+                    authenticate: false
                 })
                 .state('dashboard', {
                     url: '/dashboard',
                     controller: 'DashboardController',
-                    templateUrl: 'app/templates/dashboard/dashboard.html'/*,
-                    resolve: {authenticated: authenticate}*/
+                    templateUrl: 'app/templates/dashboard/dashboard.html',
+                    authenticate: true
                 });
-
-            function authenticate($q, AuthenticationService, $state) {
-                if (AuthenticationService.isAuthenticated()) {
-                    $q.when();
-                } else {
-                    AuthenticationService.logout();
-                    $state.go('login');
-                }
-            }
-
-
             $urlRouterProvider.otherwise('/');
-        }])
-;
+        }]);
+
+
+viChatter.run(function ($rootScope, $state, AuthenticationService) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        if (toState.authenticate && !AuthenticationService.isAuthenticated()) {
+            event.preventDefault();
+            AuthenticationService.clearUserData();
+            $state.go('home');
+        } else if (!toState.authenticate && AuthenticationService.isAuthenticated()) {
+            event.preventDefault();
+            $state.go('dashboard');
+        }
+    });
+});
