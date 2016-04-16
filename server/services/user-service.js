@@ -25,20 +25,6 @@ var logout = function (userId) {
     })
 }
 
-var getUserFriendsIds = function (userId) {
-    var result = [];
-    User.findById(userId, function (err, user) {
-        if (err) {
-            throw new Error;
-        } else {
-            _.each(user.friends, function (friend) {
-                result.push(friend.userId);
-            });
-            return result;
-        }
-    })
-};
-
 
 var getUserById = function (userId) {
     return User.findById(userId);
@@ -48,6 +34,5 @@ var getUserById = function (userId) {
 module.exports = {
     login: login,
     logout: logout,
-    getUserFriendsIds: getUserFriendsIds,
     getUserById: getUserById
 }

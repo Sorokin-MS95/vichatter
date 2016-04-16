@@ -53,14 +53,14 @@ viChatter.config(
 
 
 viChatter.run(function ($rootScope, $state, AuthenticationService) {
-    /*$rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-     if (toState.authenticate && !AuthenticationService.isAuthenticated()) {
-     event.preventDefault();
-     AuthenticationService.clearUserData();
-     $state.go('home');
-     } else if (!toState.authenticate && AuthenticationService.isAuthenticated()) {
-     event.preventDefault();
-     $state.go('dashboard');
-     }
-     });*/
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        if (toState.authenticate && !AuthenticationService.isAuthenticated()) {
+            event.preventDefault();
+            AuthenticationService.clearUserData();
+            $state.go('home');
+        } else if (!toState.authenticate && AuthenticationService.isAuthenticated()) {
+            event.preventDefault();
+            $state.go('dashboard');
+        }
+    });
 });

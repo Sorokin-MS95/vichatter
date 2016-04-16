@@ -11,18 +11,23 @@ var SocketService = function (options) {
     this.init = function () {
         this.io.on('connection', function (socket) {
             console.log('New socket ' + socket.id);
-            socket.on('user_logged_in', function (data) {
+
+            socket.on('fe_user_logged_in', function (data) {
                 console.log('User with id ' + data.userId + " connected!");
                 that.connectUser(socket, data.userId);
                 UserService.login(data.userId);
-                _.each(UserService.getUserFriendsIds(data.userId), function (oneFriendId) {
-                    var friendConnection = that.getConnectionByUserId(oneFriendId);
-                    if (friendConnection) {
-                        friendConnection.socket.emit('user_logged_in', {
-                            userId: data.userId
-                        })
-                    }
-                });
+                UserService.getUserById(data.userId).then(function (user) {
+                    var friends = user.friends;
+                    _.each(friends, function (friend) {
+                        var friendConnection = that.getConnectionByUserId(friend.userId);
+                        if (friendConnection) {
+                            console.log('Sending message to friend');
+                            friendConnection.socket.emit('be_user_logged_in', {
+                                userId: data.userId
+                            })
+                        }
+                    })
+                })
             });
 
             socket.on('disconnect', function () {
@@ -31,17 +36,17 @@ var SocketService = function (options) {
                 if (connection) {
                     that.disconnectUser(socket);
                     UserService.logout(connection.userId);
-                    //notify friends that i'm offline
-                    var friends = UserService.getUserFriendsIds(connection.userId);
-                    _.each(friends, function (oneFriendId) {
-                        var friendConnection = that.getConnectionByUserId(oneFriendId);
-                        if (friendConnection) {
-                            friendConnection.socket.emit('user_logged_out', {
-                                userId: connection.userId
-                            });
-                        }
+                    UserService.getUserById(connection.userId).then(function (user) {
+                        _.each(user.friends, function (friend) {
+                            var friendConnection = that.getConnectionByUserId(friend.userId);
+                            if (friendConnection) {
+                                friendConnection.socket.emit('be_user_logged_out', {
+                                    userId: connection.userId
+                                });
+                            }
 
-                    })
+                        })
+                    });
                 }
             });
 
@@ -85,6 +90,7 @@ var SocketService = function (options) {
     }
 
     this.getConnectionBySocket = function (socket) {
+
         var connection = _.find(connectedUsers, function (oneConnection) {
             return oneConnection.socket.id === socket.id;
         });
@@ -93,7 +99,7 @@ var SocketService = function (options) {
 
     this.getConnectionByUserId = function (userId) {
         var connection = _.find(connectedUsers, function (oneConnection) {
-            return oneConnection.userId === userId;
+            return oneConnection.userId == userId;
         });
         return connection;
     }

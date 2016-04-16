@@ -3,20 +3,38 @@ var app = angular.module('viChatter');
 
 app.service('SocketService', SocketFactory);
 
-SocketFactory.inject = ['$rootScope', 'EventsService', 'AppConstants'];
+SocketFactory.inject = ['$rootScope', 'EventsService', 'AppConstants', 'localStorageService'];
 
-function SocketFactory($rootScope, EventsService, AppConstants) {
+function SocketFactory($rootScope, EventsService, AppConstants, localStorageService) {
 
     var socketConnection = null;
 
     var _initialize = function () {
-        /*initialization of socket*/
+        socketConnection = io.connect('localhost:4000');
         subscribeOnAllNotifications();
-
+        initializeNotifySocketEvents();
     };
 
 
+    function initializeNotifySocketEvents() {
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_IN_EVENT, function (data) {
+            EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_IN_EVENT, data);
+        });
+
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_OUT_EVENT, function (data) {
+            EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_OUT_EVENT, data);
+        })
+    }
+
+
     function subscribeOnAllNotifications() {
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END_USER_LOGGED_IN_EVENT, function (e, data) {
+            socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END_USER_LOGGED_IN_EVENT, {
+                userId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID)
+            })
+        });
+
+
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.USER_STATUS_NOTIFICATION, function (e, data) {
             /*send notification on server*/
         });

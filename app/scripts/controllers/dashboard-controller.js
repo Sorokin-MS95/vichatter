@@ -12,7 +12,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         {
             id: 'asdasdasd',
             first_name: 'asdasdasdasd',
-            last_name:'asdasd',
+            last_name: 'asdasd',
             email: 'asdasd',
             nickname: 'asdasdasd'
         }
@@ -40,11 +40,23 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     })();
 
 
-    function notifyOnlineStatus(){
-        EventsService.notify(AppConstants.SOCKET_EVENTS.USER_STATUS_NOTIFICATION);
+    function notifyOnlineStatus() {
+        EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END_USER_LOGGED_IN_EVENT);
     }
 
     function subscribeOnSocketEvents() {
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_IN_EVENT, function (e, data) {
+            console.log(data);
+            //it worked!!
+        })
+
+
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_OUT_EVENT, function(e, data){
+            console.log(data);
+            //it worked
+        })
+
+
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.ADD_FRIEND_NOTIFICATION, function (e, data) {
 
         });
