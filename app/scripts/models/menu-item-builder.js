@@ -21,7 +21,7 @@ function MenuItemBuilder() {
 
         this._counter = angular.isDefined(menuItemData.counter) ? menuItemData.counter : null;
 
-        this._eventName = angular.isDefined(menuItemData.event_mame) ? menuItemData.event_name : null;
+        this._eventName = angular.isDefined(menuItemData.event_name) ? menuItemData.event_name : null;
     }
 
 

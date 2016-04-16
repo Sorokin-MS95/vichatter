@@ -20,6 +20,7 @@
     overflow: auto;
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
 .vc-menu-panel,
@@ -79,9 +80,9 @@
 }
 
 .vc-chat-panel {
-    width: calc(100% - 230px - 280px);
-    width: -webkit-calc(100% - 230px - 280px);
-    width: -moz-calc(100% - 230px - 280px);
+    width: calc(100% - 230px);
+    width: -webkit-calc(100% - 230px);
+    width: -moz-calc(100% - 230px);
     background-color: #edeff2;
 }
 
@@ -167,12 +168,11 @@
 
 /*FRIENDS LIST*/
 
-.vc-friends-panel > .search-field-wrapper {
+ .search-field-wrapper {
     padding: 25px;
     border-bottom: 1px solid rgb(45, 51, 57);
 }
-
-.vc-friends-panel > .search-field-wrapper > input {
+ .search-field-wrapper > input {
     border: none;
     border-radius: 20px;
     padding-left: 50px;
@@ -185,20 +185,18 @@
     font-size: 14px;
     background: rgb(54, 61, 69) url(../../images/search.png) no-repeat left center;
 }
-
-.vc-friends-panel > .search-field-wrapper > input::-webkit-input-placeholder {
+.search-field-wrapper > input::-webkit-input-placeholder {
     font-family: 'Roboto Regular', sans-serif;
     color: rgb(102, 108, 113);
     font-size: 14px;
 }
 
-.vc-friends-panel > .search-field-wrapper > input:hover {
+ .search-field-wrapper > input:hover {
     outline: none;
     border: none;
     background-color: rgb(54, 61, 69);
 }
-
-.vc-friends-panel > .search-field-wrapper > input:focus {
+ .search-field-wrapper > input:focus {
     outline: none;
     border: none;
     background-color: rgb(54, 61, 69);

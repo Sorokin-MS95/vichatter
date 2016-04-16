@@ -30,7 +30,7 @@ function vcFriendList(EventsService, AppConstants) {
 
     return {
         restrict: 'EA',
-        templateUrl: 'app/templates/dashboard/directives/friends-list.html',
+        templateUrl: 'app/templates/dashboard/directives/friend-list.html',
         scope: {
             'listOfFriends': '='
         },

@@ -8,7 +8,7 @@
     </div>
     <div class="menu-body">
         <div class="menu-section">
-            <ul class="menu-list" data-ng-if="item in menuItems">
+            <ul class="menu-list" data-ng-repeat="item in menuItems">
                 <li class="menu-item" data-ng-class="{true: 'selected', false: ''}[isMenuItemSelected(item)]"
                     data-ng-click="selectMenuItem(item)">
                     <span class="menu-item-title" data-ng-bind="item.getName()">My profile</span>
