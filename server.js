@@ -13,7 +13,7 @@ var io = require('socket.io').listen(server);
 server.listen(4000);
 
 var SocketService = require('./server/services/socket-service');
-new SocketService({io : io}).init();
+new SocketService({io: io}).init();
 
 var passport = require('passport');
 require('./server/config/passport-config');

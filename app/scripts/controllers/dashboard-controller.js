@@ -3,20 +3,11 @@ var app = angular.module('viChatter');
 
 app.controller('DashboardController', DashboardController);
 
-DashboardController.$inject = ['$scope', 'SocketService', 'localStorageService', 'AuthenticationService', 'NetworkProvider', 'BuildObjectsService', 'EventsService', 'AppConstants'];
+DashboardController.$inject = ['$scope', 'SocketService', 'localStorageService', 'AuthenticationService', 'NetworkProvider', 'BuildObjectsService', 'EventsService', 'AppConstants', '$state', '$location'];
 
 
-function DashboardController($scope, SocketService, localStorageService, AuthenticationService, NetworkProvider, BuildObjectsService, EventsService, AppConstants) {
+function DashboardController($scope, SocketService, localStorageService, AuthenticationService, NetworkProvider, BuildObjectsService, EventsService, AppConstants, $state, $location) {
 
-    $scope.friendsList = [
-        {
-            id: 'asdasdasd',
-            first_name: 'asdasdasdasd',
-            last_name:'asdasd',
-            email: 'asdasd',
-            nickname: 'asdasdasd'
-        }
-    ];
     $scope.friendRequestsList = [];
     $scope.myProfileData = null;
     $scope.friendProfileData = null;
@@ -32,19 +23,34 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
     (function initialize() {
         SocketService.initialize();
-        notifyOnlineStatus();
+        notifyFriends();
         subscribeOnSocketEvents();
         subscribeOnUiEvents();
         loadFriendsList();
+
+
+
         loadFriendRequestsList();
     })();
 
 
-    function notifyOnlineStatus(){
-        EventsService.notify(AppConstants.SOCKET_EVENTS.USER_STATUS_NOTIFICATION);
+    function notifyFriends() {
+        EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END_USER_LOGGED_IN_EVENT);
     }
 
     function subscribeOnSocketEvents() {
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_IN_EVENT, function (e, data) {
+            console.log(data);
+            //it worked!!
+        })
+
+
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_OUT_EVENT, function (e, data) {
+            console.log(data);
+            //it worked
+        })
+
+
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.ADD_FRIEND_NOTIFICATION, function (e, data) {
 
         });
@@ -104,25 +110,27 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.isMessagesListActive = false;
             $scope.isVideoChatActive = true;
         });
+
+        EventsService.subscribe(AppConstants.UI_EVENTS.LOGOUT, function (e, data) {
+            EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END_USER_LOGGED_OUT_EVENT);
+            AuthenticationService.clearUserData();
+            $state.go('home');
+        })
     }
 
     $scope.sendMessage = function (message) {
         //WEBSOCKET
     }
 
-    $scope.logout = function () {
-        NetworkProvider.logout().then(function () {
-            AuthenticationService.clearUserData();
-            $location.path('/login');
-        });
-    }
 
     $scope.updateProfile = function (profileData) {
 
     }
 
     function loadFriendsList() {
-        $scope.friendsList = BuildObjectsService.buildFriendListItems($scope.friendsList);
+        NetworkProvider.getUserFriends().then(function (result) {
+            $scope.friendsList = BuildObjectsService.buildFriendListItems(result.payload.friend_list.list);
+        });
     }
 
     function loadFriendRequestsList() {
@@ -137,27 +145,11 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
     function loadFriendProfileData() {
 
-
     }
+
 
     function loadMessages() {
 
-        /* NetworkProvider.getAllAntennas(data).then(function (response) {
-         if (response.success) {
-         var antennasData = response.payload.antennas;
-         $scope.buildItems(antennasData, BuildObjectsService.AntennaBuilder);
-         $scope.countOfAllElements = response.payload.count;
-
-         } else {
-         $log.debug(response);
-         }
-         });*/
     }
-
-    /*console.log('init!');
-     socket.emit('user_logged_in', {
-     userId : localStorageService.get('user_id')
-     });*/
-
 
 }

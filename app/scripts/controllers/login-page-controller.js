@@ -13,7 +13,7 @@ function LoginPageController($scope, localStorageService, NetworkProvider, $time
 
     $scope.login = function () {
         NetworkProvider.login($scope.user).then(function (result) {
-            localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.AUTH_TOKEN, result.payload.token);
+            localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.ACCESS_TOKEN, result.payload.token);
             localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID, result.payload.userId);
             $state.go('dashboard');
         }).catch(function (result) {

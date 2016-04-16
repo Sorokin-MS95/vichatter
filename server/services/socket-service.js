@@ -10,64 +10,69 @@ var SocketService = function (options) {
 
     this.init = function () {
         this.io.on('connection', function (socket) {
-            socket.on('user_logged_in', function (data) {
-                that.connectUser(socket, data.userId);
+            console.log('New socket ' + socket.id);
+
+            socket.on('fe_user_logged_in', function (data) {
                 console.log('User with id ' + data.userId + " connected!");
+                that.connectUser(socket, data.userId);
+                console.log('Connected users: ' + connectedUsers.length);
                 UserService.login(data.userId);
-                //notify users that i'm online
-
-                _.each(UserService.getUserFriendsIds(data.userId), function (oneFriendId) {
-                    var friendConnection = that.getConnectionByUserId(oneFriendId);
-                    if (friendConnection) {
-                        friendConnection.socket.emit('user_logged_in', {
-                            userId: data.userId
-                        })
-                    }
-                });
-
+                UserService.getUserById(data.userId).then(function (user) {
+                    var friends = user.friends;
+                    _.each(friends, function (friend) {
+                        var friendConnection = that.getConnectionByUserId(friend.userId);
+                        if (friendConnection) {
+                            console.log('Sending message to friend');
+                            friendConnection.socket.emit('be_user_logged_in', {
+                                userId: data.userId
+                            })
+                        }
+                    })
+                })
             });
+
             socket.on('disconnect', function () {
+                console.log('Socket ' + socket.id + " disconnected");
                 var connection = that.getConnectionBySocket(socket);
                 if (connection) {
                     that.disconnectUser(socket);
+                    console.log('Connected users: ' + connectedUsers.length);
                     UserService.logout(connection.userId);
-                    //notify friends that i'm offline
-                    var friends = UserService.getUserFriendsIds(connection.userId);
-                    _.each(friends, function (oneFriendId) {
-                        var friendConnection = that.getConnectionByUserId(oneFriendId);
-                        if (friendConnection) {
-                            friendConnection.socket.emit('user_logged_out', {
-                                userId: connection.userId
-                            });
-                        }
+                    UserService.getUserById(connection.userId).then(function (user) {
+                        _.each(user.friends, function (friend) {
+                            var friendConnection = that.getConnectionByUserId(friend.userId);
+                            if (friendConnection) {
+                                friendConnection.socket.emit('be_user_logged_out', {
+                                    userId: connection.userId
+                                });
+                            }
 
-                    })
-                }
-            })
-
-            socket.on('offer_friendship', function (data) {
-                FriendService.offerFriendship(data.currentUserId, data.userId);
-                console.log(data.currentUserId);
-                console.log(data.userId);
-                var userConnection = that.getConnectionByUserId(data.userId);
-                if (userConnection) {
-                    userConnection.socket.emit("friendship_request", {
-                        userId: data.currentUserId
+                        })
                     });
                 }
             });
 
-            socket.on('accept_friendship', function (data) {
-                FriendService.addToFriends(data.currentUserId, data.userId);
-                var userConnection = that.getConnectionByUserId(data.userId);
-                if (userConnection) {
-                    userConnection.socket.emit("friendship_request_accepted", {
-                        userId: data.currentUserId
-                    });
-                }
-            })
+            /*socket.on('offer_friendship', function (data) {
+             FriendService.offerFriendship(data.currentUserId, data.userId);
+             console.log(data.currentUserId);
+             console.log(data.userId);
+             var userConnection = that.getConnectionByUserId(data.userId);
+             if (userConnection) {
+             userConnection.socket.emit("friendship_request", {
+             userId: data.currentUserId
+             });
+             }
+             });*/
 
-            //todo decline friendship
+            /*socket.on('accept_friendship', function (data) {
+             FriendService.addToFriends(data.currentUserId, data.userId);
+             var userConnection = that.getConnectionByUserId(data.userId);
+             if (userConnection) {
+             userConnection.socket.emit("friendship_request_accepted", {
+             userId: data.currentUserId
+             });
+             }
+             })*/
 
         });
     }
@@ -82,20 +87,21 @@ var SocketService = function (options) {
 
     this.disconnectUser = function (socket) {
         connectedUsers = _.reject(connectedUsers, function (connection) {
-            return connection.socket.id === socket.id;
+            return connection.socket.id == socket.id;
         })
     }
 
     this.getConnectionBySocket = function (socket) {
+
         var connection = _.find(connectedUsers, function (oneConnection) {
-            return oneConnection.socket.id === socket.id;
+            return oneConnection.socket.id == socket.id;
         });
         return connection;
     }
 
     this.getConnectionByUserId = function (userId) {
         var connection = _.find(connectedUsers, function (oneConnection) {
-            return oneConnection.userId === userId;
+            return oneConnection.userId == userId;
         });
         return connection;
     }

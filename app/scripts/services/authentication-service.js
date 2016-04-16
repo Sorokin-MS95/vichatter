@@ -9,7 +9,7 @@ AuthenticationService.$inject = ['$http', '$window', 'localStorageService', 'App
 
 function AuthenticationService($http, $window, localStorageService, AppConstants) {
     function _isAuthenticated() {
-        var token = localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.AUTH_TOKEN);
+        var token = localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.ACCESS_TOKEN);
         if (token) {
             var payload = JSON.parse($window.atob(token.split('.')[1]));
             return payload.exp > Date.now() / 1000;
@@ -19,7 +19,7 @@ function AuthenticationService($http, $window, localStorageService, AppConstants
     }
 
     function _clearUserData() {
-        localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.AUTH_TOKEN, null);
+        localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.ACCESS_TOKEN, null);
         localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID, null);
     }
 
