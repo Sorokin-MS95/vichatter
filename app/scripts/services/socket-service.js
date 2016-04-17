@@ -17,25 +17,25 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
 
 
     function initializeNotifySocketEvents() {
-        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_IN_EVENT, function (data) {
-            EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_IN_EVENT, data);
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_IN_EVENT, function (data) {
+            EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_IN_EVENT, data);
         });
 
-        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_OUT_EVENT, function (data) {
-            EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_OUT_EVENT, data);
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_OUT_EVENT, function (data) {
+            EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_OUT_EVENT, data);
         })
     }
 
 
     function subscribeOnAllNotifications() {
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END_USER_LOGGED_IN_EVENT, function (e, data) {
-            socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END_USER_LOGGED_IN_EVENT, {
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.USER_LOGGED_IN_EVENT, function (e, data) {
+            socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.USER_LOGGED_IN_EVENT, {
                 userId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID)
             })
         });
 
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END_USER_LOGGED_OUT_EVENT, function (e, data) {
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.USER_LOGGED_OUT_EVENT, function (e, data) {
             socketConnection.disconnect();
         })
 
@@ -44,7 +44,7 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
             /*send notification on server*/
         });
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.MESSAGE_NOTIFICATION, function (e, data) {
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.MESSAGE_NOTIFICATION, function (e, data) {
             /*send notification on server*/
         });
 

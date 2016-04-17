@@ -12,13 +12,20 @@ appModule.constant('AppConstants', {
         ACCESS_TOKEN: "access_token"
     },
     SOCKET_EVENTS: {
-        FRONT_END_USER_LOGGED_IN_EVENT: "fe_user_logged_in",
-        BACK_END_USER_LOGGED_IN_EVENT: "be_user_logged_in",
-        BACK_END_USER_LOGGED_OUT_EVENT : "be_user_logged_out",
-        FRONT_END_USER_LOGGED_OUT_EVENT : "disconnect",
-        ADD_FRIEND_NOTIFICATION: 'add_friend_notification',
-        USER_STATUS_NOTIFICATION: 'user_status_notification',
-        MESSAGE_NOTIFICATION: 'message_notification'
+        FRONT_END: {
+            USER_LOGGED_IN_EVENT: "fe_user_logged_in",
+            USER_LOGGED_OUT_EVENT: "disconnect",
+            ADD_FRIEND_NOTIFICATION: 'fe_add_friend_notification',
+            USER_STATUS_NOTIFICATION: 'fe_user_status_notification',
+            MESSAGE_NOTIFICATION: 'fe_message_notification'
+        },
+        BACK_END: {
+            USER_LOGGED_IN_EVENT: "be_user_logged_in",
+            USER_LOGGED_OUT_EVENT: "be_user_logged_out",
+            ADD_FRIEND_NOTIFICATION: 'be_add_friend_notification',
+            USER_STATUS_NOTIFICATION: 'be_user_status_notification',
+            MESSAGE_NOTIFICATION: 'be_message_notification'
+        }
     },
     UI_EVENTS: {
         FRIEND_LIST_ITEM_SELECTED: 'friend_list_item_selected',

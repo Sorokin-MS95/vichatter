@@ -1,19 +1,21 @@
-<vc-menu friends-counter="friendsList.length" friend-requests-counter="friendRequestsList.length"></vc-menu>
-<div      class='vc-friends-panel animate-hide' data-ng-hide="isFriendsListActive || isFriendRequestListActive">
-    <vc-friend-list data-ng-if="isFriendsListActive" list-of-friends="friendsList"></vc-friend-list>
-    <vc-friend-requests-list data-ng-if="isFriendRequestListActive"  list-of-requests="friendRequestsList"
-                             add-friend-callback="addFriend"></vc-friend-requests-list>
+<div class="vc-menu-panel" vc-menu friends-list="friendsList" friend-requests-list="friendRequestsList"></div>
+<div data-ng-if="isFriendsListActive || isFriendRequestListActive"  class="vc-friends-panel animate-if">
+    <vc-search-field ng-if="isFriendsListActive" class="animate-if" callback-to-load-elements=""></vc-search-field>
+    <div ng-if="isFriendRequestListActive" class="animate-if" class="friends-panel-header">
+        <span>Friend list requests</span>
+    </div>
+    <div vc-friend-list ng-if="isFriendsListActive" class="animate-if" list-of-friends="friendsList"></div>
+    <div vc-friend-requests-list data-ng-if="isFriendRequestListActive || isSearchActive" class="animate-if"  list-of-requests="friendRequestsList"
+                             add-friend-callback="addFriend"></div>
 </div>
-<div data-ng-if="isFriendProfileDataActive || isMyProfileDataActive" class="vc-profile-panel">
-    <vc-friend-profile data-ng-if="isFriendProfileDataActive" profile-info=""></vc-friend-profile>
-    <vc-profile data-ng-if="isMyProfileDataActive" profile-info=""></vc-profile>
+<div data-ng-if="isFriendProfileDataActive || isMyProfileDataActive" class="animate-if vc-profile-panel">
+    <div vc-friend-profile data-ng-if="isFriendProfileDataActive" class="animate-if" profile-info=""></div>
+    <div vc-profile data-ng-if="isMyProfileDataActive" class="animate-if" profile-info=""></div>
 </div>
 
 <div class="vc-chat-panel">
-    <vc-chat-window data-ng-if="isMessagesListActive"></vc-chat-window>
-    <vc-video-chat-window data-ng-if="isVideoChatActive"></vc-video-chat-window>
+    <div vc-chat-window data-ng-if="isMessagesListActive" class="animate-if" messages-list="messagesList"></div>
+    <div vc-video-chat-window data-ng-if="isVideoChatActive"></div>
 </div>
-
-
 
 

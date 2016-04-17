@@ -12,11 +12,9 @@ app.directive('vcProfile', vcProfile);
 
 vcProfile.$inject = ['EventsService', 'AppConstants', 'BuildObjectsService'];
 
-
 function vcProfile(EventsService, AppConstants, BuildObjectsService) {
 
     function link(scope) {
-
 
     }
 

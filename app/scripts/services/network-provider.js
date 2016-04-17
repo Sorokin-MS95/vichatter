@@ -95,11 +95,11 @@ function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppCon
         var data = {};
 
         if (attrs.hasOwnProperty("userId") && attrs.userId !== null) {
-            data.page = attrs.page;
+            data.user_id = attrs.userId;
         }
 
         if (attrs.hasOwnProperty("friendId") && attrs.friendId !== null) {
-            data.friend_id = attrs.friend_id;
+            data.friend_id = attrs.friendId;
         }
 
         if (attrs.hasOwnProperty("page") && attrs.page !== null) {
@@ -142,13 +142,21 @@ function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppCon
         return _post('/api/profile/', params);
     }
 
+    function _addFriendRequest(userId) {
+        var params = {
+            userId: userId
+        };
+
+        return _post('/api/friend/request', params);
+    }
+
 
     function _getFriendsRequests() {
         return _get('/api/friends/requests');
     }
 
     return {
-        initilizeConfig: _initializeConfig,
+        initializeConfig: _initializeConfig,
         login: _login,
         register: _register,
         getProfile: _getProfile,
@@ -157,6 +165,7 @@ function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppCon
         getSearchListOfFriends: _getSearchListOfFriends,
         updateProfile: _updateProfile,
         getUserFriends: _getUserFriends,
-        getFriendsRequests: _getFriendsRequests
+        getFriendsRequests: _getFriendsRequests,
+        addFriendRequest: _addFriendRequest
     };
 }

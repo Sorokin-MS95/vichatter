@@ -7,9 +7,9 @@ var app = angular.module('viChatter');
 
 app.directive('vcFriendList', vcFriendList);
 
-vcFriendList.$inject = ['EventsService', 'AppConstants'];
+vcFriendList.$inject = ['EventsService', 'AppConstants', 'localStorageService'];
 
-function vcFriendList(EventsService, AppConstants) {
+function vcFriendList(EventsService, AppConstants, localStorageService) {
 
     function link(scope) {
 
@@ -17,7 +17,7 @@ function vcFriendList(EventsService, AppConstants) {
 
         scope.isFriendItemSelected = function (id) {
             if (scope.selectedFriendId != null) {
-                return scope.selectedFriendId.getId() == id;
+                return scope.selectedFriendId == id;
             }
             else {
                 return false;
@@ -29,6 +29,14 @@ function vcFriendList(EventsService, AppConstants) {
                 id: friend.getId()
             };
             scope.selectedFriendId = friend.getId();
+
+            var data = {
+                friendId: scope.selectedFriendId,
+                userId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
+                count: 20,
+                page: 1
+            };
+            
             EventsService.notify(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, data);
         }
     }

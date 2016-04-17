@@ -128,7 +128,7 @@ function BuildObjectsService(FriendListItemBuilder, MenuItemBuilder, FriendReque
 
     return {
         buildItems: _buildItems,
-        addItems: _addItem,
+        addItem: _addItem,
         getItem: _getItem,
         replaceItem: _replaceItem,
         removeItem: _replaceItem,

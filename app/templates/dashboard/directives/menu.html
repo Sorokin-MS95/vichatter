@@ -1,8 +1,8 @@
-<div class="vc-menu-panel">
+
     <div class="menu-header">
         <span class="menu-header-title">vi<span class="bold">chatter</span></span>
         <div  class="add-friend-button-wrapper">
-            <span class="indicator" data-ng-class="{true: 'active', false: ''}[friendRequestsCounter>0]"></span>
+            <span class="indicator" data-ng-class="{true: 'active', false: ''}[friendRequestsList.length>0]"></span>
             <button class="vc-button add-friend-button" data-ng-click="clickOnAddFriendMenu()"></button>
         </div>
     </div>
@@ -12,7 +12,7 @@
                 <li class="menu-item" data-ng-class="{true: 'selected', false: ''}[isMenuItemSelected(item)]"
                     data-ng-click="selectMenuItem(item)">
                     <span class="menu-item-title" data-ng-bind="item.getName()">My profile</span>
-                    <span ng-if="item.getCounter() != null" class="menu-item-counter" data-ng-bind="item.getCounter()"></span>
+                    <span ng-if="item.getCounter() != null" class="menu-item-counter" data-ng-bind="friendsList.length"></span>
                 </li>
             </ul>
         </div>
@@ -24,4 +24,3 @@
             </ul>
         </div>
     </div>
-</div>
