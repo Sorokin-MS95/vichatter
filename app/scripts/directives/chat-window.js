@@ -13,13 +13,13 @@ function vcChatWindow(EventsService, AppConstants, localStorageService) {
 
     function link(scope) {
 
-        scope.messageText = null;
         scope.sendMessage = function () {
             var data = {
                 messageText: scope.messageText,
                 friendId: scope.friendId
             };
             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.MESSAGE_NOTIFICATION, data);
+            scope.messageText = "";
         }
 
         scope.handleScrollToTop = function(){

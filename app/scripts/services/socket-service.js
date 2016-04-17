@@ -23,6 +23,10 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
 
         socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_OUT_EVENT, function (data) {
             EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_OUT_EVENT, data);
+        });
+
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.MESSAGE_NOTIFICATION, function (data){
+            EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.MESSAGE_NOTIFICATION, data);
         })
     }
 
@@ -45,6 +49,11 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
         });
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.MESSAGE_NOTIFICATION, function (e, data) {
+            socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.MESSAGE_NOTIFICATION, {
+                userId : localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
+                friendId : data.friendId,
+                content : data.messageText
+            });
             /*send notification on server*/
         });
 

@@ -3,10 +3,12 @@ var app = angular.module('viChatter');
 
 app.controller('DashboardController', DashboardController);
 
-DashboardController.$inject = ['$scope', 'SocketService', 'localStorageService', 'AuthenticationService', 'NetworkProvider', 'BuildObjectsService', 'EventsService', 'AppConstants', '$state', '$location'];
+DashboardController.$inject = ['$scope', 'SocketService', 'localStorageService', 'AuthenticationService', 'NetworkProvider',
+    'BuildObjectsService', 'EventsService', 'AppConstants', '$state', '$location', 'WebRTCService'];
 
 
-function DashboardController($scope, SocketService, localStorageService, AuthenticationService, NetworkProvider, BuildObjectsService, EventsService, AppConstants, $state, $location) {
+function DashboardController($scope, SocketService, localStorageService, AuthenticationService, NetworkProvider,
+                             BuildObjectsService, EventsService, AppConstants, $state, $location, WebRTCService) {
 
     $scope.friendRequestsList = [];
     $scope.myProfileData = null;
@@ -52,6 +54,8 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
 
     (function initialize() {
+        WebRTCService.prepareRtcConfiguration();
+        WebRTCService.prepareIceConfiguration();
         NetworkProvider.initializeConfig();
         SocketService.initialize();
         notifyFriends();

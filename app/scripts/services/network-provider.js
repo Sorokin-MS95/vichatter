@@ -92,25 +92,8 @@ function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppCon
     }
 
     function _getMessages(attrs) {
-        var data = {};
-
-        if (attrs.hasOwnProperty("userId") && attrs.userId !== null) {
-            data.user_id = attrs.userId;
-        }
-
-        if (attrs.hasOwnProperty("friendId") && attrs.friendId !== null) {
-            data.friend_id = attrs.friendId;
-        }
-
-        if (attrs.hasOwnProperty("page") && attrs.page !== null) {
-            data.page = attrs.page;
-        }
-
-        if (attrs.hasOwnProperty("count") && attrs.count !== null) {
-            data.count = attrs.count;
-        }
-
-        return _get('/api/messages', data);
+        var queryString = '/api/users/' + attrs.friendId + "/messages?page=" + attrs.page + '&count=' + attrs.count;
+        return _get(queryString);
     }
 
     function _getSearchListOfFriends(attrs) {
