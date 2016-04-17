@@ -17,7 +17,7 @@ function vcChatWindow(EventsService, AppConstants, localStorageService) {
         scope.sendMessage = function () {
             var data = {
                 messageText: scope.messageText,
-                timestamp: new Date()
+                friendId: scope.friendId
             };
             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.MESSAGE_NOTIFICATION, data);
         }
@@ -32,7 +32,8 @@ function vcChatWindow(EventsService, AppConstants, localStorageService) {
         restrict: 'EA',
         templateUrl: 'app/templates/dashboard/directives/chat-window.html',
         scope: {
-            'messagesList': '='
+            'messagesList': '=',
+            'friendId':'='
         },
         link: link
     }

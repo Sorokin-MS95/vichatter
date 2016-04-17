@@ -15,6 +15,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     $scope.friendProfileData = null;
     $scope.messagesList = [];
     $scope.friendsList = [];
+    $scope.selectedFriendId = null;
 
     $scope.isFriendRequestListActive = null;
     $scope.isFriendsListActive = null;
@@ -72,6 +73,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
         EventsService.subscribe(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, function (e, data) {
             loadMessages(data);
+            $scope.selectedFriendId = data.friendId;
             $scope.isMessagesListActive = true;
             $scope.isVideoChatActive = false;
         });
