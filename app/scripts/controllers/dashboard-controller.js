@@ -232,7 +232,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
                     email: friend.getEmail()
                 };
                 $scope.friendsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data), $scope.friendsList);
-                console.log(result.payload.message);
+                $scope.friendRequestsList = BuildObjectsService.removeItem(friend, $scope.friendRequestsList);
             }
         })
     }
