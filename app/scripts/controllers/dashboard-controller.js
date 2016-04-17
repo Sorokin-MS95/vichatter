@@ -3,10 +3,12 @@ var app = angular.module('viChatter');
 
 app.controller('DashboardController', DashboardController);
 
-DashboardController.$inject = ['$scope', 'SocketService', 'localStorageService', 'AuthenticationService', 'NetworkProvider', 'BuildObjectsService', 'EventsService', 'AppConstants', '$state', '$location'];
+DashboardController.$inject = ['$scope', 'SocketService', 'localStorageService', 'AuthenticationService', 'NetworkProvider',
+    'BuildObjectsService', 'EventsService', 'AppConstants', '$state', '$location', 'WebRTCService'];
 
 
-function DashboardController($scope, SocketService, localStorageService, AuthenticationService, NetworkProvider, BuildObjectsService, EventsService, AppConstants, $state, $location) {
+function DashboardController($scope, SocketService, localStorageService, AuthenticationService, NetworkProvider,
+                             BuildObjectsService, EventsService, AppConstants, $state, $location, WebRTCService) {
 
     $scope.friendRequestsList = [];
     $scope.myProfileData = null;
@@ -22,6 +24,8 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
 
     (function initialize() {
+        WebRTCService.prepareRtcConfiguration();
+        WebRTCService.prepareIceConfiguration();
         NetworkProvider.initilizeConfig();
         SocketService.initialize();
         notifyFriends();
@@ -30,7 +34,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         loadFriendsList();
         loadFriendsRequests();
         loadProfile();
-        
 
 
         loadFriendRequestsList();
@@ -137,16 +140,16 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.friendsList = BuildObjectsService.buildFriendListItems(result.payload.friend_list.list);
         });
     }
-    
-    function loadProfile(){
-        NetworkProvider.getProfile().then(function(result){
+
+    function loadProfile() {
+        NetworkProvider.getProfile().then(function (result) {
             console.log('Profile : ' + result.payload.profile_info);
             console.log(result.payload.profile_info);
         })
     }
 
-    function loadFriendsRequests(){
-        NetworkProvider.getFriendsRequests().then(function(result){
+    function loadFriendsRequests() {
+        NetworkProvider.getFriendsRequests().then(function (result) {
             console.log('Friends requests :' + result.payload.add_friend_list);
             console.log(result.payload.add_friend_list);
         })
