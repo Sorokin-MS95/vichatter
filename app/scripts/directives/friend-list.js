@@ -32,11 +32,9 @@ function vcFriendList(EventsService, AppConstants, localStorageService) {
 
             var data = {
                 friendId: scope.selectedFriendId,
-                userId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
-                count: 20,
-                page: 1
+                userId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID)
             };
-            
+
             EventsService.notify(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, data);
         }
     }

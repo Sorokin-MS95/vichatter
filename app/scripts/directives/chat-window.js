@@ -22,6 +22,16 @@ function vcChatWindow(EventsService, AppConstants, localStorageService) {
             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.MESSAGE_NOTIFICATION, data);
         }
 
+        scope.handleScrollToTop = function(){
+            var data = {
+                friendId: scope.friendId,
+                userId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
+            };
+
+            EventsService.notify(AppConstants.UI_EVENTS.LOAD_MESSAGES_REQUEST, data);
+            console.log('TOP!');
+        }
+
         scope.isMessageMine = function(message)
         {
             return (localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID) == message.getSenderId());

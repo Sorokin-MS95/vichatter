@@ -35,7 +35,8 @@ appModule.constant('AppConstants', {
         SHOW_VIDEO_CHAT_WINDOW: 'show_video_chat_window',
         SHOW_FRIEND_PROFILE: 'show_friend_profile',
         SHOW_FRIENDS_REQUESTS_LIST: 'show_friends_requests_list',
-        LOGOUT: 'logout'
+        LOGOUT: 'logout',
+        LOAD_MESSAGES_REQUEST: 'load_messages_request'
     },
     FORM_FIELDS: {
         PASSOWORD_FIELD: 'password',

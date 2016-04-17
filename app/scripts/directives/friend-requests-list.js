@@ -12,8 +12,8 @@ function vcFriendRequestsList() {
 
     function link(scope) {
 
-        scope.addFriend = function (id) {
-            scope.addFriendCallback(id);
+        scope.addFriend = function (friend) {
+            scope.addFriendCallback(friend);
         }
     }
 

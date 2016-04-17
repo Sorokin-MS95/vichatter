@@ -967,3 +967,8 @@
     opacity:1 !important;
 }
 
+.vc-chat-window{
+    width: 100%;
+    overflow: hidden;
+    height: 100%;
+}

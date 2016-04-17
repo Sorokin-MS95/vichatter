@@ -11,7 +11,33 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     $scope.friendRequestsList = [];
     $scope.myProfileData = null;
     $scope.friendProfileData = null;
-    $scope.messagesList = [];
+    $scope.messagesList = [{
+        id: "2",
+        sender_id: "asdasd",
+        text: "adasdasdasd",
+        timestamp: "",
+        last_name: "asdasdasd",
+        first_name: "asdasdasd",
+        email: ""
+    },
+        {
+            id: "3",
+            sender_id: "asdasd",
+            text: "adasdasdasd",
+            timestamp: "",
+            last_name: "asdasdasd",
+            first_name: "asdasdasd",
+            email: ""
+        },
+        {
+            id: "5",
+            sender_id: "asdasd",
+            text: "adasdasdasd",
+            timestamp: "",
+            last_name: "asdasdasd",
+            first_name: "asdasdasd",
+            email: ""
+        }];
     $scope.friendsList = [];
     $scope.selectedFriendId = null;
 
@@ -21,6 +47,8 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     $scope.isFriendProfileDataActive = null;
     $scope.isMessagesListActive = null;
     $scope.isVideoChatActive = null;
+    $scope.messagesOnPageCount = 0;
+    $scope.messagesPageNumber = 0;
 
 
     (function initialize() {
@@ -68,10 +96,22 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     function subscribeOnUiEvents() {
 
         EventsService.subscribe(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, function (e, data) {
+            $scope.messagesOnPageCount = 1;
+            $scope.messagesPageNumber = 1;
+            data.count = $scope.messagesOnPageCount;
+            data.page = $scope.messagesPageNumber;
             loadMessages(data);
             $scope.selectedFriendId = data.friendId;
             $scope.isMessagesListActive = true;
             $scope.isVideoChatActive = false;
+        });
+
+        EventsService.subscribe(AppConstants.UI_EVENTS.LOAD_MESSAGES_REQUEST, function (e, data) {
+            $scope.messagesOnPageCount++;
+            $scope.messagesPageNumber++;
+            data.count = $scope.messagesOnPageCount;
+            data.page = $scope.messagesPageNumber;
+            loadMessages(data);
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_FRIEND_PROFILE, function (e, data) {
@@ -175,16 +215,23 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             count: data.count
         };
 
-        NetworkProvider.getMessages(data).then(function (result) {
-            console.log('Messages :' + result.payload.messages);
-            $scope.messagesList = BuildObjectsService.buildMessages(result.payload.messages);
-        })
+        /*NetworkProvider.getMessages(data).then(function (result) {
+         console.log('Messages :' + result.payload.messages);
+         $scope.messagesList = BuildObjectsService.buildMessages(result.payload.messages);
+         })*/
+        $scope.messagesList = BuildObjectsService.buildMessages($scope.messagesList);
 
     }
 
-    $scope.addFriend = function (friendId) {
-        NetworkProvider.addFriendRequest(friendId).then(function (result) {
+    $scope.addFriend = function (friend) {
+        NetworkProvider.addFriendRequest(friend.getId()).then(function (result) {
             if (result.status == 0) {
+                var friendData = {
+                    id: friend.getId(),
+                    nickname: friend.getLastName() + " " + friend.getFirstName(),
+                    email: friend.getEmail()
+                };
+                $scope.friendsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data), $scope.friendsList);
                 console.log(result.payload.message);
             }
         })

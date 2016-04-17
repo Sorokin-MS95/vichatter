@@ -5,8 +5,9 @@
     <button class="vc-button chat-controls-panel-button camera" data-ng-click="showVideoChatWindow()">
     </button>
 </div>
-<div class="messages-wrapper" data-ng-repeat="message in messagesList">
-    <div class="message-box" data-ng-class="{true: 'left', false: 'right'}[isMessageMine(message)]">
+<div class="messages-wrapper" exec-on-scroll-to-top callback-on-top-scroll="handleScrollToTop()">
+    <div class="message-box" data-ng-repeat="message in messagesList"
+         data-ng-class="{true: 'left', false: 'right'}[isMessageMine(message)]">
         <div class="icon-wrapper">
             <img class="icon" src="../../public/images/girl1.png"/>
             <span class="time" data-ng-bind="message.getTimestamp()"></span>
