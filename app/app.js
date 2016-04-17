@@ -7,7 +7,8 @@ var viChatter = angular.module('viChatter', [
     'ngDialog',
     'LocalStorageModule',
     'rzModule',
-    'ngAnimate'
+    'ngAnimate',
+    'duScroll'
 ]);
 
 viChatter.config(
