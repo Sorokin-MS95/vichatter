@@ -26,6 +26,9 @@ router.get('/profile', auth, profileController.getProfile);
 
 //FriendController
 router.get('/friends', auth, friendController.getFriends);
+router.get('/friends/requests', auth, friendController.getFriendsRequests);
+
+
 router.post('/friend/request/', auth, friendController.requestFriend);
 router.post('/friend/add', auth, friendController.addToFriends);
 router.post('/friend/decline', auth, friendController.declineRequest);

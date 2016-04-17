@@ -20,7 +20,7 @@ function vcMenu(EventsService, AppConstants, BuildObjectsService) {
             {
                 id: 1,
                 name: "Friends",
-                counter: scope.friendsCounter,
+                counter: scope.friendsList.length,
                 event_name: AppConstants.UI_EVENTS.SHOW_FRIENDS_LIST
 
             },
@@ -45,7 +45,7 @@ function vcMenu(EventsService, AppConstants, BuildObjectsService) {
         };
 
         scope.clickOnAddFriendMenu = function () {
-            if (scope.friendRequestsCounter > 0) {
+            if (scope.friendRequestsList.length > 0) {
                 EventsService.notify(AppConstants.UI_EVENTS.SHOW_FRIENDS_REQUESTS_LIST);
             }
         }
@@ -60,8 +60,8 @@ function vcMenu(EventsService, AppConstants, BuildObjectsService) {
         restrict: 'EA',
         templateUrl: 'app/templates/dashboard/directives/menu.html',
         scope: {
-            'friendsCounter': '=',
-            'friendRequestsCounter': '='
+            'friendsList': '=',
+            'friendRequestsList': '='
         },
         link: link
     }

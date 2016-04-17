@@ -6,7 +6,8 @@ var viChatter = angular.module('viChatter', [
     'ui.router',
     'ngDialog',
     'LocalStorageModule',
-    'rzModule'
+    'rzModule',
+    'ngAnimate'
 ]);
 
 viChatter.config(
@@ -53,7 +54,7 @@ viChatter.config(
 
 
 viChatter.run(function ($rootScope, $state, AuthenticationService) {
-   /* $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
         if (toState.authenticate && !AuthenticationService.isAuthenticated()) {
             event.preventDefault();
             AuthenticationService.clearUserData();
@@ -62,5 +63,5 @@ viChatter.run(function ($rootScope, $state, AuthenticationService) {
             event.preventDefault();
             $state.go('dashboard');
         }
-    });*/
+    });
 });

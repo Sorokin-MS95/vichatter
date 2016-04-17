@@ -1,5 +1,6 @@
 var User = require('../models/user');
 var _ = require('underscore');
+var timeUtil = require('../utils/time-util');
 
 
 var login = function (userId) {
@@ -19,7 +20,7 @@ var logout = function (userId) {
             throw new Error;
         } else {
             user.online = false;
-            user.lastLogin = new Date();
+            user.lastLogin = timeUtil.getLocalDate(new Date());
             user.save();
         }
     })

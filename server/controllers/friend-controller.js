@@ -99,9 +99,55 @@ function getFriends(req, res) {
     })
 }
 
+
+function getFriendsRequests(req, res) {
+    UserService.getUserById(req.payload.id).then(function (user) {
+        var requestsList = [];
+        var count = user.addRequests.length;
+        if (count > 0) {
+            //there are friends requests!
+            _.each(user.addRequests, function (request) {
+                var counter = user.addRequests.length;
+                UserService.getUserById(request.userId).then(user)
+                {
+                    requestsList.push({
+                        id: user._id,
+                        email: user.local.email,
+                        nickname: user.local.nickname
+                    });
+                    counter--;
+                    if (counter == 0) {
+                        sendJsonResponse(res, 200, {
+                            status: 0,
+                            payload: {
+                                add_friend_list: {
+                                    list: requestsList,
+                                    count: count
+                                }
+                            }
+                        })
+                    }
+                }
+            })
+        } else {
+            sendJsonResponse(res, 200, {
+                status: 0,
+                payload: {
+                    add_friend_list: {
+                        list: requestsList,
+                        count: 0
+                    }
+                }
+            })
+        }
+    })
+}
+
+
 module.exports = {
     requestFriend: requestFriend,
     addToFriends: addToFriends,
     declineRequest: declineRequest,
-    getFriends: getFriends
+    getFriends: getFriends,
+    getFriendsRequests: getFriendsRequests
 }

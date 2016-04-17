@@ -5,7 +5,7 @@
     <button class="vc-button chat-controls-panel-button camera" data-ng-click="showVideoChatWindow()">
     </button>
 </div>
-<div class="messages-wrapper" data-ng-repeat="message in messages">
+<div class="messages-wrapper" data-ng-repeat="message in messagesList">
     <div class="message-box" data-ng-class="{true: 'left', false: 'right'}[isMessageMine(message)]">
         <div class="icon-wrapper">
             <img class="icon" src="../../public/images/girl1.png"/>
@@ -17,6 +17,6 @@
     </div>
 </div>
 <div class="message-input-wrapper">
-    <input type="text" autocomplete="off" placeholder="Type your message..."/>
+    <input type="text" autocomplete="off" placeholder="Type your message..." data-ng-bind="messageText"/>
     <button class="vc-button send-button" data-ng-click="sendMessage()"></button>
 </div>

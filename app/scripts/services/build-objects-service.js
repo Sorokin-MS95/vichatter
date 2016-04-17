@@ -128,11 +128,10 @@ function BuildObjectsService(FriendListItemBuilder, MenuItemBuilder, FriendReque
 
     return {
         buildItems: _buildItems,
-        addItems: _addItem,
+        addItem: _addItem,
         getItem: _getItem,
         replaceItem: _replaceItem,
         removeItem: _replaceItem,
-
         buildRegistrationData: _buildRegistrationData,
         buildProfileInfo: _buildProfileInfo,
         buildMessages: _buildMessages,

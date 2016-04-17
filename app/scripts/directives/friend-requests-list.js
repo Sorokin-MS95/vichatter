@@ -8,8 +8,6 @@ var app = angular.module('viChatter');
 
 app.directive('vcFriendRequestsList', vcFriendRequestsList);
 
-
-
 function vcFriendRequestsList() {
 
     function link(scope) {

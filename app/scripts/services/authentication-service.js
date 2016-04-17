@@ -19,8 +19,8 @@ function AuthenticationService($http, $window, localStorageService, AppConstants
     }
 
     function _clearUserData() {
-        localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.ACCESS_TOKEN, null);
-        localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID, null);
+        localStorageService.remove(AppConstants.LOCAL_STORAGE_IDENTIFIERS.ACCESS_TOKEN);
+        localStorageService.remove(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID);
     }
 
     return {

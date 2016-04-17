@@ -10,11 +10,17 @@ NetworkProvider.$inject = ['$http', '$q', 'ResponseBuilder', 'localStorageServic
 
 function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppConstants) {
 
-    var config = {
-        headers: {
-            'ACCESS_TOKEN': localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.ACCESS_TOKEN)
+    var config = null;
+
+    function _initializeConfig() {
+        var headerConfig = {
+            headers: {
+                'ACCESS_TOKEN': localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.ACCESS_TOKEN)
+            }
         }
-    };
+        config = headerConfig;
+    }
+
 
     function _post(url, data) {
         var deferred = $q.defer();
@@ -64,14 +70,8 @@ function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppCon
     }
 
 
-    function _getFirstLoadData(userId) {
-        var data = {};
-
-        if (userId !== null) {
-            data.user_id = userId;
-        }
-
-        return _get('/api/profile', data);
+    function _getProfile() {
+        return _get('/api/profile');
     }
 
 
@@ -95,11 +95,11 @@ function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppCon
         var data = {};
 
         if (attrs.hasOwnProperty("userId") && attrs.userId !== null) {
-            data.page = attrs.page;
+            data.user_id = attrs.userId;
         }
 
         if (attrs.hasOwnProperty("friendId") && attrs.friendId !== null) {
-            data.friend_id = attrs.friend_id;
+            data.friend_id = attrs.friendId;
         }
 
         if (attrs.hasOwnProperty("page") && attrs.page !== null) {
@@ -142,15 +142,30 @@ function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppCon
         return _post('/api/profile/', params);
     }
 
+    function _addFriendRequest(userId) {
+        var params = {
+            userId: userId
+        };
+
+        return _post('/api/friend/request', params);
+    }
+
+
+    function _getFriendsRequests() {
+        return _get('/api/friends/requests');
+    }
 
     return {
+        initializeConfig: _initializeConfig,
         login: _login,
         register: _register,
-        getFirstLoadData: _getFirstLoadData,
+        getProfile: _getProfile,
         getFriendProfile: _getFriendProfile,
         getMessages: _getMessages,
         getSearchListOfFriends: _getSearchListOfFriends,
         updateProfile: _updateProfile,
-        getUserFriends: _getUserFriends
+        getUserFriends: _getUserFriends,
+        getFriendsRequests: _getFriendsRequests,
+        addFriendRequest: _addFriendRequest
     };
 }
