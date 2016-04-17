@@ -12,6 +12,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     $scope.myProfileData = null;
     $scope.friendProfileData = null;
     $scope.messagesList = [];
+    $scope.friendsList = [];
 
     $scope.isFriendRequestListActive = null;
     $scope.isFriendsListActive = null;
@@ -27,9 +28,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         subscribeOnSocketEvents();
         subscribeOnUiEvents();
         loadFriendsList();
-
-
-
         loadFriendRequestsList();
     })();
 

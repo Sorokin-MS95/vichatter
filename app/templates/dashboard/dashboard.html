@@ -1,7 +1,7 @@
 <vc-menu friends-counter="friendsList.length" friend-requests-counter="friendRequestsList.length"></vc-menu>
-<div data-ng-if="isFriendsListActive || isFriendRequestListActive" class="vc-friends-panel">
+<div      class='vc-friends-panel animate-hide' data-ng-hide="isFriendsListActive || isFriendRequestListActive">
     <vc-friend-list data-ng-if="isFriendsListActive" list-of-friends="friendsList"></vc-friend-list>
-    <vc-friend-requests-list data-ng-if="isFriendRequestListActive" list-of-requests="friendRequestsList"
+    <vc-friend-requests-list data-ng-if="isFriendRequestListActive"  list-of-requests="friendRequestsList"
                              add-friend-callback="addFriend"></vc-friend-requests-list>
 </div>
 <div data-ng-if="isFriendProfileDataActive || isMyProfileDataActive" class="vc-profile-panel">
