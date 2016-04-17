@@ -20,7 +20,7 @@ var getMessages = function (req, res) {
     UserService.getUserById(currentUserId).then(function (user) {
         var friend = _.find(user.friends, function (friend) {
             return friend.userId == userId;
-        })
+        });
 
         var result = [];
         var messages = friend.messages.reverse().slice((page - 1) * count, count);

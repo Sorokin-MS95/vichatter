@@ -45,6 +45,9 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
         });
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.MESSAGE_NOTIFICATION, function (e, data) {
+            socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.MESSAGE_NOTIFICATION, {
+                
+            });
             /*send notification on server*/
         });
 

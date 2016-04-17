@@ -31,6 +31,11 @@ var SocketService = function (options) {
                 })
             });
 
+
+            socket.on('fe_message_notification', function(data){
+                console.log('worked!');
+            })
+
             socket.on('disconnect', function () {
                 console.log('Socket ' + socket.id + " disconnected");
                 var connection = that.getConnectionBySocket(socket);

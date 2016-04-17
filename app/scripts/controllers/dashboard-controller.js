@@ -39,17 +39,17 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
 
     function notifyFriends() {
-        EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END_USER_LOGGED_IN_EVENT);
+        EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.USER_LOGGED_IN_EVENT);
     }
 
     function subscribeOnSocketEvents() {
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_IN_EVENT, function (e, data) {
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_IN_EVENT, function (e, data) {
             console.log(data);
             //it worked!!
         })
 
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END_USER_LOGGED_OUT_EVENT, function (e, data) {
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_OUT_EVENT, function (e, data) {
             console.log(data);
             //it worked
         })
