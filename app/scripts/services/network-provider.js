@@ -10,11 +10,17 @@ NetworkProvider.$inject = ['$http', '$q', 'ResponseBuilder', 'localStorageServic
 
 function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppConstants) {
 
-    var config = {
-        headers: {
-            'ACCESS_TOKEN': localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.ACCESS_TOKEN)
+    var config = null;
+
+    function _initializeConfig() {
+        var headerConfig = {
+            headers: {
+                'ACCESS_TOKEN': localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.ACCESS_TOKEN)
+            }
         }
-    };
+        config = headerConfig;
+    }
+
 
     function _post(url, data) {
         var deferred = $q.defer();
@@ -64,14 +70,8 @@ function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppCon
     }
 
 
-    function _getFirstLoadData(userId) {
-        var data = {};
-
-        if (userId !== null) {
-            data.user_id = userId;
-        }
-
-        return _get('/api/profile', data);
+    function _getProfile() {
+        return _get('/api/profile');
     }
 
 
@@ -143,14 +143,20 @@ function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppCon
     }
 
 
+    function _getFriendsRequests() {
+        return _get('/api/friends/requests');
+    }
+
     return {
+        initilizeConfig: _initializeConfig,
         login: _login,
         register: _register,
-        getFirstLoadData: _getFirstLoadData,
+        getProfile: _getProfile,
         getFriendProfile: _getFriendProfile,
         getMessages: _getMessages,
         getSearchListOfFriends: _getSearchListOfFriends,
         updateProfile: _updateProfile,
-        getUserFriends: _getUserFriends
+        getUserFriends: _getUserFriends,
+        getFriendsRequests: _getFriendsRequests
     };
 }

@@ -22,12 +22,15 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
 
     (function initialize() {
+        NetworkProvider.initilizeConfig();
         SocketService.initialize();
         notifyFriends();
         subscribeOnSocketEvents();
         subscribeOnUiEvents();
         loadFriendsList();
-
+        loadFriendsRequests();
+        loadProfile();
+        
 
 
         loadFriendRequestsList();
@@ -118,6 +121,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         })
     }
 
+
     $scope.sendMessage = function (message) {
         //WEBSOCKET
     }
@@ -129,8 +133,23 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
     function loadFriendsList() {
         NetworkProvider.getUserFriends().then(function (result) {
+            console.log('Friends : ' + result.payload.friend_list.list);
             $scope.friendsList = BuildObjectsService.buildFriendListItems(result.payload.friend_list.list);
         });
+    }
+    
+    function loadProfile(){
+        NetworkProvider.getProfile().then(function(result){
+            console.log('Profile : ' + result.payload.profile_info);
+            console.log(result.payload.profile_info);
+        })
+    }
+
+    function loadFriendsRequests(){
+        NetworkProvider.getFriendsRequests().then(function(result){
+            console.log('Friends requests :' + result.payload.add_friend_list);
+            console.log(result.payload.add_friend_list);
+        })
     }
 
     function loadFriendRequestsList() {
