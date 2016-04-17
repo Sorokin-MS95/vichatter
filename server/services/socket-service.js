@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var User = require('../models/user');
 var UserService = require('../services/user-service');
+var MessageService = require('../services/message-service');
 var FriendService = require('../services/friend-service');
 
 var SocketService = function (options) {
@@ -32,9 +33,58 @@ var SocketService = function (options) {
             });
 
 
-            socket.on('fe_message_notification', function(data){
-                console.log('worked!');
-            })
+            socket.on('fe_message_notification', function (data) {
+                MessageService.saveMessage(data.userId, data.friendId, data.content).then(function (message) {
+                    UserService.getUserById(data.userId).then(function (user) {
+                        var friend = _.find(user.friends, function (friend) {
+                            return friend.userId == data.friendId;
+                        });
+                        friend.messages.push(message._id);
+                        friend.lastMessage = message._id;
+                        user.save();
+                    });
+
+
+                    UserService.getUserById(data.friendId).then(function (user) {
+                        var friend = _.find(user.friends, function (friend) {
+                            return friend.userId == data.userId;
+                        });
+                        friend.messages.push(message._id);
+                        friend.lastMessage = message._id;
+                        user.save();
+                    });
+
+                    var userConnection = that.getConnectionByUserId(data.userId);
+                    if (userConnection) {
+                        userConnection.socket.emit('be_message_notification', {
+                            id: message._id,
+                            sender_id: message.senderId,
+                            receiver_id: message.receiverId,
+                            text: message.content,
+                            date: message.date
+                        });
+                    }
+
+                    var friendConnection = that.getConnectionByUserId(data.friendId);
+                    if (friendConnection) {
+                        friendConnection.socket.emit('be_message_notification', {
+                            id: message._id,
+                            sender_id: message.senderId,
+                            receiver_id: message.receiverId,
+                            text: message.content,
+                            date: message.date
+                        });
+                    } else {
+                        UserService.getUserById(data.friendId).then(function (user) {
+                            var friend = _.find(user.friends, function (friend) {
+                                return friend.userId == data.userId;
+                            });
+                            friend.unreadMessages++;
+                            user.save();
+                        });
+                    }
+                });
+            });
 
             socket.on('disconnect', function () {
                 console.log('Socket ' + socket.id + " disconnected");

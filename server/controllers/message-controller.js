@@ -22,6 +22,7 @@ var getMessages = function (req, res) {
             return friend.userId == userId;
         });
 
+
         var result = [];
         var messages = friend.messages.reverse().slice((page - 1) * count, count);
         var counter = messages.length;
@@ -33,13 +34,13 @@ var getMessages = function (req, res) {
                 }
             })
         } else {
-            _.each(messages, function (message) {
-                Message.getMessageById(message).then(function (message) {
+            _.each(messages, function (oneMessage) {
+                MessageService.getMessageById(oneMessage).then(function (message) {
                     UserService.getUserById(message.senderId).then(function (user) {
                         result.push({
                             id: message._id,
                             sender_id: user._id,
-                            content: message.content,
+                            text: message.content,
                             date: message.date,
                             email: user.email
                         });

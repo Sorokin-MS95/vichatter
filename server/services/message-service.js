@@ -1,6 +1,7 @@
 var Message = require('../models/message');
 var User = require('../models/user');
 var _ = require('underscore');
+var timeUtil = require('../utils/time-util');
 
 var UserService = require('../services/user-service');
 
@@ -9,26 +10,9 @@ var saveMessage = function (senderId, receiverId, content) {
     newMessage.senderId = senderId;
     newMessage.receiverId = receiverId;
     newMessage.content = content;
-    newMessage.date = new Date();
+    newMessage.date = timeUtil.getLocalDate(new Date());
     //todo promise
-    newMessage.save(function (err) {
-        UserService.getUserById(senderId).then(function (user) {
-            var friend = _.find(user.friends, function (friend) {
-                return friend.userId == receiverId;
-            });
-            friend.messages.push(newMessage._id);
-            friend.lastMessage = message._id;
-            friend.save();
-        });
-        UserService.getUserById(receiverId).then(function (user) {
-            var friend = _.find(user.friends, function (friend) {
-                return friend.userId == senderId;
-            })
-            friend.messages.push(newMessage._id);
-            friend.lastMessage = message._id;
-            friend.save();
-        })
-    });
+    return newMessage.save();
 };
 
 
