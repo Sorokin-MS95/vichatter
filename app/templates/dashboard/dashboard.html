@@ -1,7 +1,7 @@
 <div class="vc-menu-panel" vc-menu friends-list="friendsList" friend-requests-list="friendRequestsList"></div>
 <div data-ng-if="isFriendsListActive || isFriendRequestListActive"  class="vc-friends-panel animate-if">
     <vc-search-field ng-if="isFriendsListActive" class="animate-if" callback-to-load-elements=""></vc-search-field>
-    <div ng-if="isFriendRequestListActive" class="animate-if" class="friends-panel-header">
+    <div ng-if="isFriendRequestListActive" class="animate-if friends-panel-header">
         <span>Friend list requests</span>
     </div>
     <div vc-friend-list ng-if="isFriendsListActive" class="animate-if" list-of-friends="friendsList"></div>
