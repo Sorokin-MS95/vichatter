@@ -7,9 +7,9 @@ var app = angular.module('viChatter');
 
 app.directive('vcChatWindow', vcChatWindow);
 
-vcChatWindow.$inject = ['EventsService', 'AppConstants', 'localStorageService'];
+vcChatWindow.$inject = ['EventsService', 'AppConstants', 'localStorageService', 'VideoService'];
 
-function vcChatWindow(EventsService, AppConstants, localStorageService) {
+function vcChatWindow(EventsService, AppConstants, localStorageService, VideoService) {
 
     function link(scope) {
 
@@ -31,6 +31,17 @@ function vcChatWindow(EventsService, AppConstants, localStorageService) {
             EventsService.notify(AppConstants.UI_EVENTS.LOAD_MESSAGES_REQUEST, data);
             console.log('TOP!');
         }
+        
+        scope.videoCall = function(){
+            VideoService.getStream().then(function(stream){
+                //todo set my stream to video object!
+                //todo send offer to friend
+                console.log(stream);
+            }).catch(function(){
+            })
+        }
+        
+        
 
         scope.isMessageMine = function(message)
         {
