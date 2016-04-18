@@ -36,7 +36,9 @@ appModule.constant('AppConstants', {
         SHOW_FRIEND_PROFILE: 'show_friend_profile',
         SHOW_FRIENDS_REQUESTS_LIST: 'show_friends_requests_list',
         LOGOUT: 'logout',
-        LOAD_MESSAGES_REQUEST: 'load_messages_request'
+        LOAD_MESSAGES_REQUEST: 'load_messages_request',
+        SHOW_SEARCH_LIST: 'show_search_list',
+        HIDE_SEARCH_LIST: 'hide_search_list'
     },
     FORM_FIELDS: {
         PASSOWORD_FIELD: 'password',

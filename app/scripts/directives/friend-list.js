@@ -25,17 +25,19 @@ function vcFriendList(EventsService, AppConstants, localStorageService) {
         }
 
         scope.selectFriend = function (friend) {
-            var data = {
-                id: friend.getId()
-            };
-            scope.selectedFriendId = friend.getId();
+            if (scope.selectedFriendId != friend.getId()) {
+                var data = {
+                    id: friend.getId()
+                };
+                scope.selectedFriendId = friend.getId();
 
-            var data = {
-                friendId: scope.selectedFriendId,
-                userId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID)
-            };
+                var data = {
+                    friendId: scope.selectedFriendId,
+                    userId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID)
+                };
 
-            EventsService.notify(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, data);
+                EventsService.notify(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, data);
+            }
         }
     }
 

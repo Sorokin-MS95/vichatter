@@ -1,12 +1,13 @@
 <div class="vc-menu-panel" vc-menu friends-list="friendsList" friend-requests-list="friendRequestsList"></div>
 <div data-ng-if="isFriendsListActive || isFriendRequestListActive"  class="vc-friends-panel animate-if">
-    <vc-search-field ng-if="isFriendsListActive" class="animate-if" callback-to-load-elements=""></vc-search-field>
+    <vc-search-field ng-if="isFriendsListActive" class="animate-if" search-string="searchString" callback-to-load-elements="loadSearchFriends(searchString)"></vc-search-field>
     <div ng-if="isFriendRequestListActive" class="animate-if friends-panel-header">
         <span>Friend list requests</span>
     </div>
     <div vc-friend-list ng-if="isFriendsListActive" class="animate-if" list-of-friends="friendsList"></div>
     <div vc-friend-requests-list data-ng-if="isFriendRequestListActive || isSearchActive" class="animate-if"  list-of-requests="friendRequestsList"
                              add-friend-callback="addFriend"></div>
+    <div vc-friend-search-list list-of-search-friends="searchFriendsList" add-friend-callback="addFriend" ng-if="isFriendSearchListActive"></div>
 </div>
 <div data-ng-if="isFriendProfileDataActive || isMyProfileDataActive" class="animate-if vc-profile-panel">
     <div vc-friend-profile data-ng-if="isFriendProfileDataActive" class="animate-if" profile-info=""></div>

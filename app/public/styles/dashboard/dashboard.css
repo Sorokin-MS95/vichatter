@@ -599,6 +599,7 @@
     height: -moz-calc(100% - 80px - 80px);
     overflow-y: auto;
     float: left;
+    width: 100%;
 }
 
 .message-input-wrapper {

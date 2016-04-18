@@ -42,15 +42,18 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         }];
     $scope.friendsList = [];
     $scope.selectedFriendId = null;
+    $scope.searchString = "";
 
     $scope.isFriendRequestListActive = null;
     $scope.isFriendsListActive = null;
     $scope.isMyProfileDataActive = null;
     $scope.isFriendProfileDataActive = null;
     $scope.isMessagesListActive = null;
+    $scope.isFriendSearchListActive = null;
     $scope.isVideoChatActive = null;
     $scope.messagesOnPageCount = 0;
     $scope.messagesPageNumber = 0;
+    $scope.searchFriendsList = [];
 
 
     (function initialize() {
@@ -87,6 +90,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.ADD_FRIEND_NOTIFICATION, function (e, data) {
 
         });
+
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.MESSAGE_NOTIFICATION, function (e, data) {
             $scope.messagesList = BuildObjectsService.addItem(BuildObjectsService.buildMessage(data), $scope.messagesList);
@@ -126,8 +130,26 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.isFriendRequestListActive = false;
         });
 
+        EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_SEARCH_LIST, function (e, data) {
+            $scope.isFriendSearchListActive = true;
+            $scope.isFriendsListActive = false;
+            $scope.isFriendRequestListActive = false;
+            $scope.isFriendProfileDataActive = false;
+
+        });
+
+        EventsService.subscribe(AppConstants.UI_EVENTS.HIDE_SEARCH_LIST, function (e, data) {
+            $scope.isFriendSearchListActive = false;
+            $scope.searchFriendsList = [];
+            $scope.isFriendsListActive = true;
+            $scope.isFriendRequestListActive = false;
+            $scope.isFriendProfileDataActive = false;
+
+        });
+
+
         EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_FRIENDS_LIST, function (e, data) {
-            /*loadFriendsList();*/
+            loadFriendsList();
             $scope.isFriendsListActive = true;
             $scope.isFriendRequestListActive = false;
             $scope.isFriendProfileDataActive = false;
@@ -135,7 +157,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_FRIENDS_REQUESTS_LIST, function (e, data) {
-            loadFriendRequestsList();
+            loadFriendsRequests();
             $scope.isFriendsListActive = false;
             $scope.isFriendRequestListActive = true;
             $scope.isFriendProfileDataActive = false;
@@ -165,11 +187,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     }
 
 
-    $scope.sendMessage = function (message) {
-        //WEBSOCKET
-    }
-
-
     $scope.updateProfile = function (profileData) {
 
     }
@@ -195,10 +212,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         })
     }
 
-    function loadFriendRequestsList() {
-
-
-    }
 
     function loadMyProfileData() {
 
@@ -208,6 +221,17 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     function loadFriendProfileData() {
 
     }
+
+    $scope.loadSearchFriends = function (queryString) {
+        var attrs = {
+            userId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
+            search_string: queryString
+        };
+        NetworkProvider.getSearchListOfFriends(attrs).then(function (result) {
+            console.log('List of search friends:' + result.payload.add_friends_list);
+            $scope.messagesList = BuildObjectsService.buildFriendRequestItems(result.payload.add_friends_list);
+        });
+    };
 
 
     function loadMessages(data) {
@@ -219,11 +243,11 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             count: data.count
         };
 
-        /*NetworkProvider.getMessages(data).then(function (result) {
-         console.log('Messages :' + result.payload.messages);
-         $scope.messagesList = BuildObjectsService.buildMessages(result.payload.messages);
-         })*/
-        $scope.messagesList = BuildObjectsService.buildMessages($scope.messagesList);
+        NetworkProvider.getMessages(data).then(function (result) {
+            console.log('Messages :' + result.payload.messages);
+            $scope.messagesList = BuildObjectsService.addItems(
+                BuildObjectsService.buildMessages($scope.messagesList), result.payload.messages);
+        });
 
     }
 

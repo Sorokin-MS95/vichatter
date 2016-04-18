@@ -45,6 +45,16 @@ function BuildObjectsService(FriendListItemBuilder, MenuItemBuilder, FriendReque
         return itemsList;
     };
 
+    var _addItems = function (items, itemsList) {
+
+        if (angular.isArray(items)) {
+            angular.forEach(items, function (item) {
+                itemsList.push(item);
+            });
+        }
+        return itemsList;
+    };
+
     var _replaceItem = function (item, itemsList) {
             var items = itemsList;
             var index = _.findIndex(items, function (o) {
@@ -129,6 +139,7 @@ function BuildObjectsService(FriendListItemBuilder, MenuItemBuilder, FriendReque
     return {
         buildItems: _buildItems,
         addItem: _addItem,
+        addItems: _addItems,
         getItem: _getItem,
         replaceItem: _replaceItem,
         removeItem: _replaceItem,

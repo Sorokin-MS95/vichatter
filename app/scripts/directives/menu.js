@@ -47,6 +47,7 @@ function vcMenu(EventsService, AppConstants, BuildObjectsService) {
         scope.clickOnAddFriendMenu = function () {
             if (scope.friendRequestsList.length > 0) {
                 EventsService.notify(AppConstants.UI_EVENTS.SHOW_FRIENDS_REQUESTS_LIST);
+                scope.selectedMenuItem = null;
             }
         }
 
