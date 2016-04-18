@@ -20,9 +20,13 @@ function vcChatWindow(EventsService, AppConstants, localStorageService, VideoSer
             };
             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.MESSAGE_NOTIFICATION, data);
             scope.messageText = "";
+        };
+
+        scope.showVideoChatWindow = function () {
+
         }
 
-        scope.handleScrollToTop = function(){
+        scope.handleScrollToTop = function () {
             var data = {
                 friendId: scope.friendId,
                 userId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
@@ -43,8 +47,7 @@ function vcChatWindow(EventsService, AppConstants, localStorageService, VideoSer
         
         
 
-        scope.isMessageMine = function(message)
-        {
+        scope.isMessageMine = function (message) {
             return (localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID) == message.getSenderId());
         }
     }
@@ -54,7 +57,7 @@ function vcChatWindow(EventsService, AppConstants, localStorageService, VideoSer
         templateUrl: 'app/templates/dashboard/directives/chat-window.html',
         scope: {
             'messagesList': '=',
-            'friendId':'='
+            'friendId': '='
         },
         link: link
     }

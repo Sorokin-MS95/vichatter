@@ -157,6 +157,11 @@ function FriendListItemBuilder() {
     };
 
 
+    FriendListItem.prototype.setOnline = function (value) {
+        this._online = value;
+    }
+
+
     /**
      * Creates new FriendListItem instance.
      * @param friendListItemData {object} FriendListItem data.

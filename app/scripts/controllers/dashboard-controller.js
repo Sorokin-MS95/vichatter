@@ -49,19 +49,37 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
     function subscribeOnSocketEvents() {
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_IN_EVENT, function (e, data) {
-            console.log(data);
-            //it worked!!
+            var user = BuildObjectsService.getItem(data.userId, $scope.friendsList);
+
+            var index = _.findIndex($scope.friendsList, function (item) {
+                return item.getId() === user.getId();
+            });
+            if (index >= 0) {
+                $scope.friendsList[index].setOnline(true);
+            }
+
         })
 
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_OUT_EVENT, function (e, data) {
-            console.log(data);
-            //it worked
+            var user = BuildObjectsService.getItem(data.userId, $scope.friendsList);
+
+            var index = _.findIndex($scope.friendsList, function (item) {
+                return item.getId() === user.getId();
+            });
+            if (index >= 0) {
+                $scope.friendsList[index].setOnline(false);
+            }
         })
 
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.ADD_FRIEND_NOTIFICATION, function (e, data) {
+            function addFriendCallback() {
+                $scope.friendsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data.friend));
+            }
 
+            PopupService.showAcceptDeclinePopup("You've got new friendship request",
+                'Do you want to confirm addition of friend?', addFriendCallback);
         });
 
 

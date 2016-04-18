@@ -20,7 +20,7 @@ function PopupService(ngDialog, EventsService, AppConstants) {
         var cancelcallback = angular.isFunction(cancelCallback) ? cancelCallback : function () {
         };
         return ngDialog.openConfirm({
-            template: 'templates/web/common/accept-cancel-popup.html',
+            template: 'templates/common/popups/accept-cancel-popup.html',
             data: {
                 title: title,
                 infoText: infoText
@@ -32,39 +32,7 @@ function PopupService(ngDialog, EventsService, AppConstants) {
     }
 
     return {
-        showFullScreenSurveyPopup: showFullScreenSurveyPopup,
-
-        showCreateUserPopup: showCreateUserPopup,
-        showEditUserPopup: showEditUserPopup,
-
-        showCreateClientPopup: showCreateClientPopup,
-        showEditClientPopup: showEditClientPopup,
-        showSelectAntennaColorsPopup: showSelectAntennaColorsPopup,
-
-        showCreateAntennaPopup: showCreateAntennaPopup,
-        showEditAntennaPopup: showEditAntennaPopup,
-
-        showCreateQuestionPopup: showCreateQuestionPopup,
-        showEditQuestionPopup: showEditQuestionPopup,
-        showCloneQuestionnairePopup: showCloneQuestionnairePopup,
-
         closeAll: closeAllPopups,
-
-        showCreateProjectPopup: showCreateProjectPopup,
-        showEditProjectPopup: showEditProjectPopup,
-
-        showCreateSitePopup: showCreateSitePopup,
-        showEditSitePopup: showEditSitePopup,
-
-        showCreateReportPopup: showCreateReportPopup,
-
-        showAssignUsersPopup: showAssignUsersPopup,
-
-        showAssignUsersOnProjectsPopup: showAssignUsersOnProjectsPopup,
-
-        showInfoPopup: showInfoPopup,
-
         showAcceptDeclinePopup: showAcceptDeclinePopup
-
     };
 }
