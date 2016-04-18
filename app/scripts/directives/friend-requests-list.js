@@ -8,13 +8,14 @@ var app = angular.module('viChatter');
 
 app.directive('vcFriendRequestsList', vcFriendRequestsList);
 
-function vcFriendRequestsList() {
+vcFriendRequestsList.$inject = ['EventsService', 'AppConstants'];
+
+function vcFriendRequestsList(EventsService, AppConstants) {
 
     function link(scope) {
 
         scope.addFriend = function (friend) {
-            EventsService
-            scope.addFriendCallback(friend);
+            EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, friend);
         }
     }
 
@@ -22,8 +23,7 @@ function vcFriendRequestsList() {
         restrict: 'EA',
         templateUrl: 'app/templates/dashboard/directives/friend-request-list.html',
         scope: {
-            'listOfRequests': '=',
-            'addFriendCallback': '&'
+            'listOfRequests': '='
         },
         link: link
     }

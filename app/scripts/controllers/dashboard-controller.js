@@ -58,7 +58,11 @@ function DashboardController($scope, SocketService, localStorageService, Authent
                 $scope.friendsList[index].setOnline(true);
             }
 
-        })
+        });
+
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, function (e, data) {
+            $scope.addFriend(data);
+        });
 
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_OUT_EVENT, function (e, data) {
