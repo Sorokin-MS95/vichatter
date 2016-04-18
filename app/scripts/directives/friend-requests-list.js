@@ -13,6 +13,7 @@ function vcFriendRequestsList() {
     function link(scope) {
 
         scope.addFriend = function (friend) {
+            EventsService
             scope.addFriendCallback(friend);
         }
     }

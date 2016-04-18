@@ -2,6 +2,7 @@ var User = require('../models/user');
 var _ = require('underscore');
 var FriendService = require('../services/friend-service');
 var UserService = require("../services/user-service");
+var MessageService = require('../services/message-service');
 
 
 var sendJsonResponse = function (res, status, content) {
@@ -64,24 +65,51 @@ function getFriends(req, res) {
             _.each(user.friends, function (friend) {
                 var counter = user.friends.length;
                 UserService.getUserById(friend.userId).then(function (user) {
-                    friendList.push({
-                        id: user._id,
-                        email: user.local.email,
-                        nickname: user.local.nickname,
-                        unread_messages_count: friend.unreadMessages,
-                        online: user.online
-                    });
-                    counter--;
-                    if (counter === 0) {
-                        sendJsonResponse(res, 200, {
-                            status: 0,
-                            payload: {
-                                friend_list: {
-                                    list: friendList,
-                                    count: count
-                                }
+                    var lastMessage = friend.lastMessage;
+                    if (lastMessage) {
+                        MessageService.getMessageById(friend.lastMessage).then(function (message) {
+                            friendList.push({
+                                id: user._id,
+                                email: user.local.email,
+                                last_message: message.content,
+                                last_message_time: message.date,
+                                nickname: user.local.nickname,
+                                unread_messages_count: friend.unreadMessages,
+                                online: user.online
+                            });
+                            counter--;
+                            if (counter === 0) {
+                                sendJsonResponse(res, 200, {
+                                    status: 0,
+                                    payload: {
+                                        friend_list: {
+                                            list: friendList,
+                                            count: count
+                                        }
+                                    }
+                                })
                             }
-                        })
+                        });
+                    } else {
+                        friendList.push({
+                            id: user._id,
+                            email: user.local.email,
+                            nickname: user.local.nickname,
+                            unread_messages_count: friend.unreadMessages,
+                            online: user.online
+                        });
+                        counter--;
+                        if (counter === 0) {
+                            sendJsonResponse(res, 200, {
+                                status: 0,
+                                payload: {
+                                    friend_list: {
+                                        list: friendList,
+                                        count: count
+                                    }
+                                }
+                            })
+                        }
                     }
                 })
             });
