@@ -4,11 +4,11 @@ var app = angular.module('viChatter');
 app.controller('DashboardController', DashboardController);
 
 DashboardController.$inject = ['$scope', 'SocketService', 'localStorageService', 'AuthenticationService', 'NetworkProvider',
-    'BuildObjectsService', 'EventsService', 'AppConstants', '$state', '$location', 'WebRTCService'];
+    'BuildObjectsService', 'EventsService', 'AppConstants', '$state', '$location', 'WebRTCService', 'PopupService'];
 
 
 function DashboardController($scope, SocketService, localStorageService, AuthenticationService, NetworkProvider,
-                             BuildObjectsService, EventsService, AppConstants, $state, $location, WebRTCService) {
+                             BuildObjectsService, EventsService, AppConstants, $state, $location, WebRTCService, PopupService) {
 
     $scope.friendRequestsList = [];
     $scope.myProfileData = null;
@@ -40,6 +40,8 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         loadFriendsList();
         loadFriendsRequests();
         loadProfile();
+        PopupService.showAcceptDeclinePopup("You've got new friendship request",
+            'Do you want to confirm addition of friend?', function(){});
     })();
 
 
