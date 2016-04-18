@@ -128,7 +128,7 @@ function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppCon
     function _getFriendsRequests() {
         return _get('/api/friends/requests');
     }
-    
+
     return {
         initializeConfig: _initializeConfig,
         login: _login,

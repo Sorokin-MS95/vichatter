@@ -9,7 +9,7 @@ var offerFriendship = function (currentUserId, userId) {
             userId: currentUserId
         });
         user.save();
-    })
+    });
 };
 
 var addToFriends = function (currentUserId, userId) {
@@ -27,7 +27,6 @@ var addToFriends = function (currentUserId, userId) {
                 userId: currentUserId,
                 unreadMessages: 0
             });
-
             user.save();
         })
     });

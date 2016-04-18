@@ -12,7 +12,7 @@ vcFriendSearchList.$inject = ['AppConstants', 'EventsService'];
 function vcFriendSearchList(AppConstants, EventsService) {
     function link(scope) {
         scope.addFriend = function (friend) {
-            EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, friend);
+            EventsService.notify(AppConstants.UI_EVENTS.REQUEST_FRIENDSHIP, friend);
         };
     }
 
