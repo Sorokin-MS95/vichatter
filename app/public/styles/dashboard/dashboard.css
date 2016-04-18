@@ -646,10 +646,79 @@
     border-radius: 50%;
 }
 
+
+.vc-button.accept{
+    color: rgb(39, 147, 133);
+    font-size: 14px;
+    font-weight: bold;
+    background: none;
+    float: right;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 0
+}
+
+.vc-button.cancel{
+    color: #d44c4c;
+    font-size: 14px;
+    font-weight: bold;
+    background: none;
+    float: right;
+    padding-top: 0;
+    padding-bottom: 0;
+    padding-right: 0;
+}
+
+
+.info-dialog .vc-content{
+    float: left;
+    overflow: visible;
+    width: 100%;
+
+}
+
+.info-dialog .vc-content .info-container{
+    font-size: 16px;
+    font-weight: 400;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    text-align: left;
+    overflow-wrap: break-word;
+}
+
+.ngdialog.ngdialog-info-theme.info-dialog .ngdialog-content {
+    padding: 25px;
+    background: white;
+    overflow: auto;
+}
+
+.ngdialog.ngdialog-info-theme .ngdialog-content{
+    -webkit-animation: ngdialog-flyin .5s;
+    animation: ngdialog-flyin .5s;
+    background: #f0f0f0;
+    border-radius: 1px;
+    color: #444;
+    font-family: 'Helvetica',sans-serif;
+    font-size: 1.1em;
+    line-height: 1.5em;
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 25px;
+    position: relative;
+    width: 400px;
+}
+
 .vc-button.send-button:hover {
     cursor: pointer;
     background: #57626d url(../../images/send.png) no-repeat center center;
 
+}
+
+.info-dialog .tn-header .title{
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: rgba(36, 49, 66, 1);
 }
 
 .vc-button.video-button {
