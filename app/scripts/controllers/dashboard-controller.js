@@ -69,7 +69,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_OUT_EVENT, function (e, data) {
             var user = BuildObjectsService.getItem(data.userId, $scope.friendsList);
-
             var index = _.findIndex($scope.friendsList, function (item) {
                 return item.getId() === user.getId();
             });
@@ -78,8 +77,8 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             }
         })
 
-
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.ADD_FRIEND_NOTIFICATION, function (e, data) {
+            console.log('added user! Process on front-end');
             function addFriendCallback() {
                 $scope.friendsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data.friend));
             }
@@ -88,7 +87,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
                 'Do you want to confirm addition of friend?', addFriendCallback);
         });
 
-
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.MESSAGE_NOTIFICATION, function (e, data) {
             $scope.$apply(function () {
                 $scope.messagesList = BuildObjectsService.pushItem(BuildObjectsService.buildMessage(data), $scope.messagesList);
@@ -96,12 +94,17 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
         });
 
+
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_STATUS_NOTIFICATION, function (e, data) {
 
         });
     }
 
     function subscribeOnUiEvents() {
+
+        EventsService.subscribe(AppConstants.UI_EVENTS.ADD_FRIEND, function (e, data) {
+            EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, data);
+        });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, function (e, data) {
             $scope.messagesOnPageCount = 10;
@@ -183,9 +186,9 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.USER_LOGGED_OUT_EVENT);
             AuthenticationService.clearUserData();
             //todo destroy controller
-            $state.go('home');
+            $state.go('home', {reload: true});
 
-        })
+        });
     }
 
 

@@ -14,9 +14,11 @@ var offerFriendship = function (currentUserId, userId) {
 
 var addToFriends = function (currentUserId, userId) {
     UserService.getUserById(currentUserId).then(function (user) {
+        console.log(user.addRequests.length);
         user.addRequests = _.reject(user.addRequests, function (request) {
             return request.userId == userId;
         });
+        console.log(user.addRequests.length);
         user.friends.push({
             userId: userId,
             unreadMessages: 0

@@ -2,6 +2,8 @@ var User = require('../models/user');
 var _ = require('underscore');
 var FriendService = require('../services/friend-service');
 var UserService = require("../services/user-service");
+var MessageService = require('../services/message-service');
+var SocketService = require('../services/socket-service');
 
 
 var sendJsonResponse = function (res, status, content) {
@@ -30,6 +32,30 @@ function addToFriends(req, res) {
     var userId = req.body.userId;
 
     FriendService.addToFriends(currentUserId, userId);
+
+    UserService.getUserById(userId).then(function (user) {
+        var result = {
+            id: user._id,
+            email: user.local.email,
+            nickname: user.local.nickname,
+            online: user.online
+        };
+        sendJsonResponse(res, 200, {
+            status: 0,
+            payload: {
+                one_friend: result
+            }
+        });
+
+
+        SocketService.notifyUserFriendRequestAccepted()
+
+
+        //todo socket Service
+
+
+    })
+
 
     var message = {
         userId: userId,
@@ -64,24 +90,51 @@ function getFriends(req, res) {
             _.each(user.friends, function (friend) {
                 var counter = user.friends.length;
                 UserService.getUserById(friend.userId).then(function (user) {
-                    friendList.push({
-                        id: user._id,
-                        email: user.local.email,
-                        nickname: user.local.nickname,
-                        unread_messages_count: friend.unreadMessages,
-                        online: user.online
-                    });
-                    counter--;
-                    if (counter === 0) {
-                        sendJsonResponse(res, 200, {
-                            status: 0,
-                            payload: {
-                                friend_list: {
-                                    list: friendList,
-                                    count: count
-                                }
+                    var lastMessage = friend.lastMessage;
+                    if (lastMessage) {
+                        MessageService.getMessageById(friend.lastMessage).then(function (message) {
+                            friendList.push({
+                                id: user._id,
+                                email: user.local.email,
+                                last_message: message.content,
+                                last_message_time: message.date,
+                                nickname: user.local.nickname,
+                                unread_messages_count: friend.unreadMessages,
+                                online: user.online
+                            });
+                            counter--;
+                            if (counter === 0) {
+                                sendJsonResponse(res, 200, {
+                                    status: 0,
+                                    payload: {
+                                        friend_list: {
+                                            list: friendList,
+                                            count: count
+                                        }
+                                    }
+                                })
                             }
-                        })
+                        });
+                    } else {
+                        friendList.push({
+                            id: user._id,
+                            email: user.local.email,
+                            nickname: user.local.nickname,
+                            unread_messages_count: friend.unreadMessages,
+                            online: user.online
+                        });
+                        counter--;
+                        if (counter === 0) {
+                            sendJsonResponse(res, 200, {
+                                status: 0,
+                                payload: {
+                                    friend_list: {
+                                        list: friendList,
+                                        count: count
+                                    }
+                                }
+                            })
+                        }
                     }
                 })
             });
@@ -106,10 +159,9 @@ function getFriendsRequests(req, res) {
         var count = user.addRequests.length;
         if (count > 0) {
             //there are friends requests!
+            var counter = user.addRequests.length;
             _.each(user.addRequests, function (request) {
-                var counter = user.addRequests.length;
-                UserService.getUserById(request.userId).then(user)
-                {
+                UserService.getUserById(request.userId).then(function (user) {
                     requestsList.push({
                         id: user._id,
                         email: user.local.email,
@@ -127,7 +179,7 @@ function getFriendsRequests(req, res) {
                             }
                         })
                     }
-                }
+                })
             })
         } else {
             sendJsonResponse(res, 200, {

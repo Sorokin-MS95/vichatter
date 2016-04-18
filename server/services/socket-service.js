@@ -86,6 +86,45 @@ var SocketService = function (options) {
                 });
             });
 
+
+            socket.on('fe_add_friend_notification', function (data) {
+                var senderId = data.senderId;
+                var receiverId = data.receiverId;
+                FriendService.addToFriends(senderId, receiverId);
+                
+                var senderConnection = that.getConnectionByUserId(senderId);
+
+                if (senderConnection) {
+                    UserService.getUserById(receiverId).then(function (user) {
+                        var result = {
+                            id: _id,
+                            email: user.local.email,
+                            nickname: user.local.nickname,
+                            online: user.online
+                        }
+                        senderConnection.emit('be_add_friend_notification', {
+                            one_friend: result
+                        });
+                    });
+                }
+
+                var receiverConnection = that.getConnectionByUserId(receiverId);
+                if (receiverConnection) {
+                    UserService.getUserById(senderId).then(function (user) {
+                        var result = {
+                            id: _id,
+                            email: user.local.email,
+                            nickname: user.local.nickname,
+                            online: user.online
+                        }
+                        receiverConnection.emit('be_add_friend_notification', {
+                            one_friend: result
+                        })
+                    });
+                }
+            });
+
+
             socket.on('disconnect', function () {
                 console.log('Socket ' + socket.id + " disconnected");
                 var connection = that.getConnectionBySocket(socket);
