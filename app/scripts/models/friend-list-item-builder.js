@@ -19,9 +19,8 @@ function FriendListItemBuilder() {
 
         this._lastName = angular.isDefined(friendListItemData.last_name) ? friendListItemData.last_name : null;
 
-        this._firstName = angular.isDefined(friendListItemData.first_name) ? friendListItemData.first_name : null;
+        this._nickname = angular.isDefined(friendListItemData.nickname) ? friendListItemData.nickname : null;
 
-        this._email = angular.isDefined(friendListItemData.email) ? friendListItemData.email : null;
 
         this._lastMessage = angular.isDefined(friendListItemData.last_message) ? friendListItemData.last_message : null;
 
@@ -40,18 +39,13 @@ function FriendListItemBuilder() {
     FriendListItem.prototype._id = null;
 
     /**
-     * FriendListItem  first name.
+     * FriendListItem  nickname.
      * @type {string}
      * @private
      */
-    FriendListItem.prototype._firstName = null;
+    FriendListItem.prototype._nickname = null;
 
-    /**
-     * FriendListItem last name.
-     * @type {string}
-     * @private
-     */
-    FriendListItem.prototype._lastName = null;
+
 
     /**
      * FriendListItem  email.
@@ -99,20 +93,13 @@ function FriendListItemBuilder() {
     };
 
     /**
-     * Returns FriendListItem first name.
+     * Returns FriendListItem nickname.
      * @returns {string}
      */
-    FriendListItem.prototype.getFirstName = function () {
-        return this._firstName;
+    FriendListItem.prototype.getNickname = function () {
+        return this._nickname;
     };
 
-    /**
-     * Returns FriendListItem last name.
-     * @returns {string}
-     */
-    FriendListItem.prototype.getLastName = function () {
-        return this._lastName;
-    };
 
 
     /**

@@ -131,6 +131,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_SEARCH_LIST, function (e, data) {
+            $scope.loadSearchFriends(data);
             $scope.isFriendSearchListActive = true;
             $scope.isFriendsListActive = false;
             $scope.isFriendRequestListActive = false;
@@ -226,12 +227,11 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
     $scope.loadSearchFriends = function (queryString) {
         var attrs = {
-            userId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
             search_string: queryString
         };
         NetworkProvider.getSearchListOfFriends(attrs).then(function (result) {
-            console.log('List of search friends:' + result.payload.add_friends_list);
-            $scope.messagesList = BuildObjectsService.buildFriendRequestItems(result.payload.add_friends_list);
+            console.log('List of search friends:' + result.payload.add_friend_list.list);
+            $scope.searchFriendsList  = BuildObjectsService.buildFriendRequestItems(result.payload.add_friend_list.list);
         });
     };
 

@@ -16,8 +16,7 @@ function vcSearchField(EventsService, AppConstants) {
 
         scope.$watch('searchString', function () {
             if (scope.searchString.length != 0) {
-                EventsService.notify(AppConstants.UI_EVENTS.SHOW_SEARCH_LIST);
-                scope.callbackToLoadElements(scope.searchString);
+                EventsService.notify(AppConstants.UI_EVENTS.SHOW_SEARCH_LIST, scope.searchString);
             }
             else {
                 EventsService.notify(AppConstants.UI_EVENTS.HIDE_SEARCH_LIST);
@@ -29,7 +28,6 @@ function vcSearchField(EventsService, AppConstants) {
         restrict: 'EA',
         templateUrl: 'app/templates/dashboard/directives/search-field.html',
         scope: {
-            'callbackToLoadElements': "&",
             'searchString':"="
         },
         link: link
