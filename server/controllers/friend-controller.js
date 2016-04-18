@@ -3,6 +3,7 @@ var _ = require('underscore');
 var FriendService = require('../services/friend-service');
 var UserService = require("../services/user-service");
 var MessageService = require('../services/message-service');
+var SocketService = require('../services/socket-service');
 
 
 var sendJsonResponse = function (res, status, content) {
@@ -31,6 +32,30 @@ function addToFriends(req, res) {
     var userId = req.body.userId;
 
     FriendService.addToFriends(currentUserId, userId);
+
+    UserService.getUserById(userId).then(function (user) {
+        var result = {
+            id: user._id,
+            email: user.local.email,
+            nickname: user.local.nickname,
+            online: user.online
+        };
+        sendJsonResponse(res, 200, {
+            status: 0,
+            payload: {
+                one_friend: result
+            }
+        });
+
+
+        SocketService.notifyUserFriendRequestAccepted()
+
+
+        //todo socket Service
+
+
+    })
+
 
     var message = {
         userId: userId,
@@ -134,10 +159,9 @@ function getFriendsRequests(req, res) {
         var count = user.addRequests.length;
         if (count > 0) {
             //there are friends requests!
+            var counter = user.addRequests.length;
             _.each(user.addRequests, function (request) {
-                var counter = user.addRequests.length;
-                UserService.getUserById(request.userId).then(user)
-                {
+                UserService.getUserById(request.userId).then(function (user) {
                     requestsList.push({
                         id: user._id,
                         email: user.local.email,
@@ -155,7 +179,7 @@ function getFriendsRequests(req, res) {
                             }
                         })
                     }
-                }
+                })
             })
         } else {
             sendJsonResponse(res, 200, {
