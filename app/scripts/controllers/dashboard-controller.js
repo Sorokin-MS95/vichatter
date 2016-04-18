@@ -13,33 +13,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     $scope.friendRequestsList = [];
     $scope.myProfileData = null;
     $scope.friendProfileData = null;
-    $scope.messagesList = [{
-        id: "2",
-        sender_id: "asdasd",
-        text: "adasdasdasd",
-        timestamp: "",
-        last_name: "asdasdasd",
-        first_name: "asdasdasd",
-        email: ""
-    },
-        {
-            id: "3",
-            sender_id: "asdasd",
-            text: "adasdasdasd",
-            timestamp: "",
-            last_name: "asdasdasd",
-            first_name: "asdasdasd",
-            email: ""
-        },
-        {
-            id: "5",
-            sender_id: "asdasd",
-            text: "adasdasdasd",
-            timestamp: "",
-            last_name: "asdasdasd",
-            first_name: "asdasdasd",
-            email: ""
-        }];
+    $scope.messagesList = [];
     $scope.friendsList = [];
     $scope.selectedFriendId = null;
     $scope.searchString = "";
@@ -76,19 +50,37 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
     function subscribeOnSocketEvents() {
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_IN_EVENT, function (e, data) {
-            console.log(data);
-            //it worked!!
+            var user = BuildObjectsService.getItem(data.userId, $scope.friendsList);
+
+            var index = _.findIndex($scope.friendsList, function (item) {
+                return item.getId() === user.getId();
+            });
+            if (index >= 0) {
+                $scope.friendsList[index].setOnline(true);
+            }
+
         })
 
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_OUT_EVENT, function (e, data) {
-            console.log(data);
-            //it worked
+            var user = BuildObjectsService.getItem(data.userId, $scope.friendsList);
+
+            var index = _.findIndex($scope.friendsList, function (item) {
+                return item.getId() === user.getId();
+            });
+            if (index >= 0) {
+                $scope.friendsList[index].setOnline(false);
+            }
         })
 
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.ADD_FRIEND_NOTIFICATION, function (e, data) {
+            function addFriendCallback() {
+                $scope.friendsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data.friend));
+            }
 
+            PopupService.showAcceptDeclinePopup("You've got new friendship request",
+                'Do you want to confirm addition of friend?', addFriendCallback);
         });
 
 
@@ -96,18 +88,15 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.messagesList = BuildObjectsService.addItem(BuildObjectsService.buildMessage(data), $scope.messagesList);
         });
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_STATUS_NOTIFICATION, function (e, data) {
-
-        });
     }
 
     function subscribeOnUiEvents() {
-
         EventsService.subscribe(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, function (e, data) {
-            $scope.messagesOnPageCount = 1;
+            $scope.messagesOnPageCount = 20;
             $scope.messagesPageNumber = 1;
             data.count = $scope.messagesOnPageCount;
             data.page = $scope.messagesPageNumber;
+            $scope.messagesList = [];
             loadMessages(data);
             $scope.selectedFriendId = data.friendId;
             $scope.isMessagesListActive = true;
@@ -115,7 +104,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.LOAD_MESSAGES_REQUEST, function (e, data) {
-            $scope.messagesOnPageCount++;
             $scope.messagesPageNumber++;
             data.count = $scope.messagesOnPageCount;
             data.page = $scope.messagesPageNumber;
@@ -135,7 +123,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.isFriendsListActive = false;
             $scope.isFriendRequestListActive = false;
             $scope.isFriendProfileDataActive = false;
-
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.HIDE_SEARCH_LIST, function (e, data) {
@@ -144,7 +131,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.isFriendsListActive = true;
             $scope.isFriendRequestListActive = false;
             $scope.isFriendProfileDataActive = false;
-
         });
 
 
@@ -246,7 +232,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         NetworkProvider.getMessages(data).then(function (result) {
             console.log('Messages :' + result.payload.messages);
             $scope.messagesList = BuildObjectsService.addItems(
-                BuildObjectsService.buildMessages($scope.messagesList), result.payload.messages);
+                BuildObjectsService.buildMessages(result.payload.messages), $scope.messagesList);
         });
 
     }
