@@ -96,15 +96,9 @@ function NetworkProvider($http, $q, ResponseBuilder, localStorageService, AppCon
         return _get(queryString);
     }
 
-    function _getSearchListOfFriends(attrs) {
-        var data = {};
-
-
-        if (attrs.hasOwnProperty("searchString") && attrs.searchString !== null) {
-            data.nickname= attrs.searchString;
-        }
-
-        return _get('/api/users/search', data);
+    function _getSearchListOfFriends(qString) {
+        var query = '/api/users/search?nickname=' + qString;
+        return _get(query);
 
     }
 

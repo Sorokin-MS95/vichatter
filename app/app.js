@@ -8,7 +8,8 @@ var viChatter = angular.module('viChatter', [
     'LocalStorageModule',
     'rzModule',
     'ngAnimate',
-    'duScroll'
+    'duScroll',
+    'ui.gravatar'
 ]);
 
 viChatter.config(

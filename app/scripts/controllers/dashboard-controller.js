@@ -228,10 +228,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     }
 
     $scope.loadSearchFriends = function (queryString) {
-        var attrs = {
-            search_string: queryString
-        };
-        NetworkProvider.getSearchListOfFriends(attrs).then(function (result) {
+        NetworkProvider.getSearchListOfFriends(queryString).then(function (result) {
             console.log('List of search friends:' + result.payload.add_friend_list.list);
             $scope.searchFriendsList  = BuildObjectsService.buildFriendRequestItems(result.payload.add_friend_list.list);
         });

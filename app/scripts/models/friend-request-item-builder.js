@@ -20,6 +20,8 @@ function FriendRequestItemBuilder() {
         this._nickname = angular.isDefined(friendRequestItemData.nickname) ? friendRequestItemData.nickname : null;
 
         this._email = angular.isDefined(friendRequestItemData.email) ? friendRequestItemData.email : null;
+
+        this._online = angular.isDefined(friendRequestItemData.online) ? friendRequestItemData.online : null;
     }
 
     /**
@@ -69,6 +71,10 @@ function FriendRequestItemBuilder() {
     FriendRequestItem.prototype.getEmail = function () {
         return this._email;
     };
+
+    FriendRequestItem.prototype.getOnline = function () {
+        return this._online;
+    }
 
 
     /**
