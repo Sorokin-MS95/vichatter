@@ -13,37 +13,10 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     $scope.friendRequestsList = [];
     $scope.myProfileData = null;
     $scope.friendProfileData = null;
-    $scope.messagesList = [{
-        id: "2",
-        sender_id: "asdasd",
-        text: "adasdasdasd",
-        timestamp: "",
-        last_name: "asdasdasd",
-        first_name: "asdasdasd",
-        email: ""
-    },
-        {
-            id: "3",
-            sender_id: "asdasd",
-            text: "adasdasdasd",
-            timestamp: "",
-            last_name: "asdasdasd",
-            first_name: "asdasdasd",
-            email: ""
-        },
-        {
-            id: "5",
-            sender_id: "asdasd",
-            text: "adasdasdasd",
-            timestamp: "",
-            last_name: "asdasdasd",
-            first_name: "asdasdasd",
-            email: ""
-        }];
     $scope.friendsList = [];
     $scope.selectedFriendId = null;
     $scope.searchString = "";
-
+    $scope.messagesList = [];
     $scope.isFriendRequestListActive = null;
     $scope.isFriendsListActive = null;
     $scope.isMyProfileDataActive = null;
@@ -93,7 +66,10 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.MESSAGE_NOTIFICATION, function (e, data) {
-            $scope.messagesList = BuildObjectsService.addItem(BuildObjectsService.buildMessage(data), $scope.messagesList);
+            $scope.$apply(function () {
+                $scope.messagesList = BuildObjectsService.pushItem(BuildObjectsService.buildMessage(data), $scope.messagesList);
+            });
+
         });
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_STATUS_NOTIFICATION, function (e, data) {
@@ -104,7 +80,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     function subscribeOnUiEvents() {
 
         EventsService.subscribe(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, function (e, data) {
-            $scope.messagesOnPageCount = 1;
+            $scope.messagesOnPageCount = 10;
             $scope.messagesPageNumber = 1;
             data.count = $scope.messagesOnPageCount;
             data.page = $scope.messagesPageNumber;
@@ -115,7 +91,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.LOAD_MESSAGES_REQUEST, function (e, data) {
-            $scope.messagesOnPageCount++;
             $scope.messagesPageNumber++;
             data.count = $scope.messagesOnPageCount;
             data.page = $scope.messagesPageNumber;
@@ -182,7 +157,9 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         EventsService.subscribe(AppConstants.UI_EVENTS.LOGOUT, function (e, data) {
             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.USER_LOGGED_OUT_EVENT);
             AuthenticationService.clearUserData();
+            //todo destroy controller
             $state.go('home');
+
         })
     }
 
@@ -246,7 +223,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         NetworkProvider.getMessages(data).then(function (result) {
             console.log('Messages :' + result.payload.messages);
             $scope.messagesList = BuildObjectsService.addItems(
-                BuildObjectsService.buildMessages($scope.messagesList), result.payload.messages);
+                BuildObjectsService.buildMessages(result.payload.messages), $scope.messagesList);
         });
 
     }

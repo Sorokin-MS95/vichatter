@@ -61,7 +61,7 @@ var SocketService = function (options) {
                             sender_id: message.senderId,
                             receiver_id: message.receiverId,
                             text: message.content,
-                            date: message.date
+                            timestamp: message.date
                         });
                     }
 
