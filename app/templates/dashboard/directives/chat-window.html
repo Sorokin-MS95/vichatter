@@ -10,7 +10,7 @@
          data-ng-class="{true: 'left', false: 'right'}[isMessageMine(message)]">
         <div class="icon-wrapper">
             <img class="icon" src="../../public/images/girl1.png"/>
-            <span class="time" data-ng-bind="message.getTimestamp()">{{message.getTimestamp() | date:'yyyy-MM-dd HH:mm:ss Z'}}</span>
+            <span class="time">{{message.getTimestamp() | date:'yyyy-MM-dd HH:mm:ss'}}</span>
         </div>
         <div class="message-text-wrapper">
             <span class="message-text" data-ng-bind="message.getText()"></span>

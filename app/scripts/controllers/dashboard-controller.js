@@ -13,11 +13,10 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     $scope.friendRequestsList = [];
     $scope.myProfileData = null;
     $scope.friendProfileData = null;
-    $scope.messagesList = [];
     $scope.friendsList = [];
     $scope.selectedFriendId = null;
     $scope.searchString = "";
-
+    $scope.messagesList = [];
     $scope.isFriendRequestListActive = null;
     $scope.isFriendsListActive = null;
     $scope.isMyProfileDataActive = null;
@@ -85,18 +84,24 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.MESSAGE_NOTIFICATION, function (e, data) {
-            $scope.messagesList = BuildObjectsService.addItem(BuildObjectsService.buildMessage(data), $scope.messagesList);
+            $scope.$apply(function () {
+                $scope.messagesList = BuildObjectsService.pushItem(BuildObjectsService.buildMessage(data), $scope.messagesList);
+            });
+
         });
 
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_STATUS_NOTIFICATION, function (e, data) {
+
+        });
     }
 
     function subscribeOnUiEvents() {
+
         EventsService.subscribe(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, function (e, data) {
-            $scope.messagesOnPageCount = 20;
+            $scope.messagesOnPageCount = 10;
             $scope.messagesPageNumber = 1;
             data.count = $scope.messagesOnPageCount;
             data.page = $scope.messagesPageNumber;
-            $scope.messagesList = [];
             loadMessages(data);
             $scope.selectedFriendId = data.friendId;
             $scope.isMessagesListActive = true;
@@ -123,6 +128,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.isFriendsListActive = false;
             $scope.isFriendRequestListActive = false;
             $scope.isFriendProfileDataActive = false;
+
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.HIDE_SEARCH_LIST, function (e, data) {
@@ -131,6 +137,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.isFriendsListActive = true;
             $scope.isFriendRequestListActive = false;
             $scope.isFriendProfileDataActive = false;
+
         });
 
 
@@ -168,7 +175,9 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         EventsService.subscribe(AppConstants.UI_EVENTS.LOGOUT, function (e, data) {
             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.USER_LOGGED_OUT_EVENT);
             AuthenticationService.clearUserData();
+            //todo destroy controller
             $state.go('home');
+
         })
     }
 

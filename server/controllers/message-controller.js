@@ -22,47 +22,45 @@ var getMessages = function (req, res) {
             return friend.userId == userId;
         });
 
-
         var result = [];
-        var messages = friend.messages.reverse().slice((page - 1) * count, count);
-        var counter = messages.length;
-        if (counter == 0) {
-            sendJsonResponse(res, 200, {
-                status: 0,
-                payload: {
-                    messages: result
-                }
-            })
-        } else {
-            _.each(messages, function (oneMessage) {
-                MessageService.getMessageById(oneMessage).then(function (message) {
-                    UserService.getUserById(message.senderId).then(function (user) {
-                        result.push({
-                            id: message._id,
-                            sender_id: user._id,
-                            text: message.content,
-                            date: message.date,
-                            email: user.email
-                        });
-                        counter--;
-                        if (counter == 0) {
-                            sendJsonResponse(res, 200, {
-                                status: 0,
-                                payload: {
-                                    messages: result
-                                }
-                            });
-                        }
-                    });
+
+        var promise = Message.find({}).sort({"date": -1}).skip((page - 1) * count).limit(count);
+        promise.then(function (messages) {
+            
+            if (messages.length == 0) {
+                sendJsonResponse(res, 200, {
+                    status: 0,
+                    payload: {
+                        messages: result
+                    }
                 });
-            })
-        }
+            } else {
+                var counter = messages.length;
 
+                _.each(messages, function(message){
+                    result.push({
+                        id: message._id,
+                        sender_id: message.senderId,
+                        text: message.content,
+                        timestamp: message.date,
+                        email: user.email
+                    });
+                    counter--;
+                    if (counter == 0) {
+                        sendJsonResponse(res, 200, {
+                            status: 0,
+                            payload: {
+                                messages: result
+                            }
+                        });
+                    }
+                })
+            }
+        })
 
-    })
+    });
+};
 
-
-}
 
 
 module.exports = {

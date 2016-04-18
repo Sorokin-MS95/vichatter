@@ -30,7 +30,6 @@
     "v": "0.0.9"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "author": "",
