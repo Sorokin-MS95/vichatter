@@ -13,11 +13,11 @@ function vcVideoChatWindow(EventsService, AppConstants, $sce) {
 
     function link(scope) {
         scope.trustSrc = function () {
-            if (!scope.videoStream) {
+            if (!scope.myVideoStream) {
                 return undefined;
             }
 
-            return $sce.trustAsResourceUrl(scope.videoStream);
+            return $sce.trustAsResourceUrl(scope.myVideoStream);
         };
         scope.myVideoStream = null;
         scope.isMicrophoneEnabled = false;
