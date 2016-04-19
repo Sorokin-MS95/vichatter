@@ -19,6 +19,7 @@ appModule.constant('AppConstants', {
             ADD_FRIEND_NOTIFICATION: 'fe_add_friend_notification',
             USER_STATUS_NOTIFICATION: 'fe_user_status_notification',
             MESSAGE_NOTIFICATION: 'fe_message_notification',
+            VIDEO_CALL_REQUEST : 'fe_video_call_request',
             VIDEO_CALL_NOTIFICATION: 'fe_video_call_notification',
             ACCEPT_CALL: 'fe_accept_video_call'
         },
@@ -29,6 +30,7 @@ appModule.constant('AppConstants', {
             USER_STATUS_NOTIFICATION: 'be_user_status_notification',
             USER_FRIENDSHIP_REQUEST : 'be_user_friendship_request',
             MESSAGE_NOTIFICATION: 'be_message_notification',
+            VIDEO_CALL_REQUEST : 'be_video_call_request',
             VIDEO_CALL_NOTIFICATION: 'be_video_call_notification',
             ACCEPT_CALL: 'be_accept_video_call'
         }

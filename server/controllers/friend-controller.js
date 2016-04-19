@@ -86,10 +86,10 @@ function getFriends(req, res) {
         var friendList = [];
         var count = user.friends.length;
         if (count > 0) {
-            //there are friends. Need get them all!
+            var counter = user.friends.length;
             _.each(user.friends, function (friend) {
-                var counter = user.friends.length;
                 UserService.getUserById(friend.userId).then(function (user) {
+                    console.log('in query');
                     var lastMessage = friend.lastMessage;
                     if (lastMessage) {
                         MessageService.getMessageById(friend.lastMessage).then(function (message) {
@@ -103,7 +103,9 @@ function getFriends(req, res) {
                                 online: user.online
                             });
                             counter--;
-                            if (counter === 0) {
+                            console.log(friendList);
+                            console.log('COUNTER:' + counter);
+                            if (counter == 0) {
                                 sendJsonResponse(res, 200, {
                                     status: 0,
                                     payload: {
@@ -123,8 +125,10 @@ function getFriends(req, res) {
                             unread_messages_count: friend.unreadMessages,
                             online: user.online
                         });
+                        console.log(friendList);
                         counter--;
-                        if (counter === 0) {
+                        console.log('COUNTER:'+ counter);
+                        if (counter == 0) {
                             sendJsonResponse(res, 200, {
                                 status: 0,
                                 payload: {
@@ -166,7 +170,7 @@ function getFriendsRequests(req, res) {
                         id: user._id,
                         email: user.local.email,
                         nickname: user.local.nickname,
-                        online : user.online
+                        online: user.online
                     });
                     counter--;
                     if (counter == 0) {

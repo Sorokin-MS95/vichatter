@@ -34,7 +34,10 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
         });
         socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.USER_FRIENDSHIP_REQUEST, function (data) {
             EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.USER_FRIENDSHIP_REQUEST, data);
-        })
+        });
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_REQUEST, function(data){
+            EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_REQUEST, data);
+        });
     }
 
 
@@ -82,6 +85,13 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
                 userId: data._id
             });
         });
+
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_REQUEST, function(e,data){
+            socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_REQUEST, {
+                currentUserId : localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
+                friendId : data
+            });
+        })
     }
 
     return {

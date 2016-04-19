@@ -52,6 +52,14 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
     function subscribeOnSocketEvents() {
 
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_REQUEST, function(e, data){
+            PopupService.showAcceptDeclinePopup("You've got a call from" + data.nickname,
+                'Do you want to accept call?', function () {
+                    EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ACCEPT_CALL, data);
+                });
+        });
+
+
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_NOTIFICATION, function (e, data) {
                 PopupService.showAcceptDeclinePopup("You've got a call from" + data.nickname,
                     'Do you want to accept call?', function () {
