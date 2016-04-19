@@ -44,11 +44,11 @@ function vcChatWindow(EventsService, AppConstants, localStorageService, VideoSer
                 //todo send offer to friend
 
                 var data = {
-                    friendId: scope.friend_id
+                    friendId: scope.friendId
                 };
-
-                EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_NOTIFICATION, data);
                 console.log(stream);
+                EventsService.notify(AppConstants.UI_EVENTS.VIDEO_BUTTON_CLICK, data);
+
             }).catch(function () {
             })
         }

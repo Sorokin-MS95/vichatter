@@ -43,8 +43,11 @@ function vcVideoChatWindow(EventsService, AppConstants) {
         ;
         scope.finishCall = function () {
             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.FINISH_CALL, scope.friendId);
-        }
-        ;
+        };
+
+        EventsService.subscribe(AppConstants.RTC.SET_LOCAL_STREAM, function (e, data) {
+            console.log(data);
+        });
     }
 
     return {

@@ -4,11 +4,11 @@ var app = angular.module('viChatter');
 app.controller('DashboardController', DashboardController);
 
 DashboardController.$inject = ['$scope', 'SocketService', 'localStorageService', 'AuthenticationService', 'NetworkProvider',
-    'BuildObjectsService', 'EventsService', 'AppConstants', '$state', '$location', 'WebRTCService', 'PopupService'];
+    'BuildObjectsService', 'EventsService', 'AppConstants', '$state', '$location', 'WebRTCService', 'PopupService', 'VideoService'];
 
 
 function DashboardController($scope, SocketService, localStorageService, AuthenticationService, NetworkProvider,
-                             BuildObjectsService, EventsService, AppConstants, $state, $location, WebRTCService, PopupService) {
+                             BuildObjectsService, EventsService, AppConstants, $state, $location, WebRTCService, PopupService, VideoService) {
 
     $scope.friendRequestsList = [];
     $scope.myProfileData = null;
@@ -50,21 +50,21 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
     function subscribeOnSocketEvents() {
 
-
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_NOTIFICATION, function (e, data) {
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_REQUEST, function (e, data) {
                 PopupService.showAcceptDeclinePopup("You've got a call from" + data.nickname,
                     'Do you want to accept call?', function () {
-                        EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ACCEPT_CALL, data);
+                        VideoService.getStream().then(function(stream){
+                            $scope.isVideoChatActive = true;
+                            $scope.isMessagesListActive = false;
+                            $scope.activeFriendId = data.id;
+                            EventsService.notify(AppConstants.RTC.SET_LOCAL_STREAM, stream);
+                            EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ACCEPT_CALL, data);
+                        });
+
                     });
             }
         );
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_NOTIFICATION, function (e, data) {
-                $scope.isVideoChatActive = true;
-                $scope.isMessagesListActive = false;
-                $scope.activeFriendId = data.friendId;
-            }
-        );
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.ACCEPT_CALL, function (e, data) {
                 //TODO connect
@@ -142,6 +142,15 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     }
 
     function subscribeOnUiEvents() {
+
+        EventsService.subscribe(AppConstants.UI_EVENTS.VIDEO_BUTTON_CLICK, function (e, data) {
+                EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_REQUEST, data);
+                //$scope.isVideoChatActive = true;
+                //$scope.isMessagesListActive = false;
+                //$scope.activeFriendId = data.friendId;
+            }
+        );
+
 
         EventsService.subscribe(AppConstants.UI_EVENTS.ADD_FRIEND, function (e, data) {
             //todo

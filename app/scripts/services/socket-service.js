@@ -89,7 +89,7 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_REQUEST, function(e,data){
             socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_REQUEST, {
                 currentUserId : localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
-                friendId : data
+                friendId : data.friendId
             });
         })
     }

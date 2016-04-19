@@ -50,12 +50,15 @@ appModule.constant('AppConstants', {
         SHOW_SEARCH_LIST: 'show_search_list',
         HIDE_SEARCH_LIST: 'hide_search_list',
         ADD_FRIEND: "add_friend",
-        REQUEST_FRIENDSHIP: "request_freindship"
+        REQUEST_FRIENDSHIP: "request_freindship",
+        VIDEO_BUTTON_CLICK : "video_button_click"
     },
     FORM_FIELDS: {
         PASSOWORD_FIELD: 'password',
         EMAIL_FIELD: 'email',
         NICKNAME_FIELD: 'nickname'
-
+    },
+    RTC : {
+        SET_LOCAL_STREAM : 'set_local_stream'
     }
 });

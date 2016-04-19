@@ -89,7 +89,6 @@ function getFriends(req, res) {
             var counter = user.friends.length;
             _.each(user.friends, function (friend) {
                 UserService.getUserById(friend.userId).then(function (user) {
-                    console.log('in query');
                     var lastMessage = friend.lastMessage;
                     if (lastMessage) {
                         MessageService.getMessageById(friend.lastMessage).then(function (message) {
@@ -103,8 +102,6 @@ function getFriends(req, res) {
                                 online: user.online
                             });
                             counter--;
-                            console.log(friendList);
-                            console.log('COUNTER:' + counter);
                             if (counter == 0) {
                                 sendJsonResponse(res, 200, {
                                     status: 0,
@@ -125,9 +122,7 @@ function getFriends(req, res) {
                             unread_messages_count: friend.unreadMessages,
                             online: user.online
                         });
-                        console.log(friendList);
                         counter--;
-                        console.log('COUNTER:'+ counter);
                         if (counter == 0) {
                             sendJsonResponse(res, 200, {
                                 status: 0,
