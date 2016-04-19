@@ -3,7 +3,9 @@
   <video data-ng-if="isMicrophoneEnabled" data-ng-src="{{getFriendsVideo()}}" autoplay></video>
 </div>
 <div  class="my-video-window" data-ng-class="{true: 'expanded', false: ''}[isWindowExpanded]">
-  <video data-ng-src="{{getMyVideo()}}" autoplay muted></video>
+  <!-- <video data-ng-src="{{getMyVideo()}}" autoplay muted></video> -->
+  <video data-ng-bind="myVideoStream" autoplay muted></video>
+
 </div>
 <div class="video-controls" data-ng-class="{true: 'expanded', false: ''}[isWindowExpanded]">>
   <button data-ng-if="isMicrophoneEnabled" class="vc-button video-button micro"

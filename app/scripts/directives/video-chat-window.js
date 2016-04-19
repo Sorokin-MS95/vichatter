@@ -17,8 +17,7 @@ function vcVideoChatWindow(EventsService, AppConstants) {
         scope.isCameraEnabled = false;
         scope.disableMicrophone = function () {
             scope.isMicrophoneEnabled = false;
-        }
-        ;
+        };
 
         scope.disableCamera = function () {
             scope.isCameraEnabled = false;
@@ -39,8 +38,7 @@ function vcVideoChatWindow(EventsService, AppConstants) {
         ;
         scope.reduceWindow = function () {
             scope.isWindowExpanded = false;
-        }
-        ;
+        };
         scope.finishCall = function () {
             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.FINISH_CALL, scope.friendId);
         };
