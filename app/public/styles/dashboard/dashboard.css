@@ -37,6 +37,7 @@
 .vc-button:hover {
     outline: none;
     border: none;
+    cursor:  pointer;
 }
 
 .vc-button {
@@ -105,6 +106,11 @@
     float: left;
     display: inline-block;
     color: /*rgb(102, 108, 113)*/ white;
+}
+
+.vc-header>.title{
+    font-size: 20px;
+    font-family: 'Roboto Regular', sans-serif;
 }
 
 .vc-menu-panel > .menu-body > .menu-section {
@@ -655,7 +661,8 @@
     float: right;
     padding-top: 0;
     padding-bottom: 0;
-    padding-right: 0
+    padding-right: 0;
+    padding-left: 10px;
 }
 
 .vc-button.cancel{
@@ -667,6 +674,7 @@
     padding-top: 0;
     padding-bottom: 0;
     padding-right: 0;
+    padding-left: 10px;
 }
 
 
@@ -690,6 +698,7 @@
     padding: 25px;
     background: white;
     overflow: auto;
+    margin-top: 100px;
 }
 
 .ngdialog.ngdialog-info-theme .ngdialog-content{
@@ -698,7 +707,7 @@
     background: #f0f0f0;
     border-radius: 1px;
     color: #444;
-    font-family: 'Helvetica',sans-serif;
+    font-family: 'Roboto Light',sans-serif;
     font-size: 1.1em;
     line-height: 1.5em;
     margin: 0 auto;

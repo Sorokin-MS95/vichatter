@@ -20,7 +20,7 @@ function PopupService(ngDialog, EventsService, AppConstants) {
         var cancelcallback = angular.isFunction(cancelCallback) ? cancelCallback : function () {
         };
         return ngDialog.openConfirm({
-            template: 'templates/common/popups/accept-cancel-popup.html',
+            template: 'app/templates/dashboard/popups/accept-cancel-popup.html',
             data: {
                 title: title,
                 infoText: infoText
