@@ -7,11 +7,19 @@ var app = angular.module('viChatter');
 
 app.directive('vcVideoChatWindow', vcVideoChatWindow);
 
-vcVideoChatWindow.$inject = ['EventsService', 'AppConstants'];
+vcVideoChatWindow.$inject = ['EventsService', 'AppConstants' ,'$sce'];
 
-function vcVideoChatWindow(EventsService, AppConstants) {
+function vcVideoChatWindow(EventsService, AppConstants, $sce) {
 
     function link(scope) {
+        scope.trustSrc = function () {
+            if (!scope.videoStream) {
+                return undefined;
+            }
+
+            return $sce.trustAsResourceUrl(scope.videoStream);
+        };
+        scope.myVideoStream = null;
         scope.isMicrophoneEnabled = false;
         scope.isWindowExpanded = false;
         scope.isCameraEnabled = false;
@@ -44,7 +52,11 @@ function vcVideoChatWindow(EventsService, AppConstants) {
         };
 
         EventsService.subscribe(AppConstants.RTC.SET_LOCAL_STREAM, function (e, data) {
-            console.log(data);
+            console.log("Hey!");
+        });
+
+        scope.$watch('videoStream', function () {
+            scope.myVideoStream = window.URL.createObjectURL(scope.videoStream);;
         });
     }
 
@@ -54,7 +66,8 @@ function vcVideoChatWindow(EventsService, AppConstants) {
         scope: {
             'getFriendsVideo': '&',
             'getMyVideo': '&',
-            'friendId': '='
+            'friendId': '=',
+            'videoStream': '='
         },
         link: link
     }

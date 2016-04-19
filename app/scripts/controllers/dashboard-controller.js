@@ -28,6 +28,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     $scope.messagesPageNumber = 0;
     $scope.searchFriendsList = [];
     $scope.activeFriendId = null;
+    $scope.videoStream = null;
 
 
     (function initialize() {
@@ -57,8 +58,9 @@ function DashboardController($scope, SocketService, localStorageService, Authent
                             $scope.isVideoChatActive = true;
                             $scope.isMessagesListActive = false;
                             $scope.activeFriendId = data.id;
-                            EventsService.notify(AppConstants.RTC.SET_LOCAL_STREAM, stream);
-                            EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ACCEPT_CALL, data);
+                            $scope.videoStream = stream;
+                            EventsService.notify(AppConstants.RTC.SET_LOCAL_STREAM/*, stream*/);
+                           /* EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ACCEPT_CALL, data);*/
                         });
 
                     });
