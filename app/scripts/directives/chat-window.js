@@ -35,19 +35,24 @@ function vcChatWindow(EventsService, AppConstants, localStorageService, VideoSer
             EventsService.notify(AppConstants.UI_EVENTS.LOAD_MESSAGES_REQUEST, data);
             console.log('TOP!');
         }
-        
-        scope.videoCall = function(){
 
-            VideoService.getStream().then(function(stream){
+
+        scope.videoCall = function () {
+
+            VideoService.getStream().then(function (stream) {
                 //todo set my stream to video object!
                 //todo send offer to friend
-                EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_REQUEST, scope.friendId);
+
+                var data = {
+                    friendId: scope.friend_id
+                };
+
+                EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_NOTIFICATION, data);
                 console.log(stream);
-            }).catch(function(){
+            }).catch(function () {
             })
         }
-        
-        
+
 
         scope.isMessageMine = function (message) {
             return (localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID) == message.getSenderId());

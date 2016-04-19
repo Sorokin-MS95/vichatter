@@ -27,6 +27,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     $scope.messagesOnPageCount = 0;
     $scope.messagesPageNumber = 0;
     $scope.searchFriendsList = [];
+    $scope.activeFriendId = null;
 
 
     (function initialize() {
@@ -40,9 +41,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         loadFriendsList();
         loadFriendsRequests();
         loadProfile();
-        PopupService.showAcceptDeclinePopup("You've got new friendship request",
-            'Do you want to confirm addition of friend?', function () {
-            });
     })();
 
 
@@ -52,19 +50,19 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
     function subscribeOnSocketEvents() {
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_REQUEST, function (e, data) {
-            PopupService.showAcceptDeclinePopup("You've got a call from" + data.nickname,
-                'Do you want to accept call?', function () {
-                    EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ACCEPT_CALL, data);
-                });
-        });
-
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_NOTIFICATION, function (e, data) {
                 PopupService.showAcceptDeclinePopup("You've got a call from" + data.nickname,
                     'Do you want to accept call?', function () {
                         EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ACCEPT_CALL, data);
                     });
+            }
+        );
+
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_NOTIFICATION, function (e, data) {
+                $scope.isVideoChatActive = true;
+                $scope.isMessagesListActive = false;
+                $scope.activeFriendId = data.friendId;
             }
         );
 
@@ -313,6 +311,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.messagesList = BuildObjectsService.addItems(
                 BuildObjectsService.buildMessages(result.payload.messages), $scope.messagesList);
         });
+
     }
 
     $scope.addFriend = function (friend) {
@@ -327,5 +326,13 @@ function DashboardController($scope, SocketService, localStorageService, Authent
                 $scope.friendRequestsList = BuildObjectsService.removeItem(friend, $scope.friendRequestsList);
             }
         })
+    }
+
+    $scope.getFriendsVideo = function () {
+
+    }
+
+    $scope.getMyVideo = function () {
+
     }
 }
