@@ -17,27 +17,38 @@ var getMessages = function (req, res) {
     var page = req.query.page;
     var count = req.query.count;
 
-    UserService.getUserById(currentUserId).then(function (user) {
-        var friend = _.find(user.friends, function (friend) {
-            return friend.userId == userId;
-        });
-
-        var result = [];
-
-        var promise = Message.find({}).sort({"date": -1}).skip((page - 1) * count).limit(count);
-        promise.then(function (messages) {
-            
-            if (messages.length == 0) {
-                sendJsonResponse(res, 200, {
-                    status: 0,
-                    payload: {
-                        messages: result
+    var promise = Message.find({
+        $or: [
+            {
+                $and: [
+                    {
+                        "receiverId": currentUserId
+                    },
+                    {
+                        "senderId": userId
                     }
-                });
-            } else {
-                var counter = messages.length;
-
-                _.each(messages, function(message){
+                ]
+            },
+            {
+                $and: [
+                    {
+                        "receiverId": userId
+                    },
+                    {
+                        "senderId": currentUserId
+                    }
+                ]
+            }
+        ]
+    }).sort({"date": -1}).skip((page - 1) * count).limit(count);
+    promise.then(function (messages) {
+        var result = [];
+        var count = messages.length;
+        if (count > 0) {
+            var counter = messages.length;
+            _.each(messages, function (message) {
+                var promise = UserService.getUserById(message.senderId);
+                promise.then(function (user) {
                     result.push({
                         id: message._id,
                         sender_id: message.senderId,
@@ -52,16 +63,25 @@ var getMessages = function (req, res) {
                             payload: {
                                 messages: result
                             }
-                        });
+                        })
                     }
                 })
-            }
-        })
+
+
+            })
+        } else {
+            sendJsonResponse(res, 200, {
+                status: 0,
+                payload: {
+                    messages: result
+                }
+            })
+
+
+        }
 
     });
-};
-
-
+}
 
 module.exports = {
     getMessages: getMessages

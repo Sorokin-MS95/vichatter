@@ -52,7 +52,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
     function subscribeOnSocketEvents() {
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_REQUEST, function(e, data){
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_REQUEST, function (e, data) {
             PopupService.showAcceptDeclinePopup("You've got a call from" + data.nickname,
                 'Do you want to accept call?', function () {
                     EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ACCEPT_CALL, data);
@@ -106,21 +106,18 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.ADD_FRIEND_NOTIFICATION, function (e, data) {
 
-            $scope.$apply(function(){
+            $scope.$apply(function () {
                 $scope.friendsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data), $scope.friendsList);
             })
 
 
+            /* console.log('added user! Process on front-end');
+             function addFriendCallback() {
+             $scope.friendsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data.friend));
+             }
 
-
-
-           /* console.log('added user! Process on front-end');
-            function addFriendCallback() {
-                $scope.friendsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data.friend));
-            }
-
-            PopupService.showAcceptDeclinePopup("You've got new friendship request",
-                'Do you want to confirm addition of friend?', addFriendCallback);*/
+             PopupService.showAcceptDeclinePopup("You've got new friendship request",
+             'Do you want to confirm addition of friend?', addFriendCallback);*/
 
             //TODO it should be not here. This method needs to add user in list of friends
         });
@@ -169,7 +166,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.messagesPageNumber++;
             data.count = $scope.messagesOnPageCount;
             data.page = $scope.messagesPageNumber;
-            loadMessages(data);
+            loadMoreMessages(data);
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.SHOW_FRIEND_PROFILE, function (e, data) {
@@ -298,11 +295,24 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         };
 
         NetworkProvider.getMessages(data).then(function (result) {
-            console.log('Messages :' + result.payload.messages);
+            console.log('First load messages :' + result.payload.messages);
+            $scope.messagesList = BuildObjectsService.buildMessages(result.payload.messages);
+        });
+
+    }
+
+    function loadMoreMessages(data) {
+        var data = {
+            userId: data.userId,
+            friendId: data.friendId,
+            page: data.page,
+            count: data.count
+        };
+
+        NetworkProvider.getMessages(data).then(function (result) {
             $scope.messagesList = BuildObjectsService.addItems(
                 BuildObjectsService.buildMessages(result.payload.messages), $scope.messagesList);
         });
-
     }
 
     $scope.addFriend = function (friend) {
