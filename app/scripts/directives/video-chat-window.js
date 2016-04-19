@@ -7,46 +7,41 @@ var app = angular.module('viChatter');
 
 app.directive('vcVideoChatWindow', vcVideoChatWindow);
 
-function vcVideoChatWindow() {
+vcVideoChatWindow.$inject = ['EventsService', 'AppConstants'];
+
+function vcVideoChatWindow(EventsService, AppConstants) {
 
     function link(scope) {
         scope.isMicrophoneEnabled = false;
         scope.isWindowExpanded = false;
         scope.isCameraEnabled = false;
-        scope.disableMicrophone = function()
-        {
+        scope.disableMicrophone = function () {
             scope.isMicrophoneEnabled = false;
         }
         ;
 
-        scope.disableCamera = function()
-        {
+        scope.disableCamera = function () {
             scope.isCameraEnabled = false;
         }
         ;
 
-        scope.expandWindow = function()
-        {
+        scope.expandWindow = function () {
             scope.isWindowExpanded = true;
         }
         ;
-        scope.enableMicrophone = function()
-        {
+        scope.enableMicrophone = function () {
             scope.isMicrophoneEnabled = true;
         }
         ;
-        scope.enableCamera = function()
-        {
+        scope.enableCamera = function () {
             scope.isCameraEnabled = true;
         }
         ;
-        scope.reduceWindow = function()
-        {
+        scope.reduceWindow = function () {
             scope.isWindowExpanded = false;
         }
         ;
-        scope.finishCall = function()
-        {
+        scope.finishCall = function () {
             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.FINISH_CALL, scope.friendId);
         }
         ;

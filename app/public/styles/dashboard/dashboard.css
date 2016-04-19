@@ -1067,9 +1067,19 @@
 .video-window {
     width: 100%;
     height: 100%;
+    background: black;
 }
 
-.my-video-window{
+.video-window.expanded {
+    width: 100%;
+    height: 100%;
+    background: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.my-video-window {
     position: absolute;
     right: 50px;
     bottom: 50px;
@@ -1078,8 +1088,18 @@
     background: aliceblue;
 }
 
-
-.my-video-window>video{
+.my-video-window > video {
     width: 100%;
     height: 100%;
+}
+
+.video-controls.expanded {
+    position: absolute;
+    left: 15px;
+    bottom: 15px;
+}
+
+.my-video-window.expanded{
+    width: 500px;
+    height: 300px;
 }
