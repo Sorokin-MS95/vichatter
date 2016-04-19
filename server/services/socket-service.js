@@ -11,210 +11,173 @@ var SocketService = function (options) {
 
     this.init = function () {
         this.io.on('connection', function (socket) {
-            console.log('New socket ' + socket.id);
+                console.log('New socket ' + socket.id);
 
-            socket.on('fe_user_logged_in', function (data) {
-                console.log('User with id ' + data.userId + " connected!");
-                that.connectUser(socket, data.userId);
-                console.log('Connected users: ' + connectedUsers.length);
-                UserService.login(data.userId);
-                UserService.getUserById(data.userId).then(function (user) {
-                    var friends = user.friends;
-                    _.each(friends, function (friend) {
-                        var friendConnection = that.getConnectionByUserId(friend.userId);
-                        if (friendConnection) {
-                            console.log('Sending message to friend');
-                            friendConnection.socket.emit('be_user_logged_in', {
-                                userId: data.userId
-                            })
-                        }
-                    })
-                })
-            });
-
-
-            socket.on('fe_message_notification', function (data) {
-                MessageService.saveMessage(data.userId, data.friendId, data.content).then(function (message) {
+                socket.on('fe_user_logged_in', function (data) {
+                    console.log('User with id ' + data.userId + " connected!");
+                    that.connectUser(socket, data.userId);
+                    console.log('Connected users: ' + connectedUsers.length);
+                    UserService.login(data.userId);
                     UserService.getUserById(data.userId).then(function (user) {
-                        var friend = _.find(user.friends, function (friend) {
-                            return friend.userId == data.friendId;
-                        });
-                        friend.messages.push(message._id);
-                        friend.lastMessage = message._id;
-                        user.save();
-                    });
+                        var friends = user.friends;
+                        _.each(friends, function (friend) {
+                            var friendConnection = that.getConnectionByUserId(friend.userId);
+                            if (friendConnection) {
+                                console.log('Sending message to friend');
+                                friendConnection.socket.emit('be_user_logged_in', {
+                                    userId: data.userId
+                                })
+                            }
+                        })
+                    })
+                });
 
 
-                    UserService.getUserById(data.friendId).then(function (user) {
-                        var friend = _.find(user.friends, function (friend) {
-                            return friend.userId == data.userId;
+                socket.on('fe_message_notification', function (data) {
+                    MessageService.saveMessage(data.userId, data.friendId, data.content).then(function (message) {
+                        UserService.getUserById(data.userId).then(function (user) {
+                            var friend = _.find(user.friends, function (friend) {
+                                return friend.userId == data.friendId;
+                            });
+                            friend.messages.push(message._id);
+                            friend.lastMessage = message._id;
+                            user.save();
                         });
-                        friend.messages.push(message._id);
-                        friend.lastMessage = message._id;
-                        user.save();
-                    });
 
-                    var userConnection = that.getConnectionByUserId(data.userId);
-                    if (userConnection) {
-                        userConnection.socket.emit('be_message_notification', {
-                            id: message._id,
-                            sender_id: message.senderId,
-                            receiver_id: message.receiverId,
-                            text: message.content,
-                            timestamp: message.date
-                        });
-                    }
 
-                    var friendConnection = that.getConnectionByUserId(data.friendId);
-                    if (friendConnection) {
-                        friendConnection.socket.emit('be_message_notification', {
-                            id: message._id,
-                            sender_id: message.senderId,
-                            receiver_id: message.receiverId,
-                            text: message.content,
-                            date: message.date
-                        });
-                    } else {
                         UserService.getUserById(data.friendId).then(function (user) {
                             var friend = _.find(user.friends, function (friend) {
                                 return friend.userId == data.userId;
                             });
-                            friend.unreadMessages++;
+                            friend.messages.push(message._id);
+                            friend.lastMessage = message._id;
                             user.save();
+                        });
+
+                        var userConnection = that.getConnectionByUserId(data.userId);
+                        if (userConnection) {
+                            userConnection.socket.emit('be_message_notification', {
+                                id: message._id,
+                                sender_id: message.senderId,
+                                receiver_id: message.receiverId,
+                                text: message.content,
+                                timestamp: message.date
+                            });
+                        }
+
+                        var friendConnection = that.getConnectionByUserId(data.friendId);
+                        if (friendConnection) {
+                            friendConnection.socket.emit('be_message_notification', {
+                                id: message._id,
+                                sender_id: message.senderId,
+                                receiver_id: message.receiverId,
+                                text: message.content,
+                                date: message.date
+                            });
+                        } else {
+                            UserService.getUserById(data.friendId).then(function (user) {
+                                var friend = _.find(user.friends, function (friend) {
+                                    return friend.userId == data.userId;
+                                });
+                                friend.unreadMessages++;
+                                user.save();
+                            });
+                        }
+                    });
+                });
+
+
+                socket.on('fe_add_friend_notification', function (data) {
+                    var senderId = data.senderId;
+                    var userId = data.userId;
+
+                    FriendService.addToFriends(senderId, userId);
+                    var receiverConnection = that.getConnectionByUserId(userId);
+                    if (receiverConnection) {
+                        UserService.getUserById(senderId).then(function (user) {
+                            receiverConnection.socket.emit('be_add_friend_notification', {
+                                id: user._id,
+                                email: user.local.email,
+                                nickname: user.local.nickname,
+                                online: user.online
+                            });
                         });
                     }
                 });
-            });
 
 
-            socket.on('fe_add_friend_notification', function (data) {
-                var senderId = data.senderId;
-                var userId = data.userId;
-
-                FriendService.addToFriends(senderId, userId);
-
-                var senderConnection = that.getConnectionByUserId(senderId);
-
-                if (senderConnection) {
+                socket.on('fe_user_friendship_request', function (data) {
+                    var currentUserId = data.currentUserId;
+                    var userId = data.userId;
                     UserService.getUserById(userId).then(function (user) {
-                        senderConnection.emit('be_add_friend_notification', {
-                            id: user._id,
-                            email: user.local.email,
-                            nickname: user.local.nickname,
-                            online: user.online
-                        })
-                    })
-                }
-
-                var receiverConnection = that.getConnectionByUserId(userId);
-                if (receiverConnection) {
-                    UserService.getUserById(senderId).then(function (user) {
-                        receiverConnection.emit('be_add_friend_notification', {
-                            id: user._id,
-                            email: user.local.email,
-                            nickname: user.local.nickname,
-                            online: user.online
+                        var request = _.find(user.addRequests, function (obj) {
+                            return obj.userId == currentUserId
                         });
-                    })
-                }
-
-                /*FriendService.addToFriends(senderId, receiverId);
-
-                 var senderConnection = that.getConnectionByUserId(senderId);
-
-                 if (senderConnection) {
-                 UserService.getUserById(receiverId).then(function (user) {
-                 var result = {
-                 id: _id,
-                 email: user.local.email,
-                 nickname: user.local.nickname,
-                 online: user.online
-                 }
-                 senderConnection.emit('be_add_friend_notification', {
-                 one_friend: result
-                 });
-                 });
-                 }
-
-                 var receiverConnection = that.getConnectionByUserId(receiverId);
-                 if (receiverConnection) {
-                 UserService.getUserById(senderId).then(function (user) {
-                 var result = {
-                 id: _id,
-                 email: user.local.email,
-                 nickname: user.local.nickname,
-                 online: user.online
-                 }
-                 receiverConnection.emit('be_add_friend_notification', {
-                 one_friend: result
-                 })
-                 });
-                 }*/
-            });
-
-
-            socket.on('fe_user_friendship_request', function (data) {
-                var currentUserId = data.currentUserId;
-                var userId = data.userId;
-                FriendService.offerFriendship(currentUserId, userId);
-
-                var userConnection = that.getConnectionByUserId(userId);
-                if (that.getConnectionByUserId(userId)) {
-                    UserService.getUserById(userId).then(function (user) {
-                        userConnection.socket.emit('be_user_friendship_request', {
-                            id: user._id,
-                            email: user.local.email,
-                            nickname: user.local.nickname,
-                            online: user.online
-                        });
-                    });
-                }
-            });
-
-            socket.on('disconnect', function () {
-                console.log('Socket ' + socket.id + " disconnected");
-                var connection = that.getConnectionBySocket(socket);
-                if (connection) {
-                    that.disconnectUser(socket);
-                    console.log('Connected users: ' + connectedUsers.length);
-                    UserService.logout(connection.userId);
-                    UserService.getUserById(connection.userId).then(function (user) {
-                        _.each(user.friends, function (friend) {
-                            var friendConnection = that.getConnectionByUserId(friend.userId);
-                            if (friendConnection) {
-                                friendConnection.socket.emit('be_user_logged_out', {
-                                    userId: connection.userId
+                        if (!request) {
+                            user.addRequests.push({
+                                userId: currentUserId
+                            });
+                            user.save();
+                            var userConnection = that.getConnectionByUserId(userId);
+                            if (userConnection) {
+                                UserService.getUserById(currentUserId).then(function (user) {
+                                    userConnection.socket.emit('be_user_friendship_request', {
+                                        id: user._id,
+                                        email: user.local.email,
+                                        nickname: user.local.nickname,
+                                        online: user.online
+                                    });
                                 });
                             }
+                        }
+                    })
+                });
 
-                        })
-                    });
-                }
-            });
+                socket.on('disconnect', function () {
+                    console.log('Socket ' + socket.id + " disconnected");
+                    var connection = that.getConnectionBySocket(socket);
+                    if (connection) {
+                        that.disconnectUser(socket);
+                        console.log('Connected users: ' + connectedUsers.length);
+                        UserService.logout(connection.userId);
+                        UserService.getUserById(connection.userId).then(function (user) {
+                            _.each(user.friends, function (friend) {
+                                var friendConnection = that.getConnectionByUserId(friend.userId);
+                                if (friendConnection) {
+                                    friendConnection.socket.emit('be_user_logged_out', {
+                                        userId: connection.userId
+                                    });
+                                }
 
-            /*socket.on('offer_friendship', function (data) {
-             FriendService.offerFriendship(data.currentUserId, data.userId);
-             console.log(data.currentUserId);
-             console.log(data.userId);
-             var userConnection = that.getConnectionByUserId(data.userId);
-             if (userConnection) {
-             userConnection.socket.emit("friendship_request", {
-             userId: data.currentUserId
-             });
-             }
-             });*/
+                            })
+                        });
+                    }
+                });
 
-            /*socket.on('accept_friendship', function (data) {
-             FriendService.addToFriends(data.currentUserId, data.userId);
-             var userConnection = that.getConnectionByUserId(data.userId);
-             if (userConnection) {
-             userConnection.socket.emit("friendship_request_accepted", {
-             userId: data.currentUserId
-             });
-             }
-             })*/
+                /*socket.on('offer_friendship', function (data) {
+                 FriendService.offerFriendship(data.currentUserId, data.userId);
+                 console.log(data.currentUserId);
+                 console.log(data.userId);
+                 var userConnection = that.getConnectionByUserId(data.userId);
+                 if (userConnection) {
+                 userConnection.socket.emit("friendship_request", {
+                 userId: data.currentUserId
+                 });
+                 }
+                 });*/
 
-        });
+                /*socket.on('accept_friendship', function (data) {
+                 FriendService.addToFriends(data.currentUserId, data.userId);
+                 var userConnection = that.getConnectionByUserId(data.userId);
+                 if (userConnection) {
+                 userConnection.socket.emit("friendship_request_accepted", {
+                 userId: data.currentUserId
+                 });
+                 }
+                 })*/
+
+            }
+        );
     }
 
 

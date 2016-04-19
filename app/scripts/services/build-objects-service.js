@@ -148,7 +148,7 @@ function BuildObjectsService(FriendListItemBuilder, MenuItemBuilder, FriendReque
         pushItem : _pushItem,
         getItem: _getItem,
         replaceItem: _replaceItem,
-        removeItem: _replaceItem,
+        removeItem: _removeItem,
         buildRegistrationData: _buildRegistrationData,
         buildProfileInfo: _buildProfileInfo,
         buildMessages: _buildMessages,

@@ -165,7 +165,8 @@ function getFriendsRequests(req, res) {
                     requestsList.push({
                         id: user._id,
                         email: user.local.email,
-                        nickname: user.local.nickname
+                        nickname: user.local.nickname,
+                        online : user.online
                     });
                     counter--;
                     if (counter == 0) {
