@@ -31,6 +31,9 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
         
         socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.ADD_FRIEND_NOTIFICATION, function(data){
             EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.ADD_FRIEND_NOTIFICATION, data);
+        });
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.USER_FRIENDSHIP_REQUEST, function(data){
+            EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.USER_FRIENDSHIP_REQUEST, data);
         })
     }
 
@@ -62,6 +65,7 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
         });
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, function (e, data) {
+            //TODO
             socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, {
                 senderId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
                 userId: data._id
@@ -70,6 +74,13 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.ADD_FRIEND_NOTIFICATION, function (e, data) {
             /*send notification on server*/
+        });
+
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.USER_FRIENDSHIP_REQUEST, function(e, data){
+            socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.USER_FRIENDSHIP_REQUEST, {
+                currentUserId : localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
+                userId : data._id
+            });
         });
     }
 

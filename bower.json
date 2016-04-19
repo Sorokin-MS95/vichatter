@@ -26,6 +26,7 @@
     "socket.io-client": "^1.4.5",
     "angular-local-storage": "^0.2.7",
     "underscore": "^1.8.3",
-    "angular-scroll": "^1.0.0"
+    "angular-scroll": "^1.0.0",
+    "angular-gravatar": "^0.4.2"
   }
 }

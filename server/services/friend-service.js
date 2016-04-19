@@ -9,16 +9,14 @@ var offerFriendship = function (currentUserId, userId) {
             userId: currentUserId
         });
         user.save();
-    })
+    });
 };
 
 var addToFriends = function (currentUserId, userId) {
     UserService.getUserById(currentUserId).then(function (user) {
-        console.log(user.addRequests.length);
         user.addRequests = _.reject(user.addRequests, function (request) {
             return request.userId == userId;
         });
-        console.log(user.addRequests.length);
         user.friends.push({
             userId: userId,
             unreadMessages: 0
@@ -29,7 +27,6 @@ var addToFriends = function (currentUserId, userId) {
                 userId: currentUserId,
                 unreadMessages: 0
             });
-
             user.save();
         })
     });

@@ -41,7 +41,8 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         loadFriendsRequests();
         loadProfile();
         PopupService.showAcceptDeclinePopup("You've got new friendship request",
-            'Do you want to confirm addition of friend?', function(){});
+            'Do you want to confirm addition of friend?', function () {
+            });
     })();
 
 
@@ -63,7 +64,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         });
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, function (e, data) {
-            $scope.addFriend(data);
+            $scope.friendsList = BuildObjectsService.pushItem(BuildObjectsService.buildFriendListItem(data), $scope.friendsList);
         });
 
 
@@ -97,6 +98,11 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_STATUS_NOTIFICATION, function (e, data) {
 
+        });
+
+
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_FRIENDSHIP_REQUEST, function (e, data) {
+            $scope.friendRequestsList = BuildObjectsService.pushItem(BuildObjectsService.buildFriendRequestItem(data), $scope.friendRequestsList);
         });
     }
 
@@ -189,6 +195,10 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $state.go('home', {reload: true});
 
         });
+
+        EventsService.subscribe(AppConstants.UI_EVENTS.REQUEST_FRIENDSHIP, function (e, data) {
+            EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.USER_FRIENDSHIP_REQUEST, data);
+        })
     }
 
 
@@ -228,12 +238,9 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     }
 
     $scope.loadSearchFriends = function (queryString) {
-        var attrs = {
-            search_string: queryString
-        };
-        NetworkProvider.getSearchListOfFriends(attrs).then(function (result) {
+        NetworkProvider.getSearchListOfFriends(queryString).then(function (result) {
             console.log('List of search friends:' + result.payload.add_friend_list.list);
-            $scope.searchFriendsList  = BuildObjectsService.buildFriendRequestItems(result.payload.add_friend_list.list);
+            $scope.searchFriendsList = BuildObjectsService.buildFriendRequestItems(result.payload.add_friend_list.list);
         });
     };
 
