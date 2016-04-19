@@ -1,12 +1,19 @@
-<div class="video-window">
-    <video data-ng-src="{{getWebRTCVideo()}}" autoplay muted></video>
+<div class="video-window" data-ng-class="{true: 'expanded', false: ''}[isWindowExpanded]">
+  <video data-ng-if="!isMicrophoneEnabled" data-ng-src="{{getFriendsVideo()}}" autoplay muted></video>
+  <video data-ng-if="isMicrophoneEnabled" data-ng-src="{{getFriendsVideo()}}" autoplay></video>
 </div>
-<div class="video-controls">
-    <!--<button class="vc-button video-button micro" data-ng-click=""></button>
-    <button class="vc-button video-button camera" data-ng-click=""></button>
-    <button class="vc-button video-button expand" data-ng-click=""></button>-->
-    <button class="vc-button video-button micro-crossed" data-ng-click=""></button>
-    <button class="vc-button video-button camera-crossed" data-ng-click=""></button>
-    <button class="vc-button video-button reduce" data-ng-click=""></button>
-    <button class="vc-button video-button phone red" data-ng-click=""></button>
+<div data-ng-if="isCameraEnabled" class="my-video-window">
+  <video data-ng-src="{{getMyVideo()}}" autoplay muted></video>
+</div>
+<div class="video-controls" data-ng-class="{true: 'expanded', false: ''}[isWindowExpanded]">>
+  <button data-ng-if="isMicrophoneEnabled" class="vc-button video-button micro"
+          data-ng-click="disableMicrophone()"></button>
+  <button data-ng-if="isCameraEnabled" class="vc-button video-button camera" data-ng-click="disableCamera()"></button>
+  <button data-ng-if="!isWindowExpanded" class="vc-button video-button expand" data-ng-click="expandWindow()"></button>
+  <button data-ng-if="!isMicrophoneEnabled" class="vc-button video-button micro-crossed"
+          data-ng-click="enableMicrophone()"></button>
+  <button data-ng-if="!isCameraEnabled" class="vc-button video-button camera-crossed"
+          data-ng-click="enableCamera()"></button>
+  <button data-ng-if="isWindowExpanded" class="vc-button video-button reduce" data-ng-click="reduceWindow()"></button>
+  <button class="vc-button video-button phone red" data-ng-click="finishCall()"></button>
 </div>
