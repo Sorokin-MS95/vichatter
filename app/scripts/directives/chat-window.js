@@ -37,9 +37,11 @@ function vcChatWindow(EventsService, AppConstants, localStorageService, VideoSer
         }
         
         scope.videoCall = function(){
+
             VideoService.getStream().then(function(stream){
                 //todo set my stream to video object!
                 //todo send offer to friend
+                EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_NOTIFICATION, scope.friend_id);
                 console.log(stream);
             }).catch(function(){
             })
