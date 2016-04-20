@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
-server.listen(process.env.PORT || 3000);
+server.listen(process.env.PORT || 3200);
 
 var SocketService = require('./server/services/socket-service');
 new SocketService({io: io}).init();
@@ -50,18 +50,3 @@ app.get('/', function (req, res) {
     res.sendfile("index.html");
 })
 
-//starting server
-app.listen(process.env.APP_PORT, function () {
-    console.log('Server up and running on port ' + process.env.APP_PORT);
-})
-
-
-/*var server = require('http').createServer(app);
- var io = require('socket.io').listen(server);
-
-
- app.set('socketio', io);
-
- io.on('connection', function (socket) {
- console.log('connected!');
- });*/
