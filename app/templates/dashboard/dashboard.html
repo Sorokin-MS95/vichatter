@@ -22,7 +22,7 @@
 <div class="vc-chat-panel">
   <div vc-chat-window class="vc-chat-window" data-ng-if="isMessagesListActive" class="animate-if"
        messages-list="messagesList" friend-id="selectedFriendId"></div>
-  <div vc-video-chat-window class="vc-video-chat-window" video-stream="videoStream" get-friends-video="getFriendsVideo()"
+  <div vc-video-chat-window class="vc-video-chat-window" local-stream="localStream"  remote-stream="remoteStream" get-friends-video="getFriendsVideo()"
        get-my-video="getMyVideo()" friend-id="activeFriendId" data-ng-if="isVideoChatActive"></div>
 </div>
 

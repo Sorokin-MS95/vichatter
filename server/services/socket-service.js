@@ -184,6 +184,7 @@ var SocketService = function (options) {
                 socket.on('fe_sdp_call_offer', function (data) {
                     var userId = data.userId;
 
+                    console.log('FE offer from' + data.currentUserId);
                     var userConnection = that.getConnectionByUserId(userId);
 
                     if (userConnection) {
@@ -196,11 +197,12 @@ var SocketService = function (options) {
 
                 socket.on('fe_sdp_call_answer', function (data) {
                     var userConnection = that.getConnectionByUserId(data.userId);
+                    console.log('FE answer from' + data.currentUserId);
 
                     if (userConnection) {
                         userConnection.socket.emit('be_sdp_call_answer', {
                             userId: data.userId,
-                            sdp: sdp
+                            sdp: data.sdp
                         });
                     }
 

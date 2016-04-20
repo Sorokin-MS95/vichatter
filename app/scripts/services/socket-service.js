@@ -10,7 +10,7 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
     var socketConnection = null;
 
     var _initialize = function () {
-        socketConnection = io.connect('localhost:4000');
+        socketConnection = io.connect(location.hostname + ':4000');
         subscribeOnAllNotifications();
         initializeNotifySocketEvents();
     };
@@ -35,23 +35,23 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
         socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.USER_FRIENDSHIP_REQUEST, function (data) {
             EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.USER_FRIENDSHIP_REQUEST, data);
         });
-        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_REQUEST, function(data){
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_REQUEST, function (data) {
             EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_REQUEST, data);
         });
 
-        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_ALLOWED, function(data){
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_ALLOWED, function (data) {
             EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_ALLOWED, data);
         });
 
-        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.RTC_SDP_CALL_OFFER, function(data){
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.RTC_SDP_CALL_OFFER, function (data) {
             EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.RTC_SDP_CALL_OFFER, data);
         })
 
-        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.RTC_SDP_CALL_ANSWER, function(data){
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.RTC_SDP_CALL_ANSWER, function (data) {
             EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.RTC_SDP_CALL_ANSWER, data);
         })
 
-        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.ICE_CANDIDATE, function(data){
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.ICE_CANDIDATE, function (data) {
             EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.ICE_CANDIDATE, data);
         })
     }
@@ -102,40 +102,40 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
             });
         });
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_REQUEST, function(e,data){
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_REQUEST, function (e, data) {
             socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_REQUEST, {
-                currentUserId : localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
-                friendId : data.friendId
+                currentUserId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
+                friendId: data.friendId
             });
         })
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_ALLOWED, function(e,data){
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_ALLOWED, function (e, data) {
             socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_ALLOWED, {
-                currentUserId : localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
-                userId : data
+                currentUserId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
+                userId: data
             });
         });
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.RTC_SDP_CALL_OFFER, function(e, data){
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.RTC_SDP_CALL_OFFER, function (e, data) {
             socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.RTC_SDP_CALL_OFFER, {
-                sdp : data.sdp,
-                userId : data.userId,
-                currentUserId : localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID)
+                sdp: data.sdp,
+                userId: data.userId,
+                currentUserId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID)
             })
         })
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.RTC_SDP_CALL_ANSWER, function(e,data){
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.RTC_SDP_CALL_ANSWER, function (e, data) {
             socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.RTC_SDP_CALL_ANSWER, {
-                sdp : data.sdp,
-                userId : data.userId,
-                currentUserId : localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID)
+                sdp: data.sdp,
+                userId: data.userId,
+                currentUserId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID)
             })
         })
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.ICE_CANDIDATE, function(e, data){
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.ICE_CANDIDATE, function (e, data) {
             socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.ICE_CANDIDATE, {
-                candidate : data.candidate,
-                userId : data.userId
+                candidate: data.candidate,
+                userId: data.userId
             });
         })
     }

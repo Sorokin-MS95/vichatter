@@ -7,19 +7,29 @@ var app = angular.module('viChatter');
 
 app.directive('vcVideoChatWindow', vcVideoChatWindow);
 
-vcVideoChatWindow.$inject = ['EventsService', 'AppConstants' ,'$sce'];
+vcVideoChatWindow.$inject = ['EventsService', 'AppConstants', '$sce'];
 
 function vcVideoChatWindow(EventsService, AppConstants, $sce) {
 
     function link(scope) {
-        scope.trustSrc = function () {
+        scope.myTrustSrc = function () {
             if (!scope.myVideoStream) {
                 return undefined;
             }
 
             return $sce.trustAsResourceUrl(scope.myVideoStream);
         };
+
+        scope.remoteTrustSrc = function () {
+            if (!scope.remoteVideoStream) {
+                return undefined;
+            }
+            return $sce.trustAsResourceUrl(scope.remoteVideoStream);
+        }
+
+
         scope.myVideoStream = null;
+        scope.remoteVideoStream = null;
         scope.isMicrophoneEnabled = false;
         scope.isWindowExpanded = false;
         scope.isCameraEnabled = false;
@@ -55,9 +65,13 @@ function vcVideoChatWindow(EventsService, AppConstants, $sce) {
             console.log("Hey!");
         });
 
-        scope.$watch('videoStream', function () {
-            scope.myVideoStream = window.URL.createObjectURL(scope.videoStream);
+        scope.$watch('localStream', function () {
+            scope.myVideoStream = window.URL.createObjectURL(scope.localStream);
         });
+
+        scope.$watch('remoteStream', function () {
+            scope.remoteVideoStream = window.URL.createObjectURL(scope.remoteStream);
+        })
     }
 
     return {
@@ -67,7 +81,8 @@ function vcVideoChatWindow(EventsService, AppConstants, $sce) {
             'getFriendsVideo': '&',
             'getMyVideo': '&',
             'friendId': '=',
-            'videoStream': '='
+            "localStream": '=',
+            "remoteStream": '='
         },
         link: link
     }

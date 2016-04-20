@@ -46,7 +46,6 @@ function vcChatWindow(EventsService, AppConstants, localStorageService, VideoSer
                 var data = {
                     friendId: scope.friendId
                 };
-                console.log(stream);
                 EventsService.notify(AppConstants.UI_EVENTS.VIDEO_BUTTON_CLICK, data);
 
             }).catch(function () {
