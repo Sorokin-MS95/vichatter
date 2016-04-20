@@ -180,6 +180,34 @@ var SocketService = function (options) {
                     }
                 });
 
+
+                socket.on('fe_sdp_call_offer', function(data){
+                    var userId = data.userId;
+
+                    var userConnection = that.getConnectionByUserId(userId);
+
+                    if(userConnection){
+                        userConnection.socket.emit('be_sdp_call_offer',{
+                            userId : data.currentUserId,
+                            sdp : data.sdp
+                        });
+                    }
+                });
+
+                socket.on('fe_sdp_call_answer', function(data){
+                    var userConnection = that.getConnectionByUserId(data.userId);
+
+                    if (userConnection){
+                        userConnection.socket.emit('be_sdp_call_answer', {
+                            userId : data.userId,
+                            sdp : sdp
+                        });
+                    }
+
+
+                    console.log('GOT ANSWER');
+                })
+
                 /*socket.on('offer_friendship', function (data) {
                  FriendService.offerFriendship(data.currentUserId, data.userId);
                  console.log(data.currentUserId);

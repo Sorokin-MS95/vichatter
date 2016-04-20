@@ -56,7 +56,7 @@ function vcVideoChatWindow(EventsService, AppConstants, $sce) {
         });
 
         scope.$watch('videoStream', function () {
-            scope.myVideoStream = window.URL.createObjectURL(scope.videoStream);;
+            scope.myVideoStream = window.URL.createObjectURL(scope.videoStream);
         });
     }
 
