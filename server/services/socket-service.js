@@ -222,6 +222,14 @@ var SocketService = function (options) {
                     }
                 });
 
+                socket.on('fe_finish_call', function (data){
+                    var userConnection = that.getConnectionByUserId(data.userId);
+
+                    if(userConnection){
+                        userConnection.socket.emit('be_finish_call');
+                    }
+                })
+
                 /*socket.on('offer_friendship', function (data) {
                  FriendService.offerFriendship(data.currentUserId, data.userId);
                  console.log(data.currentUserId);
