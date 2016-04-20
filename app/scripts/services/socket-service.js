@@ -10,7 +10,7 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
     var socketConnection = null;
 
     var _initialize = function () {
-        socketConnection = io.connect(location.hostname + ':4000');
+        socketConnection = io.connect();
         subscribeOnAllNotifications();
         initializeNotifySocketEvents();
     };

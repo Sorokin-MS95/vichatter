@@ -5,12 +5,10 @@ var bodyParser = require('body-parser');
 
 // passport
 
-
 var app = express();
-var http = require('http');
-var server = http.createServer(app);
+var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
-server.listen(4000);
+server.listen(process.env.PORT || 3000);
 
 var SocketService = require('./server/services/socket-service');
 new SocketService({io: io}).init();
