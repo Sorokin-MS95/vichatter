@@ -21,6 +21,7 @@ appModule.constant('AppConstants', {
             MESSAGE_NOTIFICATION: 'fe_message_notification',
             VIDEO_CALL_REQUEST : 'fe_video_call_request',
             VIDEO_CALL_NOTIFICATION: 'fe_video_call_notification',
+            VIDEO_ALLOWED : 'fe_video_allowed',
             ACCEPT_CALL: 'fe_accept_video_call',
             FINISH_CALL: 'fe_finish_call'
         },
@@ -33,6 +34,7 @@ appModule.constant('AppConstants', {
             MESSAGE_NOTIFICATION: 'be_message_notification',
             VIDEO_CALL_REQUEST : 'be_video_call_request',
             VIDEO_CALL_NOTIFICATION: 'be_video_call_notification',
+            VIDEO_ALLOWED : "be_video_allowed",
             ACCEPT_CALL: 'be_accept_video_call',
             FINISH_CALL: 'be_finish_call'
         }

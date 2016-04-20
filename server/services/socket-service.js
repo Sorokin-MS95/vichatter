@@ -134,21 +134,22 @@ var SocketService = function (options) {
                 });
 
 
-                socket.on('fe_video_call_request', function(data){
-                    console.log(data.currentUserId);
-                    console.log(data.friendId);
-
+                socket.on('fe_video_call_request', function (data) {
                     var userConnection = that.getConnectionByUserId(data.friendId);
-                    if (userConnection){
-                        UserService.getUserById(data.currentUserId).then(function(user){
-                            userConnection.socket.emit('be_video_call_request',{
-                                id : user._id,
-                                nickname : user.local.nickname
+                    if (userConnection) {
+                        UserService.getUserById(data.currentUserId).then(function (user) {
+                            userConnection.socket.emit('be_video_call_request', {
+                                id: user._id,
+                                nickname: user.local.nickname
                             });
                         })
 
                     }
 
+                });
+
+                socket.on('fe_video_allowed', function (data) {
+                    console.log(data);
                 })
 
                 socket.on('disconnect', function () {

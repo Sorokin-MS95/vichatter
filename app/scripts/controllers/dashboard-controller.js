@@ -59,6 +59,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
                             $scope.isMessagesListActive = false;
                             $scope.activeFriendId = data.id;
                             $scope.videoStream = stream;
+                            EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_ALLOWED, data.id);
                             EventsService.notify(AppConstants.RTC.SET_LOCAL_STREAM/*, stream*/);
                            /* EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ACCEPT_CALL, data);*/
                         });

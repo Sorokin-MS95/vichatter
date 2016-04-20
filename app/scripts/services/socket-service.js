@@ -92,6 +92,13 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
                 friendId : data.friendId
             });
         })
+
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_ALLOWED, function(e,data){
+            socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_ALLOWED, {
+                currentUserId : localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
+                userId : data.id
+            });
+        })
     }
 
     return {
