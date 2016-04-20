@@ -157,7 +157,10 @@ function DashboardController($scope, SocketService, localStorageService, Authent
                 }
 
                 $scope.peerConnection.onicecandidate = function (event) {
-                    console.log('ice!');
+                    EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ICE_CANDIDATE, {
+                        userId: $scope.activeFriendId,
+                        candidate: event.candidate
+                    })
                 }
 
 
@@ -187,7 +190,10 @@ function DashboardController($scope, SocketService, localStorageService, Authent
                 }
 
                 $scope.peerConnection.onicecandidate = function (event) {
-                    console.log('ice!');
+                    EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ICE_CANDIDATE, {
+                        userId: $scope.activeFriendId,
+                        candidate: event.candidate
+                    })
                 }
 
                 $scope.peerConnection.setRemoteDescription(new RTCSessionDescription(data.sdp), function () {
@@ -195,8 +201,8 @@ function DashboardController($scope, SocketService, localStorageService, Authent
                     $scope.peerConnection.createAnswer(function (sdp) {
                         $scope.peerConnection.setLocalDescription(sdp);
                         EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.RTC_SDP_CALL_ANSWER, {
-                            userId : data.userId,
-                            sdp : sdp
+                            userId: data.userId,
+                            sdp: sdp
                         });
                         console.log('need send via socket!');
                     });
@@ -208,7 +214,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         });
 
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.RTC_SDP_CALL_ANSWER, function(e, data){
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.RTC_SDP_CALL_ANSWER, function (e, data) {
             $scope.peerConnection.setRemoteDescription(new RTCSessionDescription(data.sdp), function () {
                 console.log('Setting remote description by answer');
             }, function (e) {
@@ -216,7 +222,10 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             });
         });
 
-
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.ICE_CANDIDATE, function (e, data) {
+            console.log('New incomming ice candidate');
+            $scope.peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+        });
     }
 
     function subscribeOnUiEvents() {

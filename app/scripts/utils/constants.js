@@ -25,7 +25,8 @@ appModule.constant('AppConstants', {
             ACCEPT_CALL: 'fe_accept_video_call',
             RTC_SDP_CALL_ANSWER : 'fe_sdp_call_answer',
             RTC_SDP_CALL_OFFER : 'fe_sdp_call_offer',
-            FINISH_CALL: 'fe_finish_call'
+            FINISH_CALL: 'fe_finish_call',
+            ICE_CANDIDATE : 'fe_ice_candidate'
         },
         BACK_END: {
             USER_LOGGED_IN_EVENT: "be_user_logged_in",
@@ -40,7 +41,8 @@ appModule.constant('AppConstants', {
             ACCEPT_CALL: 'be_accept_video_call',
             RTC_SDP_CALL_OFFER : 'be_sdp_call_offer',
             RTC_SDP_CALL_ANSWER : 'be_sdp_call_answer',
-            FINISH_CALL: 'be_finish_call'
+            FINISH_CALL: 'be_finish_call',
+            ICE_CANDIDATE: 'be_ice_candidate'
         }
     },
     UI_EVENTS: {

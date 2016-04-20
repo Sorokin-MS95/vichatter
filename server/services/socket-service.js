@@ -152,9 +152,9 @@ var SocketService = function (options) {
                     var currentUserId = data.currentUserId;
                     var userId = data.userId;
                     var userConnection = that.getConnectionByUserId(userId);
-                    if (userConnection){
-                        userConnection.socket.emit('be_video_allowed',{
-                            userId : currentUserId
+                    if (userConnection) {
+                        userConnection.socket.emit('be_video_allowed', {
+                            userId: currentUserId
                         });
                     }
                 })
@@ -181,32 +181,44 @@ var SocketService = function (options) {
                 });
 
 
-                socket.on('fe_sdp_call_offer', function(data){
+                socket.on('fe_sdp_call_offer', function (data) {
                     var userId = data.userId;
 
                     var userConnection = that.getConnectionByUserId(userId);
 
-                    if(userConnection){
-                        userConnection.socket.emit('be_sdp_call_offer',{
-                            userId : data.currentUserId,
-                            sdp : data.sdp
+                    if (userConnection) {
+                        userConnection.socket.emit('be_sdp_call_offer', {
+                            userId: data.currentUserId,
+                            sdp: data.sdp
                         });
                     }
                 });
 
-                socket.on('fe_sdp_call_answer', function(data){
+                socket.on('fe_sdp_call_answer', function (data) {
                     var userConnection = that.getConnectionByUserId(data.userId);
 
-                    if (userConnection){
+                    if (userConnection) {
                         userConnection.socket.emit('be_sdp_call_answer', {
-                            userId : data.userId,
-                            sdp : sdp
+                            userId: data.userId,
+                            sdp: sdp
                         });
                     }
 
 
                     console.log('GOT ANSWER');
-                })
+                });
+
+
+                socket.on('fe_ice_candidate', function (data) {
+                    var userConnection = that.getConnectionByUserId(data.userId);
+
+                    if (userConnection) {
+                        userConnection.socket.emit('be_ice_candidate', {
+                            userId: data.userId,
+                            candidate: data.candidate
+                        });
+                    }
+                });
 
                 /*socket.on('offer_friendship', function (data) {
                  FriendService.offerFriendship(data.currentUserId, data.userId);

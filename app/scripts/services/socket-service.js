@@ -50,6 +50,10 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
         socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.RTC_SDP_CALL_ANSWER, function(data){
             EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.RTC_SDP_CALL_ANSWER, data);
         })
+
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.ICE_CANDIDATE, function(data){
+            EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.ICE_CANDIDATE, data);
+        })
     }
 
 
@@ -126,6 +130,13 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
                 userId : data.userId,
                 currentUserId : localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID)
             })
+        })
+
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.ICE_CANDIDATE, function(e, data){
+            socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.ICE_CANDIDATE, {
+                candidate : data.candidate,
+                userId : data.userId
+            });
         })
     }
 
