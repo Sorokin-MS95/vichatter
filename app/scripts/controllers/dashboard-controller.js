@@ -60,7 +60,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
                             $scope.activeFriendId = data.id;
                             $scope.videoStream = stream;
                             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_ALLOWED, data.id);
-                            EventsService.notify(AppConstants.RTC.SET_LOCAL_STREAM/*, stream*/);
+                            //EventsService.notify(AppConstants.RTC.SET_LOCAL_STREAM/*, stream*/);
                            /* EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ACCEPT_CALL, data);*/
                         });
 
@@ -142,6 +142,21 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             });
             //todo render popup about new friends request
         });
+
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_ALLOWED, function(e, data){
+
+            VideoService.getStream().then(function(stream){
+                $scope.isVideoChatActive = true;
+                $scope.isMessagesListActive = false;
+                $scope.activeFriendId = data.userId;
+                $scope.videoStream = stream;
+                //todo send sdp!!
+            });
+
+
+
+        })
+
     }
 
     function subscribeOnUiEvents() {

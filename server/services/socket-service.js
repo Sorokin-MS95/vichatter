@@ -149,7 +149,14 @@ var SocketService = function (options) {
                 });
 
                 socket.on('fe_video_allowed', function (data) {
-                    console.log(data);
+                    var currentUserId = data.currentUserId;
+                    var userId = data.userId;
+                    var userConnection = that.getConnectionByUserId(userId);
+                    if (userConnection){
+                        userConnection.socket.emit('be_video_allowed',{
+                            userId : currentUserId
+                        });
+                    }
                 })
 
                 socket.on('disconnect', function () {

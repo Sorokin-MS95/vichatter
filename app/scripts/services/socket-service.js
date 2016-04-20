@@ -38,6 +38,10 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
         socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_REQUEST, function(data){
             EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_REQUEST, data);
         });
+
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_ALLOWED, function(data){
+            EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_ALLOWED, data);
+        })
     }
 
 
@@ -96,7 +100,7 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_ALLOWED, function(e,data){
             socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_ALLOWED, {
                 currentUserId : localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID),
-                userId : data.id
+                userId : data
             });
         })
     }
