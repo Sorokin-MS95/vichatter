@@ -11,20 +11,20 @@
                               ng-bind="formMessage"></span>
                         <div class="form-element">
                             <span ng-show="signin.email.$pristine" class="form-element-icon email-icon"></span>
-            <span ng-show="signin.email.$dirty && signin.email.$invalid"
-                  class="form-element-icon email-icon-invalid"></span>
-            <span ng-show="signin.email.$dirty && signin.email.$valid"
-                  class="form-element-icon email-icon-valid"></span>
+                            <span ng-show="signin.email.$dirty && signin.email.$invalid"
+                                  class="form-element-icon email-icon-invalid"></span>
+                            <span ng-show="signin.email.$dirty && signin.email.$valid"
+                                  class="form-element-icon email-icon-valid"></span>
                             <input type="text" class="welcome-input" name="email" ng-model="user.email"
                                    ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-required="true"
                                    placeholder="Enter email">
                         </div>
                         <div class="form-element">
                             <span ng-show="signin.password.$pristine" class="form-element-icon password-icon"></span>
-            <span ng-show="signin.password.$dirty && signin.password.$invalid"
-                  class="form-element-icon password-icon-invalid"></span>
-            <span ng-show="signin.password.$dirty && signin.password.$valid"
-                  class="form-element-icon password-icon-valid"></span>
+                            <span ng-show="signin.password.$dirty && signin.password.$invalid"
+                                  class="form-element-icon password-icon-invalid"></span>
+                            <span ng-show="signin.password.$dirty && signin.password.$valid"
+                                  class="form-element-icon password-icon-valid"></span>
                             <input type="password" name="password" class="welcome-input" ng-model="user.password"
                                    ng-required="true"
                                    ng-pattern="/^[A-Za-z0-9_.]{3,10}$/" placeholder="Enter password">

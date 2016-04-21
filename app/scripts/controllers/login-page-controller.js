@@ -11,13 +11,16 @@ LoginPageController.$inject = ['$scope', 'localStorageService', 'NetworkProvider
 
 function LoginPageController($scope, localStorageService, NetworkProvider, $timeout, AppConstants, $state) {
 
+    $scope.user = null;
+    $scope.formMessage = null;
+    $scope.result = null;
+
     $scope.login = function () {
         NetworkProvider.login($scope.user).then(function (result) {
             localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.ACCESS_TOKEN, result.payload.token);
             localStorageService.set(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID, result.payload.userId);
             $state.go('dashboard');
         }).catch(function (result) {
-            // need set message to scope! Where is it on template?
             $scope.formMessage = result.message;
             $scope.result = false;
             $scope.user[result.payload.form_error.fieldName] = "";
