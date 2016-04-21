@@ -22,8 +22,7 @@ function vcProfile(EventsService, AppConstants, BuildObjectsService) {
         restrict: 'EA',
         templateUrl: 'app/templates/dashboard/directives/profile.html',
         scope: {
-            'friendsCounter': '=',
-            'friendRequestsCounter': '='
+            'myProfileData':'='
         },
         link: link
     }

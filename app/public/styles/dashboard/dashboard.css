@@ -223,7 +223,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    overflow: auto;
+    overflow: hidden;
 }
 
 .friends-list-wrapper > .friends-list > .friend-item {
@@ -295,9 +295,9 @@
 .friends-list-wrapper > .friends-list > .friend-item > .friend-text-wrapper {
     padding-top: 25px;
     padding-bottom: 20px;
-    width: calc(100% - 60px - 50px - 15px - 15px - 5px - 3px);
-    width: -webkit-calc(100% - 60px - 50px - 15px - 15px - 5px - 3px);
-    width: -moz-calc(100% - 60px - 50px - 15px - 15px - 5px - 3px);
+    width: calc(100% - 70px - 50px - 15px - 15px - 5px - 3px);
+    width: -webkit-calc(100% - 70px - 50px - 15px - 15px - 5px - 3px);
+    width: -moz-calc(100% - 70px - 50px - 15px - 15px - 5px - 3px);
     display: inline-block;
     float: left;
     white-space: nowrap;
@@ -336,6 +336,11 @@
     display: inline-block;
     float: left;
     width: 60px;
+    font-family: 'Roboto Regular', sans-serif;
+    font-size: 11px;
+    color: rgb(102, 108, 113);
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .friends-list-wrapper >
@@ -1079,11 +1084,16 @@
     left: 0;
 }
 
+.video-window > video {
+    width: 100%;
+    height: 100%;
+}
+
 .my-video-window {
     position: absolute;
     right: 50px;
     bottom: 50px;
-    width: 250px;
+    width: 200px;
     height: 150px;
     background: aliceblue;
 }
@@ -1099,7 +1109,7 @@
     bottom: 15px;
 }
 
-.my-video-window.expanded{
+.my-video-window.expanded {
     width: 500px;
     height: 300px;
 }

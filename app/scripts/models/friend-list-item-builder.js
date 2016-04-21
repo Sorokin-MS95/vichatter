@@ -46,7 +46,6 @@ function FriendListItemBuilder() {
     FriendListItem.prototype._nickname = null;
 
 
-
     /**
      * FriendListItem  email.
      * @type {string}
@@ -101,7 +100,6 @@ function FriendListItemBuilder() {
     };
 
 
-
     /**
      * Returns FriendListItem  email.
      * @returns {string}
@@ -129,10 +127,34 @@ function FriendListItemBuilder() {
 
     /**
      * Returns FriendListItem  last Message Time
-     * @returns {Date}
+     * @returns {String}
      */
     FriendListItem.prototype.getLastMessageTime = function () {
-        return this._lastMessageTime;
+        if (this._lastMessageTime != null) {
+            var currentDate = new Date().getTime();
+            var timeInterval = currentDate - this._lastMessageTime.getTime();
+            if (timeInterval < 3600) {
+                var result = new Date(timeInterval);
+                return result.getSeconds() + " seconds ago";
+            }
+
+            if ((timeInterval >= 3600) && (timeInterval < 3600000)) {
+                var result = new Date(timeInterval);
+                return result.getMinutes() + " minutes ago";
+            }
+
+            if ((timeInterval >= 3600000) && (timeInterval < 86400000)) {
+                var result = new Date(timeInterval);
+                return result.getHours() + " hours ago";
+            }
+            if (timeInterval >= 86400000) {
+                return this._lastMessageTime;
+            }
+        }
+        else{
+            return null;
+        }
+
     };
 
     /**

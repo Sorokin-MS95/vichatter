@@ -16,12 +16,13 @@
 </div>
 <div data-ng-if="isFriendProfileDataActive || isMyProfileDataActive" class="animate-if vc-profile-panel">
   <div vc-friend-profile data-ng-if="isFriendProfileDataActive" class="animate-if" profile-info=""></div>
-  <div vc-profile data-ng-if="isMyProfileDataActive" class="animate-if" profile-info=""></div>
+  <div vc-profile data-ng-if="isMyProfileDataActive" class="animate-if" my-profile-data="myProfileData"></div>
 </div>
 
 <div class="vc-chat-panel">
   <div vc-chat-window class="vc-chat-window" data-ng-if="isMessagesListActive" class="animate-if"
-       messages-list="messagesList" friend-id="selectedFriendId"></div>
+       messages-list="messagesList" friend-id="selectedFriendId"  friend-profile-object="selectedFriend"
+  my-profile-object="myProfileData"></div>
   <div vc-video-chat-window class="vc-video-chat-window" local-stream="localStream"  remote-stream="remoteStream" get-friends-video="getFriendsVideo()"
        get-my-video="getMyVideo()" friend-id="activeFriendId" data-ng-if="isVideoChatActive"></div>
 </div>

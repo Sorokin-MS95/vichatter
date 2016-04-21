@@ -19,10 +19,6 @@ function ProfileInfoBuilder() {
 
         this._id = angular.isDefined(profileInfoData.id) ? profileInfoData.id : null;
 
-        this._lastName = angular.isDefined(profileInfoData.last_name) ? profileInfoData.last_name : null;
-
-        this._firstName = angular.isDefined(profileInfoData.first_name) ? profileInfoData.first_name : null;
-
         this._nickname = angular.isDefined(profileInfoData.nickname) ? profileInfoData.nickname : null;
 
         this._email = angular.isDefined(profileInfoData.email) ? profileInfoData.email : null;
@@ -30,18 +26,11 @@ function ProfileInfoBuilder() {
     }
 
     /**
-     * ProfileInfo  first name.
-     * @type {string}
+     * ProfileInfo  id.
+     * @type {number}
      * @private
      */
-    ProfileInfo.prototype._firstName = null;
-
-    /**
-     * ProfileInfo last name.
-     * @type {string}
-     * @private
-     */
-    ProfileInfo.prototype._lastName = null;
+    ProfileInfo.prototype._id = null;
 
     /**
      * ProfileInfo  nickname.
@@ -60,19 +49,11 @@ function ProfileInfoBuilder() {
 
 
     /**
-     * Returns ProfileInfo first name.
-     * @returns {string}
+     * Returns ProfileInfo  id.
+     * @returns {number}
      */
-    ProfileInfo.prototype.getFirstName = function () {
-        return this._firstName;
-    };
-
-    /**
-     * Returns ProfileInfo last name.
-     * @returns {string}
-     */
-    ProfileInfo.prototype.getLastName = function () {
-        return this._lastName;
+    ProfileInfo.prototype.getId = function () {
+        return this._id;
     };
 
     /**
