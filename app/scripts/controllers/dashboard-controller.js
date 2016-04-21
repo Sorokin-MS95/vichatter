@@ -34,7 +34,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     $scope.selectedFriend = null;
 
 
-
     (function initialize() {
         WebRTCService.prepareRtcConfiguration();
         NetworkProvider.initializeConfig();
@@ -58,10 +57,24 @@ function DashboardController($scope, SocketService, localStorageService, Authent
                 PopupService.showAcceptDeclinePopup("You've got a call from" + data.nickname,
                     'Do you want to accept call?', function () {
                         VideoService.getStream().then(function (stream) {
+                            $scope.peerConnection = new RTCPeerConnection(WebRTCService.iceServers);
+                            $scope.localStream = stream;
+                            $scope.peerConnection.addStream($scope.localStream);
+                            $scope.peerConnection.onaddstream = function (event) {
+                                console.log('incoming stream to participant!');
+                                $scope.remoteStream = event.stream;
+                            }
+
+                            $scope.peerConnection.onicecandidate = function (event) {
+                                EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ICE_CANDIDATE, {
+                                    userId: $scope.activeFriendId,
+                                    candidate: event.candidate
+                                });
+                            }
+                            $scope.selectedFriendId = data.id;
                             $scope.isVideoChatActive = true;
                             $scope.isMessagesListActive = false;
                             $scope.activeFriendId = data.id;
-                            $scope.localStream = stream;
                             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_ALLOWED, data.id);
                             //EventsService.notify(AppConstants.RTC.SET_LOCAL_STREAM/*, stream*/);
                             /* EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ACCEPT_CALL, data);*/
@@ -151,6 +164,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
                 $scope.isVideoChatActive = true;
                 $scope.isMessagesListActive = false;
                 $scope.activeFriendId = data.userId;
+
                 $scope.localStream = stream;
                 $scope.peerConnection = new RTCPeerConnection(WebRTCService.iceServers);
                 $scope.peerConnection.addStream(stream);
@@ -184,33 +198,17 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.RTC_SDP_CALL_OFFER, function (e, data) {
-            VideoService.getStream().then(function (stream) {
-                $scope.localStream = stream;
-                $scope.peerConnection = new RTCPeerConnection(WebRTCService.iceServers);
-                $scope.peerConnection.addStream(stream);
-                $scope.peerConnection.onaddstream = function (event) {
-                    console.log('incoming stream to participant!');
-                    $scope.remoteStream = event.stream;
-                }
 
-                $scope.peerConnection.onicecandidate = function (event) {
-                    EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ICE_CANDIDATE, {
-                        userId: $scope.activeFriendId,
-                        candidate: event.candidate
-                    });
-                }
 
-                $scope.peerConnection.setRemoteDescription(new RTCSessionDescription(data.sdp), function () {
-                    console.log('Setting remote description by offer');
-                    $scope.peerConnection.createAnswer(function (sdp) {
-                        $scope.peerConnection.setLocalDescription(sdp);
-                        EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.RTC_SDP_CALL_ANSWER, {
-                            userId: data.userId,
-                            sdp: sdp
-                        });
+            $scope.peerConnection.setRemoteDescription(new RTCSessionDescription(data.sdp), function () {
+                console.log('Setting remote description by offer');
+                $scope.peerConnection.createAnswer(function (sdp) {
+                    $scope.peerConnection.setLocalDescription(sdp);
+                    EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.RTC_SDP_CALL_ANSWER, {
+                        userId: data.userId,
+                        sdp: sdp
                     });
                 });
-
             });
 
 
@@ -238,8 +236,9 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.localStream.getVideoTracks().forEach(function (track) {
                 track.stop();
             });
+            $scope.remoteStream = null;
             $scope.localStream = null;
-            $scope.peerConnection = null;
+            $scope.peerConnection.close();
             $scope.isVideoChatActive = false;
             $scope.isMessagesListActive = true;
 
@@ -257,7 +256,8 @@ function DashboardController($scope, SocketService, localStorageService, Authent
                 track.stop();
             });
             $scope.localStream = null;
-            $scope.peerConnection = null;
+            $scope.remoteStream = null;
+            $scope.peerConnection.close();
             $scope.isVideoChatActive = false;
             $scope.isMessagesListActive = true;
         })

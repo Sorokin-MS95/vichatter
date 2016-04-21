@@ -40,8 +40,8 @@ function WebRTCService($rootScope, EventsService, AppConstants, localStorageServ
                 "username": "cefb93cc-07ea-11e6-8206-c91a48236979",
                 "url": "turn:turn02.uswest.xirsys.com:5349?transport=tcp",
                 "credential": "cefb9458-07ea-11e6-8919-53f385ad1bd1"
-            }
-            /*{url: 'stun:stun01.sipphone.com'},
+            },
+            {url: 'stun:stun01.sipphone.com'},
             {url: 'stun:stun.ekiga.net'},
             {url: 'stun:stun.fwdnet.net'},
             {url: 'stun:stun.ideasip.com'},
@@ -52,7 +52,7 @@ function WebRTCService($rootScope, EventsService, AppConstants, localStorageServ
             {url: 'stun:stun1.l.google.com:19302'},
             {url: 'stun:stun2.l.google.com:19302'},
             {url: 'stun:stun3.l.google.com:19302'},
-            {url: 'stun:stun4.l.google.com:19302'},
+            {url: 'stun:stun4.l.google.com:19302'},/*
             {url: 'stun:stunserver.org'},
             {url: 'stun:stun.softjoys.com'},
             {url: 'stun:stun.voiparound.com'},
@@ -64,11 +64,11 @@ function WebRTCService($rootScope, EventsService, AppConstants, localStorageServ
             {url: 'stun:stun.webcalldirect.com:3478'},
             {url: 'stun:stun.zadarma.com:3478'},
             {url: 'stun:stun1.faktortel.com.au:3478'},
-            {url: 'stun:stun.sovtest.ru:3478'},
-            {url: 'stun:stun.arbuz.ru:3478'},
+            {url: 'stun:stun.sovtest.ru:3478'},*/
+            {url: 'stun:stun.arbuz.ru:3478'},/*
             {url: 'stun:stun.chathelp.ru:3478'},
             {url: 'stun:stun.dcalling.de:3478'},
-            {url: 'stun:stun.easycall.pl:3478'},
+            {url: 'stun:stun.easycall.pl:3478'},*/
             {
                 url: 'turn:numb.viagenie.ca',
                 credential: 'muazkh',
@@ -83,7 +83,7 @@ function WebRTCService($rootScope, EventsService, AppConstants, localStorageServ
                 url: 'turn:192.158.29.39:3478?transport=tcp',
                 credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
                 username: '28224511:1379330808'
-            }*/]
+            }]
     }
 
     return {
