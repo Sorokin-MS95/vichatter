@@ -31,6 +31,8 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     $scope.localStream = null;
     $scope.remoteStream = null;
     $scope.peerConnection = null;
+    $scope.selectedFriend = null;
+
 
 
     (function initialize() {
@@ -249,10 +251,12 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         EventsService.subscribe(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, function (e, data) {
             $scope.messagesOnPageCount = 10;
             $scope.messagesPageNumber = 1;
+            $scope.messagesList = [];
             data.count = $scope.messagesOnPageCount;
             data.page = $scope.messagesPageNumber;
             loadMessages(data);
-            $scope.selectedFriendId = data.friendId;
+            $scope.selectedFriendId = data.friend.getId();
+            $scope.selectedFriend = data.friend;
             $scope.isMessagesListActive = true;
             $scope.isVideoChatActive = false;
         });
@@ -351,7 +355,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     function loadProfile() {
         NetworkProvider.getProfile().then(function (result) {
             console.log('Profile : ' + result.payload.profile_info);
-            console.log(result.payload.profile_info);
+            $scope.myProfileData = BuildObjectsService.buildProfileInfo(result.payload.profile_info)
         })
     }
 
@@ -384,14 +388,14 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
         var data = {
             userId: data.userId,
-            friendId: data.friendId,
+            friendId: data.friend.getId(),
             page: data.page,
             count: data.count
         };
 
         NetworkProvider.getMessages(data).then(function (result) {
             console.log('First load messages :' + result.payload.messages);
-            $scope.messagesList = BuildObjectsService.buildMessages(result.payload.messages);
+            $scope.messagesList = BuildObjectsService.buildMessages(result.payload.messages).reverse();
         });
 
     }

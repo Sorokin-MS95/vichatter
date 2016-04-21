@@ -9,7 +9,8 @@
     <div class="message-box" data-ng-repeat="message in messagesList"
          data-ng-class="{true: 'left', false: 'right'}[isMessageMine(message)]">
         <div class="icon-wrapper">
-            <img class="icon" src="../../public/images/girl1.png"/>
+            <img data-ng-if="isMessageMine(message)" class="icon" gravatar-src="myProfileObject.getEmail()"/>
+            <img data-ng-if="!isMessageMine(message)" class="icon" gravatar-src="friendProfileObject.getEmail()" />
             <span class="time">{{message.getTimestamp() | date:'yyyy-MM-dd HH:mm:ss'}}</span>
         </div>
         <div class="message-text-wrapper">

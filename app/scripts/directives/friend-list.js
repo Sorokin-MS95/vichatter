@@ -32,7 +32,7 @@ function vcFriendList(EventsService, AppConstants, localStorageService) {
                 scope.selectedFriendId = friend.getId();
 
                 var data = {
-                    friendId: scope.selectedFriendId,
+                    friend: friend,
                     userId: localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID)
                 };
 

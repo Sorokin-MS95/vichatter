@@ -63,7 +63,9 @@ function vcChatWindow(EventsService, AppConstants, localStorageService, VideoSer
         templateUrl: 'app/templates/dashboard/directives/chat-window.html',
         scope: {
             'messagesList': '=',
-            'friendId': '='
+            'friendId': '=',
+            'friendProfileObject': '=',
+            'myProfileObject': '='
         },
         link: link
     }
