@@ -40,8 +40,8 @@ function WebRTCService($rootScope, EventsService, AppConstants, localStorageServ
                 "username": "cefb93cc-07ea-11e6-8206-c91a48236979",
                 "url": "turn:turn02.uswest.xirsys.com:5349?transport=tcp",
                 "credential": "cefb9458-07ea-11e6-8919-53f385ad1bd1"
-            },
-            {url: 'stun:stun01.sipphone.com'},
+            }
+            /*{url: 'stun:stun01.sipphone.com'},
             {url: 'stun:stun.ekiga.net'},
             {url: 'stun:stun.fwdnet.net'},
             {url: 'stun:stun.ideasip.com'},
@@ -75,11 +75,6 @@ function WebRTCService($rootScope, EventsService, AppConstants, localStorageServ
                 username: 'webrtc@live.com'
             },
             {
-                url: 'turn:numb.viagenie.ca',
-                credentials: '12345',
-                username: 'katedob1595@gmail.com'
-            },
-            {
                 url: 'turn:192.158.29.39:3478?transport=udp',
                 credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
                 username: '28224511:1379330808'
@@ -88,7 +83,7 @@ function WebRTCService($rootScope, EventsService, AppConstants, localStorageServ
                 url: 'turn:192.158.29.39:3478?transport=tcp',
                 credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=',
                 username: '28224511:1379330808'
-            }]
+            }*/]
     }
 
     return {
