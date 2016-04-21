@@ -9,7 +9,7 @@
   "moduleType": [],
   "homepage": "",
   "devDependencies": {
-    "angular": "^1.5.3",
+    "angular": "1.5.3",
     "bootstrap": "^3.3.6",
     "angular-ui-router": "^0.2.18",
     "angular-route": "^1.5.3",
@@ -28,5 +28,8 @@
     "underscore": "^1.8.3",
     "angular-scroll": "^1.0.0",
     "angular-gravatar": "^0.4.2"
+  },
+  "resolutions": {
+    "angular": "1.5.3"
   }
 }

@@ -15,21 +15,25 @@ var SocketService = function (options) {
 
                 socket.on('fe_user_logged_in', function (data) {
                     console.log('User with id ' + data.userId + " connected!");
-                    that.connectUser(socket, data.userId);
-                    console.log('Connected users: ' + connectedUsers.length);
-                    UserService.login(data.userId);
-                    UserService.getUserById(data.userId).then(function (user) {
-                        var friends = user.friends;
-                        _.each(friends, function (friend) {
-                            var friendConnection = that.getConnectionByUserId(friend.userId);
-                            if (friendConnection) {
-                                console.log('Sending message to friend');
-                                friendConnection.socket.emit('be_user_logged_in', {
-                                    userId: data.userId
-                                })
-                            }
+                    if (that.getConnectionByUserId(data.userId)) {
+                        console.log('Already has socket connection. This implementation allows only 1 connection!');
+                    } else {
+                        that.connectUser(socket, data.userId);
+                        console.log('Connected users: ' + connectedUsers.length);
+                        UserService.login(data.userId);
+                        UserService.getUserById(data.userId).then(function (user) {
+                            var friends = user.friends;
+                            _.each(friends, function (friend) {
+                                var friendConnection = that.getConnectionByUserId(friend.userId);
+                                if (friendConnection) {
+                                    console.log('Sending message to friend');
+                                    friendConnection.socket.emit('be_user_logged_in', {
+                                        userId: data.userId
+                                    })
+                                }
+                            })
                         })
-                    })
+                    }
                 });
 
 
@@ -221,6 +225,14 @@ var SocketService = function (options) {
                         });
                     }
                 });
+
+                socket.on('fe_finish_call', function (data) {
+                    var userConnection = that.getConnectionByUserId(data.userId);
+
+                    if (userConnection) {
+                        userConnection.socket.emit('be_finish_call');
+                    }
+                })
 
                 /*socket.on('offer_friendship', function (data) {
                  FriendService.offerFriendship(data.currentUserId, data.userId);

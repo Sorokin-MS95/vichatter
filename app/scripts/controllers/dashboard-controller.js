@@ -229,9 +229,39 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             console.log('New incomming ice candidate');
             $scope.peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
         });
+
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.FINISH_CALL, function (e, data) {
+            $scope.peerConnection.removeStream($scope.localStream);
+            $scope.localStream.getAudioTracks().forEach(function (track) {
+                track.stop();
+            })
+            $scope.localStream.getVideoTracks().forEach(function (track) {
+                track.stop();
+            });
+            $scope.localStream = null;
+            $scope.peerConnection = null;
+            $scope.isVideoChatActive = false;
+            $scope.isMessagesListActive = true;
+
+        });
     }
 
     function subscribeOnUiEvents() {
+
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.FINISH_CALL, function (event, data) {
+            $scope.peerConnection.removeStream($scope.localStream);
+            $scope.localStream.getAudioTracks().forEach(function (track) {
+                track.stop();
+            })
+            $scope.localStream.getVideoTracks().forEach(function (track) {
+                track.stop();
+            });
+            $scope.localStream = null;
+            $scope.peerConnection = null;
+            $scope.isVideoChatActive = false;
+            $scope.isMessagesListActive = true;
+        })
+
 
         EventsService.subscribe(AppConstants.UI_EVENTS.VIDEO_BUTTON_CLICK, function (e, data) {
                 EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_CALL_REQUEST, data);

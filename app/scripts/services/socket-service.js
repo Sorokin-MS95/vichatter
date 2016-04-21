@@ -10,7 +10,7 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
     var socketConnection = null;
 
     var _initialize = function () {
-        socketConnection = io.connect(location.hostname + ':4000');
+        socketConnection = io.connect();
         subscribeOnAllNotifications();
         initializeNotifySocketEvents();
     };
@@ -53,6 +53,10 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
 
         socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.ICE_CANDIDATE, function (data) {
             EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.ICE_CANDIDATE, data);
+        });
+
+        socketConnection.on(AppConstants.SOCKET_EVENTS.BACK_END.FINISH_CALL, function(data){
+            EventsService.notify(AppConstants.SOCKET_EVENTS.BACK_END.FINISH_CALL, data);
         })
     }
 
@@ -136,6 +140,12 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
             socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.ICE_CANDIDATE, {
                 candidate: data.candidate,
                 userId: data.userId
+            });
+        })
+        
+        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.FINISH_CALL, function(e, data){
+            socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.FINISH_CALL, {
+                userId : data
             });
         })
     }
