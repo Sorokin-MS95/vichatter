@@ -128,14 +128,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             })
 
 
-            /* console.log('added user! Process on front-end');
-             function addFriendCallback() {
-             $scope.friendsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data.friend));
-             }
-
-             PopupService.showAcceptDeclinePopup("You've got new friendship request",
-             'Do you want to confirm addition of friend?', addFriendCallback);*/
-
             //TODO it should be not here. This method needs to add user in list of friends
         });
 
@@ -156,6 +148,16 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.$apply(function () {
                 $scope.friendRequestsList = BuildObjectsService.pushItem(BuildObjectsService.buildFriendRequestItem(data), $scope.friendRequestsList);
             });
+
+            /*console.log('added user! Process on front-end');
+             function addFriendCallback() {
+             $scope.friendsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data.friend));
+             $scope.friendRequestsList = BuildObjectsService.removeItem(buildFriendRequestItem(data), $scope.friendRequestsList);
+             }
+
+             PopupService.showAcceptDeclinePopup("You've got new friendship request",
+             'Do you want to confirm addition of friend?', addFriendCallback);*/
+
             //todo render popup about new friends request
         });
 
@@ -230,12 +232,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.FINISH_CALL, function (e, data) {
             $scope.peerConnection.removeStream($scope.localStream);
-            $scope.localStream.getAudioTracks().forEach(function (track) {
-                track.stop();
-            })
-            $scope.localStream.getVideoTracks().forEach(function (track) {
-                track.stop();
-            });
             $scope.remoteStream = null;
             $scope.localStream = null;
             $scope.peerConnection.close();
@@ -249,12 +245,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.FINISH_CALL, function (event, data) {
             $scope.peerConnection.removeStream($scope.localStream);
-            $scope.localStream.getAudioTracks().forEach(function (track) {
-                track.stop();
-            })
-            $scope.localStream.getVideoTracks().forEach(function (track) {
-                track.stop();
-            });
             $scope.localStream = null;
             $scope.remoteStream = null;
             $scope.peerConnection.close();

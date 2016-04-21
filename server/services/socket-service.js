@@ -14,7 +14,6 @@ var SocketService = function (options) {
                 console.log('New socket ' + socket.id);
 
                 socket.on('fe_user_logged_in', function (data) {
-                    console.log('User with id ' + data.userId + " connected!");
                     if (that.getConnectionByUserId(data.userId)) {
                         console.log('Already has socket connection. This implementation allows only 1 connection!');
                     } else {
@@ -22,7 +21,7 @@ var SocketService = function (options) {
                         console.log('Connected users: ' + connectedUsers.length);
                         UserService.login(data.userId);
                         UserService.getUserById(data.userId).then(function (user) {
-                            console.log(user.loca.nickname + " is online now!");
+                            console.log(user.local.nickname + " is online now!");
                             var friends = user.friends;
                             _.each(friends, function (friend) {
                                 var friendConnection = that.getConnectionByUserId(friend.userId);
@@ -77,14 +76,14 @@ var SocketService = function (options) {
                                 sender_id: message.senderId,
                                 receiver_id: message.receiverId,
                                 text: message.content,
-                                date: message.date
+                                timestamp: message.date
                             });
                         } else {
                             UserService.getUserById(data.friendId).then(function (user) {
                                 var friend = _.find(user.friends, function (friend) {
                                     return friend.userId == data.userId;
                                 });
-                                friend.unreadMessages++;
+                                friend.isUnreadMessagesPresent = true;
                                 user.save();
                             });
                         }
