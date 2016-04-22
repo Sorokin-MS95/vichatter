@@ -1,31 +1,33 @@
 <div class="vc-menu-panel" vc-menu friends-list="friendsList" friend-requests-list="friendRequestsList"></div>
 <div data-ng-if="isFriendsListActive || isFriendRequestListActive || isFriendSearchListActive"
      class="vc-friends-panel animate-if">
-    <vc-search-field ng-if="isFriendsListActive || isFriendSearchListActive" class="animate-if"
-                     search-string="searchString"
-                     callback-to-load-elements="loadSearchFriends(searchString)"></vc-search-field>
-    <div ng-if="isFriendRequestListActive" class="animate-if friends-panel-header">
-        <span>Friend list requests</span>
-    </div>
-    <div vc-friend-list ng-if="isFriendsListActive" class="animate-if friends-list-wrapper" list-of-friends="friendsList"></div>
-    <div vc-friend-requests-list data-ng-if="isFriendRequestListActive || isSearchActive" class="animate-if"
-         list-of-requests="friendRequestsList"
-    ></div>
-    <div vc-friend-search-list list-of-search-friends="searchFriendsList" add-friend-callback="addFriend"
-         ng-if="isFriendSearchListActive"></div>
+  <vc-search-field ng-if="isFriendsListActive || isFriendSearchListActive" class="animate-if"
+                   search-string="searchString"
+                   callback-to-load-elements="loadSearchFriends(searchString)"></vc-search-field>
+  <div ng-if="isFriendRequestListActive" class="animate-if friends-panel-header">
+    <span>Friend list requests</span>
+  </div>
+  <div vc-friend-list ng-if="isFriendsListActive" class="animate-if friends-list-wrapper"
+       list-of-friends="friendsList"></div>
+  <div vc-friend-requests-list data-ng-if="isFriendRequestListActive || isSearchActive"
+       class="animate-if friends-list-wrapper"
+       list-of-requests="friendRequestsList"
+  ></div>
+  <div vc-friend-search-list list-of-search-friends="searchFriendsList" add-friend-callback="addFriend"
+       ng-if="isFriendSearchListActive"></div>
 </div>
 <div data-ng-if="isFriendProfileDataActive || isMyProfileDataActive" class="animate-if vc-profile-panel">
-    <div vc-friend-profile data-ng-if="isFriendProfileDataActive" class="animate-if" profile-info=""></div>
-    <div vc-profile data-ng-if="isMyProfileDataActive" class="animate-if" my-profile-data="myProfileData"></div>
+  <div vc-friend-profile data-ng-if="isFriendProfileDataActive" class="animate-if" profile-info=""></div>
+  <div vc-profile data-ng-if="isMyProfileDataActive" class="animate-if" my-profile-data="myProfileData"></div>
 </div>
 
 <div class="vc-chat-panel">
-    <div vc-chat-window class="vc-chat-window" data-ng-if="isMessagesListActive" class="animate-if"
-         messages-list="messagesList" friend-id="selectedFriendId" friend-profile-object="selectedFriend"
-         my-profile-object="myProfileData"></div>
-    <div vc-video-chat-window class="vc-video-chat-window" local-stream="localStream" remote-stream="remoteStream"
-         get-friends-video="getFriendsVideo()"
-         get-my-video="getMyVideo()" friend-id="activeFriendId" data-ng-if="isVideoChatActive"></div>
+  <div vc-chat-window class="vc-chat-window" data-ng-if="isMessagesListActive" class="animate-if"
+       messages-list="messagesList" friend-id="selectedFriendId" friend-profile-object="selectedFriend"
+       my-profile-object="myProfileData"></div>
+  <div vc-video-chat-window class="vc-video-chat-window" local-stream="localStream" remote-stream="remoteStream"
+       get-friends-video="getFriendsVideo()"
+       get-my-video="getMyVideo()" friend-id="activeFriendId" data-ng-if="isVideoChatActive"></div>
 </div>
 
 

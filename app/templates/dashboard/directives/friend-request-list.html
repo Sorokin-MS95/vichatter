@@ -1,18 +1,16 @@
-<div class="friends-list-wrapper">
-    <ul class="friends-list" data-ng-repeat="friend in listOfRequests">
-        <li class="friend-item no-message">
-            <div class="online-status" data-ng-class="{true: 'active', false: ''}[friend.getOnline()]"></div>
-            <div class="friend-icon-wrapper">
-                <img class="friend-name" gravatar-src="friend.getEmail()" alt="Friend Name"/>
-            </div>
-            <div class="friend-text-wrapper">
+<ul class="friends-list" data-ng-repeat="friend in listOfRequests">
+  <li class="friend-item no-message">
+    <div class="online-status" data-ng-class="{true: 'active', false: ''}[friend.getOnline()]"></div>
+    <div class="friend-icon-wrapper">
+      <img class="friend-name" gravatar-src="friend.getEmail()" alt="Friend Name"/>
+    </div>
+    <div class="friend-text-wrapper">
                       <span class="friend-name">
                         <span data-ng-bind="friend.getNickname()"></span>
                     </span>
-            </div>
-            <div class="friend-additional-info">
-                <button class="vc-button add-friend-item-button" data-ng-click="addFriend(friend)">+</button>
-            </div>
-        </li>
-    </ul>
-</div>
+    </div>
+    <div class="friend-additional-info">
+      <button class="vc-button add-friend-item-button" data-ng-click="addFriend(friend)">+</button>
+    </div>
+  </li>
+</ul>
