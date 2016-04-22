@@ -74,9 +74,6 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
         })
 
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.USER_STATUS_NOTIFICATION, function (e, data) {
-            /*send notification on server*/
-        });
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.MESSAGE_NOTIFICATION, function (e, data) {
             socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.MESSAGE_NOTIFICATION, {
@@ -95,9 +92,7 @@ function SocketFactory($rootScope, EventsService, AppConstants, localStorageServ
             });
         })
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.ADD_FRIEND_NOTIFICATION, function (e, data) {
-            /*send notification on server*/
-        });
+
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.USER_FRIENDSHIP_REQUEST, function (e, data) {
             socketConnection.emit(AppConstants.SOCKET_EVENTS.FRONT_END.USER_FRIENDSHIP_REQUEST, {

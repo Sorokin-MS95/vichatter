@@ -54,9 +54,24 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     function subscribeOnSocketEvents() {
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_CALL_REQUEST, function (e, data) {
-                PopupService.showAcceptDeclinePopup("You've got a call from" + data.nickname,
+                PopupService.showAcceptDeclinePopup("You've got a call from " + data.nickname,
                     'Do you want to accept call?', function () {
                         VideoService.getStream().then(function (stream) {
+                            $scope.peerConnection = new RTCPeerConnection(WebRTCService.iceServers);
+                            $scope.localStream = stream;
+                            $scope.peerConnection.addStream($scope.localStream);
+                            $scope.peerConnection.onaddstream = function (event) {
+                                console.log('incoming stream to participant!');
+                                $scope.remoteStream = event.stream;
+                            }
+
+                            $scope.peerConnection.onicecandidate = function (event) {
+                                EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ICE_CANDIDATE, {
+                                    userId: $scope.activeFriendId,
+                                    candidate: event.candidate
+                                });
+                            }
+                            $scope.selectedFriendId = data.id;
                             $scope.isVideoChatActive = true;
                             $scope.isMessagesListActive = false;
                             $scope.activeFriendId = data.id;
@@ -103,14 +118,15 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.$apply(function () {
                 $scope.friendsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data), $scope.friendsList);
             })
+
         });
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.MESSAGE_NOTIFICATION, function (e, data) {
             $scope.$apply(function () {
                 var message = BuildObjectsService.buildMessage(data);
-                if ((message.getText.length != 0) &&
+                if ((message.getText().length != 0) &&
                     ((message.getSenderId() == $scope.selectedFriend.getId() ||
-                    (message.getSenderId() != localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID))))) {
+                    (message.getSenderId() == localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID))))) {
                     $scope.messagesList = BuildObjectsService.pushItem(message, $scope.messagesList);
                 }
                 else {
@@ -123,7 +139,8 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_FRIENDSHIP_REQUEST, function (e, data) {
             function addFriendCallback() {
                 $scope.$apply(function () {
-                    $scope.friendRequestsList = BuildObjectsService.pushItem(BuildObjectsService.buildFriendRequestItem(data), $scope.friendRequestsList);
+                    EventsService.notify(AppConstants.UI_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, BuildObjectsService.buildFriendRequestItem(data));
+
                 });
             }
 
@@ -132,11 +149,16 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
         });
 
+
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_ALLOWED, function (e, data) {
             VideoService.getStream().then(function (stream) {
+                $scope.isFriendsListActive = true;
+                $scope.isFriendRequestListActive = false;
+                $scope.selectedFriendId = data.userId;
                 $scope.isVideoChatActive = true;
                 $scope.isMessagesListActive = false;
                 $scope.activeFriendId = data.userId;
+
                 $scope.localStream = stream;
                 $scope.peerConnection = new RTCPeerConnection(WebRTCService.iceServers);
                 $scope.peerConnection.addStream(stream);
@@ -170,30 +192,15 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.RTC_SDP_CALL_OFFER, function (e, data) {
-            VideoService.getStream().then(function (stream) {
-                $scope.localStream = stream;
-                $scope.peerConnection = new RTCPeerConnection(WebRTCService.iceServers);
-                $scope.peerConnection.addStream(stream);
-                $scope.peerConnection.onaddstream = function (event) {
-                    console.log('incoming stream to participant!');
-                    $scope.remoteStream = event.stream;
-                }
 
-                $scope.peerConnection.onicecandidate = function (event) {
-                    EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ICE_CANDIDATE, {
-                        userId: $scope.activeFriendId,
-                        candidate: event.candidate
-                    });
-                }
 
-                $scope.peerConnection.setRemoteDescription(new RTCSessionDescription(data.sdp), function () {
-                    console.log('Setting remote description by offer');
-                    $scope.peerConnection.createAnswer(function (sdp) {
-                        $scope.peerConnection.setLocalDescription(sdp);
-                        EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.RTC_SDP_CALL_ANSWER, {
-                            userId: data.userId,
-                            sdp: sdp
-                        });
+            $scope.peerConnection.setRemoteDescription(new RTCSessionDescription(data.sdp), function () {
+                console.log('Setting remote description by offer');
+                $scope.peerConnection.createAnswer(function (sdp) {
+                    $scope.peerConnection.setLocalDescription(sdp);
+                    EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.RTC_SDP_CALL_ANSWER, {
+                        userId: data.userId,
+                        sdp: sdp
                     });
                 });
 
@@ -218,14 +225,9 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.FINISH_CALL, function (e, data) {
             $scope.peerConnection.removeStream($scope.localStream);
-            $scope.localStream.getAudioTracks().forEach(function (track) {
-                track.stop();
-            })
-            $scope.localStream.getVideoTracks().forEach(function (track) {
-                track.stop();
-            });
+            $scope.remoteStream = null;
             $scope.localStream = null;
-            $scope.peerConnection = null;
+            $scope.peerConnection.close();
             $scope.isVideoChatActive = false;
             $scope.isMessagesListActive = true;
 
@@ -236,14 +238,9 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.FINISH_CALL, function (event, data) {
             $scope.peerConnection.removeStream($scope.localStream);
-            $scope.localStream.getAudioTracks().forEach(function (track) {
-                track.stop();
-            })
-            $scope.localStream.getVideoTracks().forEach(function (track) {
-                track.stop();
-            });
             $scope.localStream = null;
-            $scope.peerConnection = null;
+            $scope.remoteStream = null;
+            $scope.peerConnection.close();
             $scope.isVideoChatActive = false;
             $scope.isMessagesListActive = true;
         })
@@ -265,16 +262,18 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, function (e, data) {
-            $scope.messagesOnPageCount = 10;
-            $scope.messagesPageNumber = 1;
-            $scope.messagesList = [];
-            data.count = $scope.messagesOnPageCount;
-            data.page = $scope.messagesPageNumber;
-            loadMessages(data);
-            $scope.selectedFriendId = data.friend.getId();
-            $scope.selectedFriend = data.friend;
-            $scope.isMessagesListActive = true;
-            $scope.isVideoChatActive = false;
+            if (!$scope.isVideoChatActive) {
+                $scope.messagesOnPageCount = 10;
+                $scope.messagesPageNumber = 1;
+                $scope.messagesList = [];
+                data.count = $scope.messagesOnPageCount;
+                data.page = $scope.messagesPageNumber;
+                loadMessages(data);
+                $scope.selectedFriendId = data.friend.getId();
+                $scope.selectedFriend = data.friend;
+                $scope.isMessagesListActive = true;
+                $scope.isVideoChatActive = false;
+            }
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.LOAD_MESSAGES_REQUEST, function (e, data) {

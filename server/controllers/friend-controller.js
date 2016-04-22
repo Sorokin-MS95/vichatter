@@ -98,7 +98,7 @@ function getFriends(req, res) {
                                 last_message: message.content,
                                 last_message_time: message.date,
                                 nickname: user.local.nickname,
-                                unread_messages_count: friend.unreadMessages,
+                                isUnreadMessagesPresent: friend.isUnreadMessagesPresent,
                                 online: user.online
                             });
                             counter--;

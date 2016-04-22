@@ -31,9 +31,7 @@ var User = new Schema({
             userId: mongoose.Schema.Types.ObjectId,
             lastMessage: mongoose.Schema.Types.ObjectId,
             messages: [],
-            unreadMessages: {
-                type: Number
-            }
+            isUnreadMessagesPresent: false
         }
     ],
     addRequests: [{

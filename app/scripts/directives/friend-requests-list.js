@@ -15,7 +15,7 @@ function vcFriendRequestsList(EventsService, AppConstants) {
     function link(scope) {
 
         scope.addFriend = function (friend) {
-            EventsService.notify(AppConstants.UI_EVENTS.ADD_FRIEND, friend);
+            EventsService.notify(AppConstants.UI_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, friend);
         }
     }
 

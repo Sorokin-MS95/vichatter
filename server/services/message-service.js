@@ -10,7 +10,7 @@ var saveMessage = function (senderId, receiverId, content) {
     newMessage.senderId = senderId;
     newMessage.receiverId = receiverId;
     newMessage.content = content;
-    newMessage.date = timeUtil.getLocalDate(new Date());
+    newMessage.date = new Date();
     //todo promise
     return newMessage.save();
 };
@@ -23,5 +23,5 @@ var getMessageById = function (messageId) {
 
 module.exports = {
     saveMessage: saveMessage,
-    getMessageById : getMessageById
+    getMessageById: getMessageById
 }

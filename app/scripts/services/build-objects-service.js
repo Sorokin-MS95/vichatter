@@ -46,7 +46,7 @@ function BuildObjectsService(FriendListItemBuilder, MenuItemBuilder, FriendReque
     };
 
 
-    var _pushItem = function(item, itemsList){
+    var _pushItem = function (item, itemsList) {
         itemsList.push(item);
         return itemsList;
     }
@@ -127,7 +127,10 @@ function BuildObjectsService(FriendListItemBuilder, MenuItemBuilder, FriendReque
         var results = [];
         if (angular.isArray(messages)) {
             angular.forEach(messages, function (message) {
-                results.push(MessageBuilder.create(message));
+                var message = MessageBuilder.create(message);
+                if (message.getText().length > 0) {
+                    results.push(message);
+                }
             });
         }
         return results;
@@ -145,7 +148,7 @@ function BuildObjectsService(FriendListItemBuilder, MenuItemBuilder, FriendReque
         buildItems: _buildItems,
         addItem: _addItem,
         addItems: _addItems,
-        pushItem : _pushItem,
+        pushItem: _pushItem,
         getItem: _getItem,
         replaceItem: _replaceItem,
         removeItem: _removeItem,

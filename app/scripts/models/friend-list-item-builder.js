@@ -19,7 +19,7 @@ function FriendListItemBuilder() {
 
         this._nickname = angular.isDefined(friendListItemData.nickname) ? friendListItemData.nickname : null;
 
-        this._lastMessage = angular.isDefined(friendListItemData.lastMessage) ? friendListItemData.lastMessage : null;
+        this._lastMessage = angular.isDefined(friendListItemData.last_message) ? friendListItemData.last_message : null;
 
         this._unreadMessagesCount = angular.isNumber(friendListItemData.unread_messages_count) ? friendListItemData.unread_messages_count : null;
 

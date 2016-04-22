@@ -14,7 +14,6 @@ var SocketService = function (options) {
                 console.log('New socket ' + socket.id);
 
                 socket.on('fe_user_logged_in', function (data) {
-                    console.log('User with id ' + data.userId + " connected!");
                     if (that.getConnectionByUserId(data.userId)) {
                         console.log('Already has socket connection. This implementation allows only 1 connection!');
                     } else {
@@ -22,6 +21,7 @@ var SocketService = function (options) {
                         console.log('Connected users: ' + connectedUsers.length);
                         UserService.login(data.userId);
                         UserService.getUserById(data.userId).then(function (user) {
+                            console.log(user.local.nickname + " is online now!");
                             var friends = user.friends;
                             _.each(friends, function (friend) {
                                 var friendConnection = that.getConnectionByUserId(friend.userId);
@@ -76,14 +76,14 @@ var SocketService = function (options) {
                                 sender_id: message.senderId,
                                 receiver_id: message.receiverId,
                                 text: message.content,
-                                date: message.date
+                                timestamp: message.date
                             });
                         } else {
                             UserService.getUserById(data.friendId).then(function (user) {
                                 var friend = _.find(user.friends, function (friend) {
                                     return friend.userId == data.userId;
                                 });
-                                friend.unreadMessages++;
+                                friend.isUnreadMessagesPresent = true;
                                 user.save();
                             });
                         }
@@ -141,6 +141,7 @@ var SocketService = function (options) {
                 socket.on('fe_video_call_request', function (data) {
                     var userConnection = that.getConnectionByUserId(data.friendId);
                     if (userConnection) {
+                        console.log('Processing call offer...');
                         UserService.getUserById(data.currentUserId).then(function (user) {
                             userConnection.socket.emit('be_video_call_request', {
                                 id: user._id,
@@ -155,6 +156,7 @@ var SocketService = function (options) {
                 socket.on('fe_video_allowed', function (data) {
                     var currentUserId = data.currentUserId;
                     var userId = data.userId;
+                    console.log('Video call allowed. Processing ...');
                     var userConnection = that.getConnectionByUserId(userId);
                     if (userConnection) {
                         userConnection.socket.emit('be_video_allowed', {
@@ -187,8 +189,7 @@ var SocketService = function (options) {
 
                 socket.on('fe_sdp_call_offer', function (data) {
                     var userId = data.userId;
-
-                    console.log('FE offer from' + data.currentUserId);
+                    console.log('SDP offer processing');
                     var userConnection = that.getConnectionByUserId(userId);
 
                     if (userConnection) {
@@ -200,24 +201,20 @@ var SocketService = function (options) {
                 });
 
                 socket.on('fe_sdp_call_answer', function (data) {
+                    console.log('SDP answer processing');
                     var userConnection = that.getConnectionByUserId(data.userId);
-                    console.log('FE answer from' + data.currentUserId);
-
                     if (userConnection) {
                         userConnection.socket.emit('be_sdp_call_answer', {
                             userId: data.userId,
                             sdp: data.sdp
                         });
                     }
-
-
-                    console.log('GOT ANSWER');
                 });
 
 
                 socket.on('fe_ice_candidate', function (data) {
                     var userConnection = that.getConnectionByUserId(data.userId);
-
+                    console.log('Processing ice candidate');
                     if (userConnection) {
                         userConnection.socket.emit('be_ice_candidate', {
                             userId: data.userId,
@@ -228,11 +225,11 @@ var SocketService = function (options) {
 
                 socket.on('fe_finish_call', function (data) {
                     var userConnection = that.getConnectionByUserId(data.userId);
-
+                    console.log('Finishing call');
                     if (userConnection) {
                         userConnection.socket.emit('be_finish_call');
                     }
-                })
+                });
 
                 /*socket.on('offer_friendship', function (data) {
                  FriendService.offerFriendship(data.currentUserId, data.userId);
