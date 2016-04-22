@@ -34,7 +34,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
     $scope.selectedFriend = null;
 
 
-
     (function initialize() {
         WebRTCService.prepareRtcConfiguration();
         NetworkProvider.initializeConfig();
@@ -63,8 +62,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
                             $scope.activeFriendId = data.id;
                             $scope.localStream = stream;
                             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.VIDEO_ALLOWED, data.id);
-                            //EventsService.notify(AppConstants.RTC.SET_LOCAL_STREAM/*, stream*/);
-                            /* EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ACCEPT_CALL, data);*/
+
                         });
 
                     });
@@ -72,10 +70,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         );
 
 
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.ACCEPT_CALL, function (e, data) {
-                //TODO connect
-            }
-        );
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_LOGGED_IN_EVENT, function (e, data) {
             var user = BuildObjectsService.getItem(data.userId, $scope.friendsList);
 
@@ -89,10 +83,6 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
             }
 
-        });
-
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, function (e, data) {
-            $scope.friendsList = BuildObjectsService.pushItem(BuildObjectsService.buildFriendListItem(data), $scope.friendsList);
         });
 
 
@@ -113,37 +103,33 @@ function DashboardController($scope, SocketService, localStorageService, Authent
             $scope.$apply(function () {
                 $scope.friendsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data), $scope.friendsList);
             })
-
-
-            /* console.log('added user! Process on front-end');
-             function addFriendCallback() {
-             $scope.friendsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data.friend));
-             }
-
-             PopupService.showAcceptDeclinePopup("You've got new friendship request",
-             'Do you want to confirm addition of friend?', addFriendCallback);*/
-
-            //TODO it should be not here. This method needs to add user in list of friends
         });
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.MESSAGE_NOTIFICATION, function (e, data) {
             $scope.$apply(function () {
-                $scope.messagesList = BuildObjectsService.pushItem(BuildObjectsService.buildMessage(data), $scope.messagesList);
+                var message = BuildObjectsService.buildMessage(data);
+                if ((message.getText.length != 0) &&
+                    ((message.getSenderId() == $scope.selectedFriend.getId() ||
+                    (message.getSenderId() != localStorageService.get(AppConstants.LOCAL_STORAGE_IDENTIFIERS.USER_ID))))) {
+                    $scope.messagesList = BuildObjectsService.pushItem(message, $scope.messagesList);
+                }
+                else {
+
+                }
             });
 
         });
-
-
-        EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_STATUS_NOTIFICATION, function (e, data) {
-
-        });
-
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_FRIENDSHIP_REQUEST, function (e, data) {
-            $scope.$apply(function () {
-                $scope.friendRequestsList = BuildObjectsService.pushItem(BuildObjectsService.buildFriendRequestItem(data), $scope.friendRequestsList);
-            });
-            //todo render popup about new friends request
+            function addFriendCallback() {
+                $scope.$apply(function () {
+                    $scope.friendRequestsList = BuildObjectsService.pushItem(BuildObjectsService.buildFriendRequestItem(data), $scope.friendRequestsList);
+                });
+            }
+
+            PopupService.showAcceptDeclinePopup("You've got new friendship request",
+                'Do you want to confirm addition of friend?', addFriendCallback);
+
         });
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.VIDEO_ALLOWED, function (e, data) {

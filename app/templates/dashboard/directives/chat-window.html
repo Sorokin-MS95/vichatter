@@ -5,12 +5,13 @@
     <button class="vc-button chat-controls-panel-button camera" data-ng-click="videoCall()">
     </button>
 </div>
-<div class="messages-wrapper" exec-on-scroll-to-top callback-on-top-scroll="handleScrollToTop()">
+<div class="messages-wrapper" scroll-bottom="messagesList" exec-on-scroll-to-top
+     callback-on-top-scroll="handleScrollToTop()">
     <div class="message-box" data-ng-repeat="message in messagesList"
          data-ng-class="{true: 'left', false: 'right'}[isMessageMine(message)]">
         <div class="icon-wrapper">
             <img data-ng-if="isMessageMine(message)" class="icon" gravatar-src="myProfileObject.getEmail()"/>
-            <img data-ng-if="!isMessageMine(message)" class="icon" gravatar-src="friendProfileObject.getEmail()" />
+            <img data-ng-if="!isMessageMine(message)" class="icon" gravatar-src="friendProfileObject.getEmail()"/>
             <span class="time">{{message.getTimestamp() | date:'yyyy-MM-dd HH:mm:ss'}}</span>
         </div>
         <div class="message-text-wrapper">
@@ -18,7 +19,8 @@
         </div>
     </div>
 </div>
-<div class="message-input-wrapper">
+
+<form class="message-input-wrapper" data-ng-submit="sendMessage()">
     <input type="text" autocomplete="off" placeholder="Type your message..." data-ng-model="messageText"/>
     <button class="vc-button send-button" data-ng-click="sendMessage()"></button>
-</div>
+</form>

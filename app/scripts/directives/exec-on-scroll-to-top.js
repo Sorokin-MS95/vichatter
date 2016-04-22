@@ -8,7 +8,8 @@ app.directive('execOnScrollToTop', function () {
 
         restrict: 'EA',
         scope: {
-            'callbackOnTopScroll': '&'
+            'callbackOnTopScroll': '&',
+            'scrollBottom': "="
         },
         link: function (scope, element, attrs) {
 
@@ -20,6 +21,12 @@ app.directive('execOnScrollToTop', function () {
                     scope.callbackOnTopScroll();
                 }
 
+            });
+
+            scope.$watchCollection('scrollBottom', function (newValue) {
+                if (newValue) {
+                    $(element).animate({ scrollTop: $(element)[0].scrollHeight }, "slow");
+                }
             });
         }
 
