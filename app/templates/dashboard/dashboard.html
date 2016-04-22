@@ -7,7 +7,7 @@
     <div ng-if="isFriendRequestListActive" class="animate-if friends-panel-header">
         <span>Friend list requests</span>
     </div>
-    <div vc-friend-list ng-if="isFriendsListActive" class="animate-if" list-of-friends="friendsList"></div>
+    <div vc-friend-list ng-if="isFriendsListActive" class="animate-if friends-list-wrapper" list-of-friends="friendsList"></div>
     <div vc-friend-requests-list data-ng-if="isFriendRequestListActive || isSearchActive" class="animate-if"
          list-of-requests="friendRequestsList"
     ></div>

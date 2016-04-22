@@ -1,5 +1,4 @@
-<div class="friends-list-wrapper">
-    <ul class="friends-list" >
+<ul class="friends-list" >
         <li class="friend-item" data-ng-repeat="friend in listOfFriends"
             data-ng-click="selectFriend(friend)"
             data-ng-class="{true: 'selected', false: ''}[isFriendItemSelected(friend.getId())]">
@@ -25,4 +24,3 @@
         </li>
 
     </ul>
-</div>

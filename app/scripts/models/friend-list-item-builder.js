@@ -26,6 +26,8 @@ function FriendListItemBuilder() {
         this._lastMessageTime = angular.isString(friendListItemData['last_message_time']) ? new Date(friendListItemData['last_message_time']) : null;
 
         this._online = angular.isDefined(friendListItemData.online) ? friendListItemData.online : null;
+
+        this._email = angular.isString(friendListItemData.email) ? friendListItemData.email : null;
     }
 
     /**
