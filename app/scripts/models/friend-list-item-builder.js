@@ -21,7 +21,7 @@ function FriendListItemBuilder() {
 
         this._lastMessage = angular.isDefined(friendListItemData.last_message) ? friendListItemData.last_message : null;
 
-        this._unreadMessagesCount = angular.isNumber(friendListItemData.unread_messages_count) ? friendListItemData.unread_messages_count : null;
+        this._isUnreadMessagesPresent = angular.isNumber(friendListItemData.isUnreadMessagesPresent) ? friendListItemData.isUnreadMessagesPresent : null;
 
         this._lastMessageTime = angular.isString(friendListItemData['last_message_time']) ? new Date(friendListItemData['last_message_time']) : null;
 
@@ -60,11 +60,11 @@ function FriendListItemBuilder() {
     FriendListItem.prototype._lastMessage = null;
 
     /**
-     * FriendListItem last message.
-     * @type {number}
+     * FriendListItem isUnreadMessagesPresent.
+     * @type {boolean}
      * @private
      */
-    FriendListItem.prototype._unreadMessagesCount = null;
+    FriendListItem.prototype._isUnreadMessagesPresent = null;
 
     /**
      * FriendListItem last message time.
@@ -117,11 +117,11 @@ function FriendListItemBuilder() {
     };
 
     /**
-     * Returns FriendListItem  unread Messages Count
-     * @returns {number}
+     * Returns FriendListItem  isUnreadMessagesPresent
+     * @returns {boolean}
      */
-    FriendListItem.prototype.getUnreadMessagesCount = function () {
-        return this._unreadMessagesCount;
+    FriendListItem.prototype.getIsUnreadMessagesPresent = function () {
+        return this._isUnreadMessagesPresent;
     };
 
     /**

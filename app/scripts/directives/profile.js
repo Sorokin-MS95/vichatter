@@ -16,13 +16,20 @@ function vcProfile(EventsService, AppConstants, BuildObjectsService) {
 
     function link(scope) {
 
+        scope.profile = {
+            email: null,
+            nickname: null
+        };
+
+        scope.updateProfile
+
     }
 
     return {
         restrict: 'EA',
         templateUrl: 'app/templates/dashboard/directives/profile.html',
         scope: {
-            'myProfileData':'='
+            'myProfileData': '='
         },
         link: link
     }

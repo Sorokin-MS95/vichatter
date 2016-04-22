@@ -1,17 +1,29 @@
 <div class="profile-image-wrapper">
-    <img class="profile-image"  gravatar-src="myProfileData.getEmail()"/>
-    <span class="name-text">{{myProfileData.getNickname()}}</span>
+  <img class="profile-image" gravatar-src="myProfileData.getEmail()"/>
+  <span class="name-text">{{myProfileData.getNickname()}}</span>
 </div>
 <div class="profile-info-wrapper">
-    <ul class="info-fields-list">
-        <li class="info-field-wrapper">
-            <label for="email" class="info-field-label">Email:</label>
-            <input id="email" type="text" placeholder="Input email..." class="info-field" data-ng-model="myProfileData.email" />
-        </li>
-        <li class="info-field-wrapper">
-            <label for="nickname" class="info-field-label">Nickname:</label>
-            <input id="nickname" type="text" placeholder="Input nickname..." class="info-field" data-ng-model="myProfileData.nickname"/>
-        </li>
-    </ul>
-    <button class="profile-send-button"></button>
+  <form name="profile" class="info-fields-list" novalidate>
+    <span> *please, input valid data</span>
+    <div class="info-field-wrapper">
+      <label for="email" class="info-field-label">Email:</label>
+      <input id="email" type="text" name="email" ng-model="profile.email"
+             placeholder="Input email..." class="info-field"
+             ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" ng-required="true">
+              <span ng-show="profile.email.$dirty && profile.email.$invalid"
+                    class="profile-error-field">* please, enter valid email</span>
+    </div>
+
+    <div class="info-field-wrapper">
+      <label for="nickname" class="info-field-label">Nickname:</label>
+      <input id="nickname" type="text" name="nickname" class="info-field" ng-model="profile.nickname"
+             ng-required="true"
+             ng-pattern="/^[A-Za-z]{3,30}$/" placeholder="Input nickname...">
+        <span ng-show="profile.nickname.$dirty && profile.nickname.$invalid"
+              class="profile-error-field"></span>
+    </div>
+    <button ng-disabled="profile.$invalid" ng-click="updateProfile()"
+            class="vc-button profile-send-button">Update
+    </button>
+  </form>
 </div>

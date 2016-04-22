@@ -1,26 +1,28 @@
-<ul class="friends-list" >
-        <li class="friend-item" data-ng-repeat="friend in listOfFriends"
-            data-ng-click="selectFriend(friend)"
-            data-ng-class="{true: 'selected', false: ''}[isFriendItemSelected(friend.getId())]">
-            <div class="online-status"
-                 data-ng-class="{true: 'active', false: ''}[friend.getOnline()]"></div>
-            <div class="friend-icon-wrapper">
-                <img gravatar-src="friend.getEmail()" alt="friend.getNickname()"/>
-            </div>
-            <div class="friend-text-wrapper">
+<ul class="friends-list">
+  <li class="friend-item" data-ng-repeat="friend in listOfFriends"
+      data-ng-click="selectFriend(friend)"
+      data-ng-class="{true: 'selected', false: ''}[isFriendItemSelected(friend.getId())]">
+    <div class="online-status"
+         data-ng-class="{true: 'active', false: ''}[friend.getOnline()]"></div>
+    <div class="friend-icon-wrapper">
+      <img gravatar-src="friend.getEmail()" alt="friend.getNickname()"/>
+    </div>
+    <div class="friend-text-wrapper">
                     <span class="friend-name">
                         <span data-ng-bind="friend.getNickname()"></span>
                     </span>
-                    <span class="unreadMessages"></span>
+
                     <span class="message-preview">
                         <span data-ng-bind="friend.getLastMessage()"></span>
                     </span>
-            </div>
-            <div class="friend-additional-info">
+    </div>
+     <span class="unread-messages"
+           data-ng-class="{true: 'active', false: ''}[friend.getIsUnreadMessagesPresent()]"></span>
+    <div class="friend-additional-info">
                 <span class="passed-time"
                       data-ng-bind="friend.getLastMessageTime() |  date:'MM/dd/yyyy'"></span>
-                <span class="counter" data-ng-bind="friend.getUnreadMessageCount()"></span>
-            </div>
-        </li>
+      <span class="counter" data-ng-bind="friend.getUnreadMessageCount()"></span>
+    </div>
+  </li>
 
-    </ul>
+</ul>
