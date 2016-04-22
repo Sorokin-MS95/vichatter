@@ -94,7 +94,6 @@ var SocketService = function (options) {
                 socket.on('fe_add_friend_notification', function (data) {
                     var senderId = data.senderId;
                     var userId = data.userId;
-
                     FriendService.addToFriends(senderId, userId);
                     var receiverConnection = that.getConnectionByUserId(userId);
                     if (receiverConnection) {

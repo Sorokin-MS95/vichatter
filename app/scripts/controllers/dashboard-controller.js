@@ -138,10 +138,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_FRIENDSHIP_REQUEST, function (e, data) {
             function addFriendCallback() {
-                $scope.$apply(function () {
-                    EventsService.notify(AppConstants.UI_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, BuildObjectsService.buildFriendRequestItem(data));
-
-                });
+                EventsService.notify(AppConstants.UI_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, BuildObjectsService.buildFriendRequestItem(data));
             }
 
             PopupService.showAcceptDeclinePopup("You've got new friendship request",

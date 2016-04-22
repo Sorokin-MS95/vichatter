@@ -4,6 +4,8 @@ var _ = require('underscore');
 
 
 var addToFriends = function (currentUserId, userId) {
+    console.log(currentUserId);
+    console.log(userId);
     UserService.getUserById(currentUserId).then(function (user) {
         user.addRequests = _.reject(user.addRequests, function (request) {
             return request.userId == userId;
