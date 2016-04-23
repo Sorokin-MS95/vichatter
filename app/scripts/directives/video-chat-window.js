@@ -11,7 +11,13 @@ vcVideoChatWindow.$inject = ['EventsService', 'AppConstants', '$sce'];
 
 function vcVideoChatWindow(EventsService, AppConstants, $sce) {
 
-    function link(scope) {
+    function link(scope, element, attrs) {
+
+        scope.$watch(attrs.remoteStream, function(){
+            scope.remoteVideoStream = window.URL.createObjectURL(scope.remoteStream)
+        });
+
+
         scope.myTrustSrc = function () {
             if (!scope.myVideoStream) {
                 return undefined;
@@ -30,7 +36,7 @@ function vcVideoChatWindow(EventsService, AppConstants, $sce) {
 
         scope.myVideoStream = null;
         scope.remoteVideoStream = null;
-        scope.isMicrophoneEnabled = false;
+        scope.isMicrophoneEnabled = true;
         scope.isWindowExpanded = false;
         scope.isCameraEnabled = false;
         scope.disableMicrophone = function () {
@@ -69,9 +75,9 @@ function vcVideoChatWindow(EventsService, AppConstants, $sce) {
             scope.myVideoStream = window.URL.createObjectURL(scope.localStream);
         });
 
-        scope.$watch('remoteStream', function () {
+        /*scope.$watch('remoteStream', function () {
             scope.remoteVideoStream = window.URL.createObjectURL(scope.remoteStream);
-        })
+        })*/
     }
 
     return {

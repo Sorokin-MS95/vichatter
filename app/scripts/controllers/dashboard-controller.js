@@ -115,7 +115,7 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.ADD_FRIEND_NOTIFICATION, function (e, data) {
 
-            $scope.$apply(function () {
+            $scope.$evalAsync(function () {
                 $scope.friendsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data), $scope.friendsList);
             })
 
@@ -137,8 +137,17 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         });
 
         EventsService.subscribe(AppConstants.SOCKET_EVENTS.BACK_END.USER_FRIENDSHIP_REQUEST, function (e, data) {
+            $scope.$evalAsync(function () {
+                $scope.friendRequestsList = BuildObjectsService.addItem(BuildObjectsService.buildFriendRequestItem(data), $scope.friendRequestsList);
+            })
+
             function addFriendCallback() {
-                EventsService.notify(AppConstants.UI_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, BuildObjectsService.buildFriendRequestItem(data));
+
+                EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, BuildObjectsService.buildFriendRequestItem(data));
+                $scope.$evalAsync(function () {
+                    $scope.friendRequestsList = BuildObjectsService.removeItem(data.id, $scope.searchFriendsList);
+                    $scope.friendList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data), $scope.friendsList);
+                })
             }
 
             PopupService.showAcceptDeclinePopup("You've got new friendship request",
@@ -255,7 +264,12 @@ function DashboardController($scope, SocketService, localStorageService, Authent
         EventsService.subscribe(AppConstants.UI_EVENTS.ADD_FRIEND, function (e, data) {
             //todo
             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.ADD_FRIEND_NOTIFICATION, data);
-            $scope.friendRequestsList = BuildObjectsService.removeItem(data.getId(), $scope.friendRequestsList);
+            $scope.$evalAsync(function () {
+                $scope.friendRequestsList = BuildObjectsService.removeItem(data.id, $scope.searchFriendsList);
+                $scope.friendList = BuildObjectsService.addItem(BuildObjectsService.buildFriendListItem(data), $scope.friendsList);
+            });
+            $scope.addFriend(data);
+
         });
 
         EventsService.subscribe(AppConstants.UI_EVENTS.FRIEND_LIST_ITEM_SELECTED, function (e, data) {
@@ -348,7 +362,9 @@ function DashboardController($scope, SocketService, localStorageService, Authent
 
         EventsService.subscribe(AppConstants.UI_EVENTS.REQUEST_FRIENDSHIP, function (e, data) {
             EventsService.notify(AppConstants.SOCKET_EVENTS.FRONT_END.USER_FRIENDSHIP_REQUEST, data);
-            $scope.searchFriendsList = BuildObjectsService.removeItem(data.getId(), $scope.searchFriendsList);
+            $scope.$evalAsync(function () {
+                $scope.searchFriendsList = BuildObjectsService.removeItem(data.getId(), $scope.searchFriendsList);
+            });
         })
     }
 
